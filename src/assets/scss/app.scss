@@ -1,0 +1,233 @@
+// Overrides Bootstrap styling
+@import "custom";
+
+// Includes all of Bootstrap
+@import "~bootstrap/scss/bootstrap";
+
+@import "~@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
+
+@import '_colors';
+body {
+    background: $bgcolor;
+    padding-top: 5rem;
+}
+main.moment {
+    height:45vh;
+    overflow: scroll;
+}
+.starter-template {
+padding: 3rem 1.5rem;
+text-align: center;
+}
+#mapbox 
+{ 
+    height:380px;
+    width:100%; 
+}
+//.geocoder {}
+.mapboxgl-ctrl-geocoder { min-width:100%; }
+.marker {
+    background-image: url('http://www.placethemoment.com/dev/wp-content/uploads/2017/11/ptm-marker-dark.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 28px;
+    height: 34px;
+    cursor: pointer;
+/*
+    position: absolute;
+    left: 10%;
+    top: 10%;
+
+    -webkit-animation-name: bounce;
+    -moz-animation-name: bounce;
+    -o-animation-name: bounce;
+    -ms-animation-name: bounce;
+    animation-name: bounce;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+    -ms-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-duration:   .7s;
+    -moz-animation-duration:      .7s;
+    -o-animation-duration:        .7s;
+    -ms-animation-duration:       .7s;
+    animation-duration:           .7s;
+    z-index: 4;*/
+}
+.snow {    
+    color: black;
+    background-color: white;
+    .marker {
+        background-image: url('http://www.placethemoment.com/dev/wp-content/uploads/2017/11/ptm-marker-mint.png');
+    }
+}
+.moon {
+    color: #54575c;
+    .mapboxgl-map {
+        background-color: #54575c;
+    }
+    .marker {
+        background-image: url('http://www.placethemoment.com/dev/wp-content/uploads/2017/11/ptm-marker-light.png');
+    }
+}
+.granite {
+    color: white;
+    background-color: #54575c;
+    .marker {
+        background-image: url('http://www.placethemoment.com/dev/wp-content/uploads/2017/11/ptm-marker-yellow.png');
+    }
+}
+.mint {
+    color: white;
+    background-color: #6fa189;
+    .marker {
+        background-image: url('http://www.placethemoment.com/dev/wp-content/uploads/2017/11/ptm-marker-dark.png');
+    }
+}
+
+
+@-moz-keyframes bounce {
+    0% {
+      opacity: 0;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      filter: alpha(opacity=0);
+      -webkit-transform: translateY(-2000px);
+      -moz-transform: translateY(-2000px) ;
+      -o-transform: translateY(-2000px);
+      -ms-transform: translateY(-2000px) ;
+      transform: translateY(-2000px) ;
+    }
+    60% {
+      opacity: 1;
+      -ms-filter: none;
+      filter: none;
+      -webkit-transform: translateY(30px)  ;
+      -moz-transform: translateY(30px)  ;
+      -o-transform: translateY(30px)  ;
+      -ms-transform: translateY(30px)  ;
+      transform: translateY(30px)  ;
+    }
+    80% {
+      -webkit-transform: translateY(-10px)  ;
+      -moz-transform: translateY(-10px)  ;
+      -o-transform: translateY(-10px)  ;
+      -ms-transform: translateY(-10px)  ;
+      transform: translateY(-10px)  ;
+    }
+    100% {
+      -webkit-transform: translateY(0)  ;
+      -moz-transform: translateY(0)  ;
+      -o-transform: translateY(0)  ;
+      -ms-transform: translateY(0)  ;
+      transform: translateY(0)  ;
+    }
+  }
+  @-webkit-keyframes bounce {
+    0% {
+      opacity: 0;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      filter: alpha(opacity=0);
+      -webkit-transform: translateY(-2000px)  ;
+      -moz-transform: translateY(-2000px)  ;
+      -o-transform: translateY(-2000px)  ;
+      -ms-transform: translateY(-2000px)  ;
+      transform: translateY(-2000px)  ;
+    }
+    60% {
+      opacity: 1;
+      -ms-filter: none;
+      filter: none;
+      -webkit-transform: translateY(30px)  ;
+      -moz-transform: translateY(30px)  ;
+      -o-transform: translateY(30px)  ;
+      -ms-transform: translateY(30px)  ;
+      transform: translateY(30px)  ;
+    }
+    80% {
+      -webkit-transform: translateY(-10px)  ;
+      -moz-transform: translateY(-10px)  ;
+      -o-transform: translateY(-10px)  ;
+      -ms-transform: translateY(-10px)  ;
+      transform: translateY(-10px)  ;
+    }
+    100% {
+      -webkit-transform: translateY(0)  ;
+      -moz-transform: translateY(0)  ;
+      -o-transform: translateY(0)  ;
+      -ms-transform: translateY(0)  ;
+      transform: translateY(0)  ;
+    }
+  }
+  @-o-keyframes bounce {
+    0% {
+      opacity: 0;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      filter: alpha(opacity=0);
+      -webkit-transform: translateY(-2000px)  ;
+      -moz-transform: translateY(-2000px)  ;
+      -o-transform: translateY(-2000px)  ;
+      -ms-transform: translateY(-2000px)  ;
+      transform: translateY(-2000px)  ;
+    }
+    60% {
+      opacity: 1;
+      -ms-filter: none;
+      filter: none;
+      -webkit-transform: translateY(30px)  ;
+      -moz-transform: translateY(30px)  ;
+      -o-transform: translateY(30px)  ;
+      -ms-transform: translateY(30px)  ;
+      transform: translateY(30px)  ;
+    }
+    80% {
+      -webkit-transform: translateY(-10px)  ;
+      -moz-transform: translateY(-10px)  ;
+      -o-transform: translateY(-10px)  ;
+      -ms-transform: translateY(-10px)  ;
+      transform: translateY(-10px)  ;
+    }
+    100% {
+      -webkit-transform: translateY(0)  ;
+      -moz-transform: translateY(0)  ;
+      -o-transform: translateY(0)  ;
+      -ms-transform: translateY(0)  ;
+      transform: translateY(0)  ;
+    }
+  }
+  @keyframes bounce {
+    0% {
+      opacity: 0;
+      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+      filter: alpha(opacity=0);
+      -webkit-transform: translateY(-2000px)  ;
+      -moz-transform: translateY(-2000px)  ;
+      -o-transform: translateY(-2000px)  ;
+      -ms-transform: translateY(-2000px)  ;
+      transform: translateY(-2000px)  ;
+    }
+    60% {
+      opacity: 1;
+      -ms-filter: none;
+      filter: none;
+      -webkit-transform: translateY(30px)  ;
+      -moz-transform: translateY(30px)  ;
+      -o-transform: translateY(30px)  ;
+      -ms-transform: translateY(30px)  ;
+      transform: translateY(30px)  ;
+    }
+    80% {
+      -webkit-transform: translateY(-10px)  ;
+      -moz-transform: translateY(-10px)  ;
+      -o-transform: translateY(-10px)  ;
+      -ms-transform: translateY(-10px)  ;
+      transform: translateY(-10px)  ;
+    }
+    100% {
+      -webkit-transform: translateY(0)  ;
+      -moz-transform: translateY(0)  ;
+      -o-transform: translateY(0)  ;
+      -ms-transform: translateY(0)  ;
+      transform: translateY(0)  ;
+    }
+  }
