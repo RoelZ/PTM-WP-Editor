@@ -242,7 +242,7 @@ $("#styleSelector .btn").click(function ( event ) {
 
     //map.setStyle(getStyle(event.target.id));
     //$('.card').removeClass('snow', 'moon', 'granite', '')
-    $('.card').attr('class','card '+event.target.id);
+    $('.poster').attr('class','card poster '+event.target.id);
 
     $('#addToCart').attr('action', cartUrl+event.target.id);
 

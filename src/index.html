@@ -12,50 +12,39 @@
   </head>
 
 <body>
-
-    <nav class="navbar fixed-bottom navbar-light bg-yellow d-flex">
-        <span class="navbar-brand mr-auto p-2">&euro;49</span>
-
-        <form id="addToCart" method="post" enctype="multipart/form-data" data-product_id="1144" action="http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70cm&attribute_design=snow" class="form-inline my-2 my-lg-0 p-2">
-            <input type="hidden" name="add-to-cart" value="1144">
-            <input type="hidden" name="product_id" value="1144">
-            <input type="hidden" name="quantity" value="1">
-            <input type="hidden" name="variation_id" class="variation_id" value="1207">
-            <input type="hidden" name="marker_coordinates" value="">
-            <input type="hidden" name="design_id" value="">
-            <input type="hidden" name="ptm_moment" value="My Moment">
-            <input type="hidden" name="ptm_location" value="City - Country">
-            <input type="hidden" name="ptm_address" value="Address">
-            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Add to cart</button>
-        </form>
-    </nav>
-
     <div class="container-fluid">
         <div class="row">
+
             <nav class="col-md-3 d-none d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
-                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                        Your Place
-                    </h6>
-                    <ul class="nav optionsTab nav-pills nav-fill" id="optionsTab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="place-tab" data-toggle="tab" href="#place" role="tab" aria-controls="place" aria-selected="true">Place</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="moment-tab" data-toggle="tab" href="#moment" role="tab" aria-controls="moment" aria-selected="false">Moment</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="design-tab" data-toggle="tab" href="#design" role="tab" aria-controls="design" aria-selected="false">Design</a>
-                            </li>
-                        </ul>
-            
-                        <div class="tab-content mx-3 py-3" id="myTabContent">
-            
-                            <div class="tab-pane pb-5 fade show active" id="place" role="tabpanel" aria-labelledby="place-tab">
-                                <label for="geocoder">Find a location anywhere in the world</label>
-                                <div id='geocoder' class='geocoder'></div>
+
+                        <div id="accordion">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    1. Choose your place
+                                    </button>
+                                </h5>
+                                </div>
+                            
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                                <div class="card-body">
+                                    <label for="geocoder">Find a location anywhere in the world</label>
+                                    <div id='geocoder' class='geocoder'></div>
+                                </div>
+                                </div>
                             </div>
-                            <div class="tab-pane fade" id="moment" role="tabpanel" aria-labelledby="moment-tab">
+                            <div class="card">
+                                <div class="card-header" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    2. Name your moment
+                                    </button>
+                                </h5>
+                                </div>
+                                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                                <div class="card-body">
                                     <form>
                                         <div class="form-group">
                                             <label for="momentInput">Give your most memorable moment a name</label>
@@ -66,44 +55,76 @@
                                             <input type="text" class="form-control" id="addressInput" placeholder="">
                                         </div>
                                     </form>
-                            </div>
-                            <div class="tab-pane fade text-center" id="design" role="tabpanel" aria-labelledby="design-tab">
-                                <div id="styleSelector" class="btn-group btn-group-toggle" data-toggle="buttons">
-                                    <label id="mapboxStyle" class="btn btn-lg btn-secondary">
-                                    <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Default
-                                    </label>
-                                    <label id="snow" class="btn btn-lg btn-secondary active">
-                                    <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Snow
-                                    </label>
-                                    <label id="moon" class="btn btn-lg btn-secondary">
-                                    <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Moon
-                                    </label>
-                                    <label id="granite" class="btn btn-lg btn-secondary">
-                                    <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Granite
-                                    </label>
-                                    <label id="mint" class="btn btn-lg btn-secondary">
-                                    <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Mint
-                                    </label>
+                                </div>
                                 </div>
                             </div>
-            
-                        </div>
-                </div>                
+                            <div class="card">
+                                <div class="card-header" id="headingThree">
+                                <h5 class="mb-0">
+                                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    3. Select your design
+                                    </button>
+                                </h5>
+                                </div>
+                                <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                                <div id="styleSelector" class="card-body">
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <label id="snow" class="btn btn-primary btn-sm active">
+                                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Snow
+                                        </label>
+                                        <label id="moon" class="btn btn-primary btn-sm">
+                                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Moon
+                                        </label>
+                                        <label id="granite" class="btn btn-primary btn-sm">
+                                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Granite
+                                        </label>
+                                        <label id="mint" class="btn btn-primary btn-sm">
+                                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Mint
+                                        </label>   
+                                    </div>
+                                    <br>
+                                    <label id="mapboxStyle" class="btn btn-sm">
+                                        <input type="radio" name="mapstyle" autocomplete="off"> Default
+                                    </label>                                              
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                
+                        <nav class="navbar navbar-light bg-yellow d-flex">
+                            <span class="navbar-brand mr-auto p-2">&euro;49</span>
+                    
+                            <form id="addToCart" method="post" enctype="multipart/form-data" data-product_id="1144" action="http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70cm&attribute_design=snow" class="form-inline my-2 my-lg-0 p-2">
+                                <input type="hidden" name="add-to-cart" value="1144">
+                                <input type="hidden" name="product_id" value="1144">
+                                <input type="hidden" name="quantity" value="1">
+                                <input type="hidden" name="variation_id" class="variation_id" value="1207">
+                                <input type="hidden" name="marker_coordinates" value="">
+                                <input type="hidden" name="design_id" value="">
+                                <input type="hidden" name="ptm_moment" value="My Moment">
+                                <input type="hidden" name="ptm_location" value="City - Country">
+                                <input type="hidden" name="ptm_address" value="Address">
+                                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Add to cart</button>
+                            </form>
+                        </nav>  
+                </div>              
+
             </nav>
             
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-9 pt-3 px-4">
+            <main role="main" class="col-md-9 col-lg-9 pt-3 px-4">
                 <div class="col-12">
                     <div class="posterArea">
                         <div class="card poster">
                             <!-- <img class="card-img-top" src="https://via.placeholder.com/500x500" alt="Poster image"> -->            
                             <div id="mapbox" class="card-img-top"></div>            
                             <div id="posterText" class="card-body">
-                                <h5 class="card-title text-center">My Moment</h5>
+                                <h3 class="card-title text-center">My Moment</h3>
                                 <p class="card-text text-center">City - Country</p>
                                 <p class="card-text text-center">Address</p>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </main>
         </div>

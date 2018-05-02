@@ -1,3 +1,6 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Open+Sans:300,400');
+
 // Overrides Bootstrap styling
 @import "custom";
 
@@ -11,6 +14,9 @@
 
 body {
     background: $ptmLight;
+    font-family: $font-family-base;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }
 
 .posterArea {
@@ -28,13 +34,44 @@ body {
   top: 50%;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
+  
+  width:588px;    // 5  (aspect ratio)
+  height:820px;   // 7
+
+  .card-body {    
+
+    padding:10px;
+
+    .card-title {
+      font-family: 'Open Sans Condensed';
+      font-size: 26px;
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 1.35rem;
+    }
+    .card-text {
+      font-size: 12px;
+      font-weight: 300;
+      line-height: 15px;
+      margin-bottom:0;
+      :last-child {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+#mapbox 
+{ 
+    height:466px;
+    width:466px;
+    border-radius:50%;
+    margin:85px auto;
+    border: 2px solid;
 }
 
 
-.card {
-  width:670px;
-  height:820px;
-}
 /*
 .card.poster:before, .card.poster:after
 {
@@ -67,16 +104,6 @@ body {
   left: auto;
 }
 */
-
-
-#mapbox 
-{ 
-    height:55%;
-    width:70.3%;
-    border-radius:50%;
-    margin:30px auto;
-    border: 2px solid;
-}
 
 //.geocoder {}
 .mapboxgl-ctrl-geocoder { min-width:100%; }
