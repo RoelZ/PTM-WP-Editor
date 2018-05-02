@@ -7,35 +7,26 @@
 @import "~@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 @import 'settings/colors.scss';
-@import 'components/sidebar.scss';
 
 body {
     background: $ptmLight;
+    padding-top: 5rem;
 }
-
-.posterArea {
-  height: calc(100vh - 70px);
-  /*
-  position: relative;
-  margin: 0 auto;
-  flex: 1;
-  -webkit-box-flex: 1;
-  */
+main.moment {
+    height:45vh;
+    overflow: scroll;
 }
-
-.poster {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+.starter-template {
+  padding: 3rem 1.5rem;
+  text-align: center;
 }
-
 
 .card {
-  width:670px;
-  height:820px;
+  width:50vw;
+  height:70vh;
+  margin: auto;
 }
-/*
+
 .card.poster:before, .card.poster:after
 {
   z-index: -1;
@@ -66,7 +57,7 @@ body {
   right: 10px;
   left: auto;
 }
-*/
+
 
 
 #mapbox 

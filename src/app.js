@@ -4,12 +4,30 @@ import mapboxgl from 'mapbox-gl';
 import './assets/scss/app.scss';
 
 var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
+//var urlExists = require('url-exists');
+
 var varId;  // WooCommerce ID
+var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70cm&attribute_design=';
+var styleUrl = 'http://localhost:8080/styles/ptm-black-lines/style.json';
+/*
+function checkUrlExists(host,cb) {
+    http.request({method:'HEAD',host,port:80,path: '/'}, (r) => {
+        cb(null, r.statusCode > 200 && r.statusCode < 400 );
+    }).on('error', cb).end();
+}
+
+console.log(checkUrlExists(styleUrl));
+
+urlExists(styleUrl, function(err, exists){
+    if(!exists)
+        styleUrl = 'mapbox://styles/mapbox/basic-v9'; ///styles/roelz/cjbp002fe6an22smmpzfotnk4?optimize=true
+});
+*/
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoicm9lbHoiLCJhIjoiY2phczkwc25mNXJieTJxbnduYTNtaDNneiJ9.7eTxRRsp0GbqkZOJMxRw8g';
 const map = new mapboxgl.Map({
     container: 'mapbox',
-    style: 'http://localhost:8080/styles/ptm-black-lines/style.json',    ///styles/roelz/cjbp002fe6an22smmpzfotnk4?optimize=true
+    style: styleUrl,
     center: [5.4546,51.4553],
     zoom: 10,
     hash: true,
@@ -23,13 +41,18 @@ const geocoder = new MapboxGeocoder({
 $('#geocoder').append(geocoder.onAdd(map));
 
 // Adding source layer after map is loaded
-map.on('load', function(){
-    
+map.on('load', function(){   
+
     addMarker();
 
     console.log(map.getCenter());
     $('#addToCart input[name="design_id"]').val(token());
     $('#addToCart input[name="marker_coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
+    
+    // empty on load
+    $('#addToCart input[name="ptm_moment"]').val();
+    $('#addToCart input[name="ptm_location"]').val();
+    $('#addToCart input[name="ptm_address"]').val();
     
 
     if(findGetParameter("mc")){
@@ -73,7 +96,9 @@ map.on('load', function(){
             var locationAddress = ev.result.text+" "+ev.result.address;
 
             $('#locationInput').val(locationCity+" - "+locationCountry);
+            $('#addToCart input[name="ptm_location"]').val(locationCity+" - "+locationCountry);
             $('#addressInput').val(locationAddress);
+            $('#addToCart input[name="ptm_address"]').val(locationAddress);
 
             $("#posterText .card-text:first").html(locationCity+" - "+locationCountry);
             $("#posterText .card-text:last").html(locationAddress);
@@ -195,7 +220,7 @@ $('#momentInput').val($("#posterText .card-title").text());
 //$('#momentInput').change(function(){
 $("#momentInput").on("input", function(){
     $("#posterText .card-title").text($(this).val());
-    $('#addToCart input[name="title_txt"]').val($(this).val());
+    $('#addToCart input[name="ptm_moment"]').val($(this).val());
 });
 
 $("#locationInput").on("input", function(){    
@@ -210,7 +235,7 @@ $("#addressInput").on("input", function(){
 
 // Styling buttons
 var currentStyle = "snow";  // later GET aan toevoegen
-$(".btn").click(function ( event ) {
+$("#styleSelector .btn").click(function ( event ) {
     
     currentStyle = toString(event.target.id);
     console.log(event.target.id+': '+getStyle(event.target.id));
@@ -218,6 +243,8 @@ $(".btn").click(function ( event ) {
     //map.setStyle(getStyle(event.target.id));
     //$('.card').removeClass('snow', 'moon', 'granite', '')
     $('.card').attr('class','card '+event.target.id);
+
+    $('#addToCart').attr('action', cartUrl+event.target.id);
 
     var styleUrl = getStyle(event.target.id);        
     map.setStyle(styleUrl);

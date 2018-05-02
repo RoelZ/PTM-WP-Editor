@@ -13,126 +13,101 @@
 
 <body>
 
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <a class="navbar-brand" href="#">Menu</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
+    <nav class="navbar fixed-bottom navbar-light bg-yellow d-flex">
+        <span class="navbar-brand mr-auto p-2">&euro;49</span>
 
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Posters</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown01">
-                <a class="dropdown-item" href="#">Snow</a>
-                <a class="dropdown-item" href="#">Moon</a>
-                <a class="dropdown-item" href="#">Granite</a>
-                <a class="dropdown-item" href="#">Minty</a>
-            </div>
-            </li>
-        </ul>
-        <form id="addToCart" method="post" enctype="multipart/form-data" data-product_id="1144" action="http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70cm&attribute_design=moon&attribute_pa_moment=hoi" class="form-inline my-2 my-lg-0">
+        <form id="addToCart" method="post" enctype="multipart/form-data" data-product_id="1144" action="http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70cm&attribute_design=snow" class="form-inline my-2 my-lg-0 p-2">
             <input type="hidden" name="add-to-cart" value="1144">
             <input type="hidden" name="product_id" value="1144">
             <input type="hidden" name="quantity" value="1">
             <input type="hidden" name="variation_id" class="variation_id" value="1207">
             <input type="hidden" name="marker_coordinates" value="">
             <input type="hidden" name="design_id" value="">
-            <input type="hidden" name="title_txt" value="">
-            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Add to cart</button>
+            <input type="hidden" name="ptm_moment" value="My Moment">
+            <input type="hidden" name="ptm_location" value="City - Country">
+            <input type="hidden" name="ptm_address" value="Address">
+            <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Add to cart</button>
         </form>
-        </div>
     </nav>
 
-    <main role="main" class="container">
-
-    <!--
-        <div class="starter-template">
-        <h1>Create your own poster</h1>
-        <p class="lead">Create a lasting memory with your own unique and personalised city map from anywhere in the world</p>
-        <a href="editor.html" class="btn btn-lg btn-warning">Create your own map now</a>
-        </div>
-    -->
-    <div class="row">
-        <div class="col-12">
-        <div class="card">
-            <!-- <img class="card-img-top" src="https://via.placeholder.com/500x500" alt="Poster image"> -->            
-            <div id="mapbox" class="card-img-top"></div>            
-            <div id="posterText" class="card-body">
-                <h5 class="card-title text-center">My Moment</h5>
-                <p class="card-text text-center">City - Country</p>
-                <p class="card-text text-center">Address</p>
-            </div>
-        </div>
-        </div>
-    </div>
-
-</main><!-- /.container -->
-
-<div class="bg-light fixed-bottom">
-
-    <div class="row no-gutters">
-        <div class="col-12">
-
-            <ul class="nav optionsTab nav-pills nav-fill" id="optionsTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="place-tab" data-toggle="tab" href="#place" role="tab" aria-controls="place" aria-selected="true">Place</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="moment-tab" data-toggle="tab" href="#moment" role="tab" aria-controls="moment" aria-selected="false">Moment</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="design-tab" data-toggle="tab" href="#design" role="tab" aria-controls="design" aria-selected="false">Design</a>
-                </li>
-            </ul>
-
-            <div class="tab-content mx-3 py-3" id="myTabContent">
-
-                <div class="tab-pane pb-5 fade show active" id="place" role="tabpanel" aria-labelledby="place-tab">
-                    <label for="geocoder">Find a location anywhere in the world</label>
-                    <div id='geocoder' class='geocoder'></div>
-                </div>
-                <div class="tab-pane fade" id="moment" role="tabpanel" aria-labelledby="moment-tab">
-                        <form>
-                            <div class="form-group">
-                                <label for="momentInput">Give your most memorable moment a name</label>
-                                <input type="text" class="form-control" id="momentInput" placeholder="">
-                                <label for="locationInput">Location: City - Country</label>
-                                <input type="text" class="form-control" id="locationInput" placeholder="">
-                                <label for="addressInput">Location: Address</label>
-                                <input type="text" class="form-control" id="addressInput" placeholder="">
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-3 d-none d-md-block bg-light sidebar">
+                <div class="sidebar-sticky">
+                    <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                        Your Place
+                    </h6>
+                    <ul class="nav optionsTab nav-pills nav-fill" id="optionsTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="place-tab" data-toggle="tab" href="#place" role="tab" aria-controls="place" aria-selected="true">Place</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="moment-tab" data-toggle="tab" href="#moment" role="tab" aria-controls="moment" aria-selected="false">Moment</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="design-tab" data-toggle="tab" href="#design" role="tab" aria-controls="design" aria-selected="false">Design</a>
+                            </li>
+                        </ul>
+            
+                        <div class="tab-content mx-3 py-3" id="myTabContent">
+            
+                            <div class="tab-pane pb-5 fade show active" id="place" role="tabpanel" aria-labelledby="place-tab">
+                                <label for="geocoder">Find a location anywhere in the world</label>
+                                <div id='geocoder' class='geocoder'></div>
                             </div>
-                        </form>
-                </div>
-                <div class="tab-pane fade text-center" id="design" role="tabpanel" aria-labelledby="design-tab">
-                    <div id="styleSelector" class="btn-group btn-group-toggle" data-toggle="buttons">
-                        <label id="mapboxStyle" class="btn btn-secondary active">
-                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Snow
-                        </label>
-                        <label id="moon" class="btn btn-secondary">
-                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Moon
-                        </label>
-                        <label id="granite" class="btn btn-secondary">
-                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Granite
-                        </label>
-                        <label id="mint" class="btn btn-secondary">
-                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Mint
-                        </label>
+                            <div class="tab-pane fade" id="moment" role="tabpanel" aria-labelledby="moment-tab">
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="momentInput">Give your most memorable moment a name</label>
+                                            <input type="text" class="form-control" id="momentInput" placeholder="">
+                                            <label for="locationInput">Location: City - Country</label>
+                                            <input type="text" class="form-control" id="locationInput" placeholder="">
+                                            <label for="addressInput">Location: Address</label>
+                                            <input type="text" class="form-control" id="addressInput" placeholder="">
+                                        </div>
+                                    </form>
+                            </div>
+                            <div class="tab-pane fade text-center" id="design" role="tabpanel" aria-labelledby="design-tab">
+                                <div id="styleSelector" class="btn-group btn-group-toggle" data-toggle="buttons">
+                                    <label id="mapboxStyle" class="btn btn-lg btn-secondary">
+                                    <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Default
+                                    </label>
+                                    <label id="snow" class="btn btn-lg btn-secondary active">
+                                    <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Snow
+                                    </label>
+                                    <label id="moon" class="btn btn-lg btn-secondary">
+                                    <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Moon
+                                    </label>
+                                    <label id="granite" class="btn btn-lg btn-secondary">
+                                    <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Granite
+                                    </label>
+                                    <label id="mint" class="btn btn-lg btn-secondary">
+                                    <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Mint
+                                    </label>
+                                </div>
+                            </div>
+            
+                        </div>
+                </div>                
+            </nav>
+            
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-9 pt-3 px-4">
+                <div class="col-12">
+                    <div class="posterArea">
+                        <div class="card poster">
+                            <!-- <img class="card-img-top" src="https://via.placeholder.com/500x500" alt="Poster image"> -->            
+                            <div id="mapbox" class="card-img-top"></div>            
+                            <div id="posterText" class="card-body">
+                                <h5 class="card-title text-center">My Moment</h5>
+                                <p class="card-text text-center">City - Country</p>
+                                <p class="card-text text-center">Address</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-            </div>
-
+            </main>
         </div>
-    </div>
-
-</div>
+    </div><!-- /.container -->
     
 
 </body>

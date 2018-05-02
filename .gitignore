@@ -1,3 +1,4 @@
 node_modules
-package-lock.json
+wordpress
 dist
+package-lock.json
