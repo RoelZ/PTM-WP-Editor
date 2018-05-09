@@ -30,7 +30,7 @@
                             
                                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                 <div class="card-body">
-                                    <label for="geocoder">Find a location anywhere in the world</label>
+                                    <label class="sidebar-heading text-muted" for="geocoder">Find a location</label>
                                     <div id='geocoder' class='geocoder'></div>
                                 </div>
                                 </div>
@@ -47,11 +47,11 @@
                                 <div class="card-body">
                                     <form>
                                         <div class="form-group">
-                                            <label for="momentInput">Give your most memorable moment a name</label>
+                                            <label class="sidebar-heading text-muted" for="momentInput">Describe your moment</label>
                                             <input type="text" class="form-control" id="momentInput" placeholder="">
-                                            <label for="locationInput">Location: City - Country</label>
+                                            <label class="sidebar-heading text-muted" for="locationInput">Subline</label>
                                             <input type="text" class="form-control" id="locationInput" placeholder="">
-                                            <label for="addressInput">Location: Address</label>
+                                            <label class="sidebar-heading text-muted" for="addressInput">Tagline</label>
                                             <input type="text" class="form-control" id="addressInput" placeholder="">
                                         </div>
                                     </form>
@@ -67,26 +67,49 @@
                                 </h5>
                                 </div>
                                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                                <div id="styleSelector" class="card-body">
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                        <label id="snow" class="btn btn-primary btn-sm active">
-                                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Snow
-                                        </label>
-                                        <label id="moon" class="btn btn-primary btn-sm">
-                                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Moon
-                                        </label>
-                                        <label id="granite" class="btn btn-primary btn-sm">
-                                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Granite
-                                        </label>
-                                        <label id="mint" class="btn btn-primary btn-sm">
-                                        <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Mint
-                                        </label>   
+                                    <h6 class="align-items-center d-flex justify-content-between mb-1 mt-4 px-3 sidebar-heading text-muted"><span>Map Color</span></h6>
+                                    <div id="styleSelector" class="card-body">
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <label id="snow" class="btn btn-primary btn-sm active">
+                                            <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Snow
+                                            </label>
+                                            <label id="moon" class="btn btn-primary btn-sm">
+                                            <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Moon
+                                            </label>
+                                            <label id="granite" class="btn btn-primary btn-sm">
+                                            <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Granite
+                                            </label>
+                                            <label id="mint" class="btn btn-primary btn-sm">
+                                            <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Mint
+                                            </label>   
+                                        </div>
+                                        <br>
+                                        <div class="btn-group btn-group-toggle card-body" data-toggle="buttons">
+                                            <label id="mapboxStyle" class="btn btn-secondary btn-sm">
+                                                <input type="radio" name="mapstyle" autocomplete="off"> Default
+                                            </label>                                              
+                                        </div>
                                     </div>
-                                    <br>
-                                    <label id="mapboxStyle" class="btn btn-sm">
-                                        <input type="radio" name="mapstyle" autocomplete="off"> Default
-                                    </label>                                              
-                                </div>
+                                    <h6 class="align-items-center d-flex justify-content-between mb-1 mt-4 px-3 sidebar-heading text-muted">Marker Color</h6>
+                                    <div id="markerSelector" class="card-body">
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                        <label class="btn btn-primary btn-sm active">
+                                            <input type="radio" name="options" id="granite" autocomplete="off" checked> Granite
+                                        </label>
+                                        <label class="btn btn-primary btn-sm">
+                                            <input type="radio" name="options" id="mint" autocomplete="off"> Mint
+                                        </label>
+                                        <label class="btn btn-primary btn-sm">
+                                            <input type="radio" name="options" id="yellow" autocomplete="off"> Yellow
+                                        </label>
+                                        </div>
+                                    </div>
+                                    <h6 class="align-items-center d-flex justify-content-between mb-1 mt-4 px-3 sidebar-heading text-muted">Format</h6>
+                                    <div class="card-body">
+                                        <button type="button" class="btn btn-primary btn-sm active" data-toggle="button" aria-pressed="false" autocomplete="off">
+                                        50x70cm
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                             </div>
@@ -104,7 +127,7 @@
                                 <input type="hidden" name="ptm_moment" value="My Moment">
                                 <input type="hidden" name="ptm_location" value="City - Country">
                                 <input type="hidden" name="ptm_address" value="Address">
-                                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Add to cart</button>
+                                <button class="btn btn-lg btn-primary my-2 my-sm-0" type="submit">Checkout</button>
                             </form>
                         </nav>  
                 </div>              
@@ -114,7 +137,7 @@
             <main role="main" class="col-md-9 col-lg-9 pt-3 px-4">
                 <div class="col-12">
                     <div class="posterArea">
-                        <div class="card poster">
+                        <div class="card poster snow">
                             <!-- <img class="card-img-top" src="https://via.placeholder.com/500x500" alt="Poster image"> -->            
                             <div id="mapbox" class="card-img-top"></div>            
                             <div id="posterText" class="card-body">

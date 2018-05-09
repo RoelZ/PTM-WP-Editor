@@ -33,6 +33,10 @@ const map = new mapboxgl.Map({
     hash: true,
 });
 
+var geojson = {
+
+}
+
 const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken
 });
@@ -43,9 +47,10 @@ $('#geocoder').append(geocoder.onAdd(map));
 // Adding source layer after map is loaded
 map.on('load', function(){   
 
-    addMarker();
+    // laden van een default marker
+    // addMarker();
 
-    console.log(map.getCenter());
+    console.log('Line 52: '+map.getCenter());
     $('#addToCart input[name="design_id"]').val(token());
     $('#addToCart input[name="marker_coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
     
@@ -57,21 +62,22 @@ map.on('load', function(){
 
     if(findGetParameter("mc")){
 
-        var markerCoordinates = findGetParameter("mc");
+        var markerCoordinates = getCoordinates(findGetParameter("mc"));
         //var locationMarker = [{"type":"FeatureCollection","features":[{"type":"Feature", "geomerty": { "type": "Point", "coordinates": [5.463783, 51.443383] }}]}];
         var locationMarker = {type: 'FeatureCollection',
         features: [{
         type: 'Feature',
         geometry: {
             type: 'Point',
-            coordinates: [markerCoordinates]
+            coordinates: markerCoordinates
         }
         }]};
         
-        console.log(markerCoordinates);
+        console.log('line 75: '+markerCoordinates);
 
         locationMarker.features.forEach(function(marker){
             var el = document.createElement('div');
+            el.id = 'marker';
             el.className = 'marker';
 
             new mapboxgl.Marker(el)
@@ -81,36 +87,54 @@ map.on('load', function(){
     }
     
 
-        // Wachten op een geocoder.input event
-        geocoder.on('result', function(ev){
-            console.log('na input, result: '+ev.result);
-            locationMarker = ev.result.geometry;
-            map.getSource('single-point').setData(locationMarker);
-            
-            // Adding marker coordinates to form
-            //$('#addToCart input[name="marker_coordinates"]').val(locationMarker.coordinates[0]+','+locationMarker.coordinates[1]+','+map.getZoom());
+    // Wachten op een geocoder.input event
+    geocoder.on('result', function(ev){
+        console.log(ev.result);
 
-            // Adding address on poster
-            var locationCity = ev.result.context[1].text;
-            var locationCountry = ev.result.context[3].text;
-            var locationAddress = ev.result.text+" "+ev.result.address;
+        var locationMarker = {type: 'FeatureCollection',
+        features: [{
+        type: 'Feature',
+        geometry: {
+            type: 'Point',
+            coordinates: ev.result.geometry.coordinates
+        }
+        }]};
 
-            $('#locationInput').val(locationCity+" - "+locationCountry);
-            $('#addToCart input[name="ptm_location"]').val(locationCity+" - "+locationCountry);
-            $('#addressInput').val(locationAddress);
-            $('#addToCart input[name="ptm_address"]').val(locationAddress);
+        locationMarker.features.forEach(function(marker){
+            var el = document.createElement('div');
+            el.className = 'marker';
 
-            $("#posterText .card-text:first").html(locationCity+" - "+locationCountry);
-            $("#posterText .card-text:last").html(locationAddress);
-
-            map.on('moveend', function(e){
-                $('#addToCart input[name="marker_coordinates"]').val(ev.result.geometry.coordinates+','+Math.round(map.getZoom() * 10) / 10);
-            });
-            
+            new mapboxgl.Marker(el)
+                .setLngLat(marker.geometry.coordinates)
+                .addTo(map);
         });
-    //}
+        
+        //map.getSource('single-point').setData(locationMarker);
+        
+        // Adding marker coordinates to form
+        //$('#addToCart input[name="marker_coordinates"]').val(locationMarker.coordinates[0]+','+locationMarker.coordinates[1]+','+map.getZoom());
 
-});
+        // Adding address on poster
+        var locationCity = ev.result.context[1].text;
+        var locationCountry = ev.result.context[3].text;
+        var locationAddress = ev.result.text+" "+ev.result.address;
+
+        $('#locationInput').val(locationCity+" - "+locationCountry);
+        $('#addToCart input[name="ptm_location"]').val(locationCity+" - "+locationCountry);
+        $('#addressInput').val(locationAddress);
+        $('#addToCart input[name="ptm_address"]').val(locationAddress);
+
+        $("#posterText .card-text:first").html(locationCity+" - "+locationCountry);
+        $("#posterText .card-text:last").html(locationAddress);
+
+        map.on('moveend', function(e){
+            $('#addToCart input[name="marker_coordinates"]').val(ev.result.geometry.coordinates+','+Math.round(map.getZoom() * 10) / 10);
+        });
+        
+    }); // end geocode search
+    
+
+});  // end Map onLoad
             
 map.on('dragend', function(e){
     $('#addToCart input[name="marker_coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
@@ -127,6 +151,7 @@ var token = function() {
     return rand(); // + rand() to make it longer
 };
 
+// Deze functie haalt de coordinaten van de GET header op
 function findGetParameter(parameterName) {
     var result = null,
         tmp = [];
@@ -138,6 +163,14 @@ function findGetParameter(parameterName) {
           if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
         });
     return result;
+}
+
+// Functie om een correcte Mapbox LngLat output te geven op basis van coordinaten (b.v. 51.31,5.1)
+function getCoordinates(value){
+    var cor = new Array();
+    cor= value.split(',');
+    //return mapboxgl.LngLat(cor[0],cor[1]);
+    return cor;
 }
 
 function addMarker(){   
@@ -234,7 +267,70 @@ $("#addressInput").on("input", function(){
 });
 
 // Styling buttons
-var currentStyle = "snow";  // later GET aan toevoegen
+var currentStyle = "snow";
+var currentMarkerStyle = "mint";
+
+switch(findGetParameter('s')){
+    case "moon":
+        currentStyle = "moon";
+        break;
+    case "granite":
+        currentStyle = "granite";
+        break;
+    case "mint":    
+        currentStyle = "mint";
+        break;
+    default:
+        currentStyle = "snow";
+}
+
+switch(findGetParameter('m')){    
+    case "granite":
+        currentMarkerStyle = "granite";
+        break;
+    case "yellow":    
+        currentMarkerStyle = "yellow";
+        break;
+    default:
+        currentMarkerStyle = "mint";
+}
+
+setStyle(currentStyle,currentMarkerStyle);
+
+function setStyle(style, marker = ''){
+    // UI checked
+    if(style){
+        $('#styleSelector').find("input").each(function(){
+             if($(this).attr("id") == style)
+                 $(this).attr("checked", true);
+             else
+                 $(this).attr("checked", false);
+        })       
+     } 
+    // GET
+    // POST
+    // Poster
+    $('.poster').attr('class','card poster '+style);
+
+    // Marker
+    if(marker){
+        
+        $('#marker').addClass(marker);  // deze kan nog niet aangeroepen worden omdat deze pas later gecreerd wordt!
+        
+        $('#markerSelector').find("input").each(function(){
+            if($(this).attr("id") == marker){
+                $(this).parent('label').addClass('active');
+                $(this).attr("checked", true);
+            }                
+            else {
+                $(this).parent('label').removeClass('active');
+                $(this).attr("checked", false);
+            }                
+       })       
+    }    
+}
+
+
 $("#styleSelector .btn").click(function ( event ) {
     
     currentStyle = toString(event.target.id);
