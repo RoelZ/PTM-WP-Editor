@@ -22,3 +22,7 @@ Markers
 - Verplaatsen
 - Verwijderen
 - PreSelected UI (bij laden van pagina (default | GET))
+
+Website stijling
+-----
+- PTM Marker logo als mask gebruiken voor foto's!! (wat een **vet** idee Roel!)

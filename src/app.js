@@ -9,6 +9,10 @@ var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 var varId;  // WooCommerce ID
 var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70cm&attribute_design=';
 var styleUrl = 'http://localhost:8080/styles/ptm-black-lines/style.json';
+
+var currentStyle = "snow";
+var currentMarkerStyle = "mint";
+
 /*
 function checkUrlExists(host,cb) {
     http.request({method:'HEAD',host,port:80,path: '/'}, (r) => {
@@ -74,11 +78,38 @@ map.on('load', function(){
         }]};
         
         console.log('line 75: '+markerCoordinates);
+        
+        switch(findGetParameter('s')){
+            case "moon":
+                currentStyle = "moon";
+                break;
+            case "granite":
+                currentStyle = "granite";
+                break;
+            case "mint":    
+                currentStyle = "mint";
+                break;
+            default:
+                currentStyle = "snow";
+        }
+        
+        switch(findGetParameter('m')){    
+            case "granite":
+                currentMarkerStyle = "granite";
+                break;
+            case "yellow":    
+                currentMarkerStyle = "yellow";
+                break;
+            default:
+                currentMarkerStyle = "mint";
+        }
+        console.log('s: '+findGetParameter('s')+', m: '+findGetParameter('m'));
+        setStyle(currentStyle,currentMarkerStyle);
 
         locationMarker.features.forEach(function(marker){
             var el = document.createElement('div');
-            el.id = 'marker';
-            el.className = 'marker';
+            //el.id = 'marker';
+            el.className = 'marker ' + currentMarkerStyle;
 
             new mapboxgl.Marker(el)
                 .setLngLat(marker.geometry.coordinates)
@@ -91,15 +122,18 @@ map.on('load', function(){
     geocoder.on('result', function(ev){
         console.log(ev.result);
 
-        var locationMarker = {type: 'FeatureCollection',
-        features: [{
-        type: 'Feature',
-        geometry: {
-            type: 'Point',
-            coordinates: ev.result.geometry.coordinates
-        }
-        }]};
-
+        var locationMarker = 
+            {
+                type: 'FeatureCollection',
+                features: [{
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: ev.result.geometry.coordinates
+                    }
+                }]
+            };        
+        
         locationMarker.features.forEach(function(marker){
             var el = document.createElement('div');
             el.className = 'marker';
@@ -266,45 +300,19 @@ $("#addressInput").on("input", function(){
         .html($(this).val());
 });
 
-// Styling buttons
-var currentStyle = "snow";
-var currentMarkerStyle = "mint";
-
-switch(findGetParameter('s')){
-    case "moon":
-        currentStyle = "moon";
-        break;
-    case "granite":
-        currentStyle = "granite";
-        break;
-    case "mint":    
-        currentStyle = "mint";
-        break;
-    default:
-        currentStyle = "snow";
-}
-
-switch(findGetParameter('m')){    
-    case "granite":
-        currentMarkerStyle = "granite";
-        break;
-    case "yellow":    
-        currentMarkerStyle = "yellow";
-        break;
-    default:
-        currentMarkerStyle = "mint";
-}
-
-setStyle(currentStyle,currentMarkerStyle);
-
+// Styling UI
 function setStyle(style, marker = ''){
     // UI checked
     if(style){
-        $('#styleSelector').find("input").each(function(){
-             if($(this).attr("id") == style)
-                 $(this).attr("checked", true);
-             else
-                 $(this).attr("checked", false);
+        $('#styleSelector').find("label").each(function(){
+             if($(this).attr("id") == style){
+                $(this).addClass('active');
+                $(this).children('input').attr("checked", true);                 
+             }
+             else {
+                $(this).removeClass('active');
+                $(this).children('input').attr("checked", false);                 
+             }
         })       
      } 
     // GET
@@ -315,19 +323,17 @@ function setStyle(style, marker = ''){
     // Marker
     if(marker){
         
-        $('#marker').addClass(marker);  // deze kan nog niet aangeroepen worden omdat deze pas later gecreerd wordt!
-        
-        $('#markerSelector').find("input").each(function(){
+        $('#markerSelector').find("label").each(function(){
             if($(this).attr("id") == marker){
-                $(this).parent('label').addClass('active');
-                $(this).attr("checked", true);
-            }                
+                $(this).addClass('active');
+                $(this).children('input').attr("checked", true);
+            }
             else {
-                $(this).parent('label').removeClass('active');
-                $(this).attr("checked", false);
+                $(this).removeClass('active');
+                $(this).children('input').attr("checked", false);
             }                
        })       
-    }    
+    }
 }
 
 
@@ -345,13 +351,14 @@ $("#styleSelector .btn").click(function ( event ) {
     var styleUrl = getStyle(event.target.id);        
     map.setStyle(styleUrl);
 
+    /*
     map.on('load', function(){
     //if(map.isStyleLoaded){
         addMarker();
         console.log(map.getSource('single-point'));
         map.getSource('single-point').setData(locationMarker);
     });
-
+    */
     $('#addToCart input[name="variation_id"]').val(varId);
     //map.setStyle('mapbox://styles/mapbox/basic-v9');
     //event.preventDefault();
