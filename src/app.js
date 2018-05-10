@@ -2,13 +2,17 @@ import 'bootstrap';
 import $ from 'jquery';
 import mapboxgl from 'mapbox-gl';
 import './assets/scss/app.scss';
+import mapboxStyle from './assets/styles/style.json';
+import mapputnikStyle from './assets/styles/maputnik.json';
 
 var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 //var urlExists = require('url-exists');
 
 var varId;  // WooCommerce ID
 var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70cm&attribute_design=';
-var styleUrl = 'http://localhost:8080/styles/ptm-black-lines/style.json';
+var styleUrl = 'http://localhost:8080/styles/ptm-black-lines-final/style.json';
+//var styleUrl = 'http://placethemoment.com/dev/ptm-editor/assets/styles/style.json';
+//var styleUrl = mapputnikStyle;
 
 var currentStyle = "snow";
 var currentMarkerStyle = "mint";
@@ -232,23 +236,28 @@ function getStyle(name){
 
     if(name == 'mapboxStyle'){
         varId = 1207
-        return 'mapbox://styles/mapbox/streets-v9';
+        return mapboxStyle;
+        //return 'mapbox://styles/mapbox/streets-v9';
+    }
+    else if(name == 'maputnikStyle'){
+        varId = 1207
+        return maputnikStyle;
     }
     else if(name == 'snow'){
         varId = 1207
-        return 'http://localhost:8080/styles/ptm-black-lines/style.json'; //'mapbox://styles/roelz/cjbp002fe6an22smmpzfotnk4';
+        return 'http://localhost:8080/styles/ptm-black-lines-final/style.json'; //'mapbox://styles/roelz/cjbp002fe6an22smmpzfotnk4';
     }
     else if(name == 'moon'){
         varId = 1208
-        return 'http://localhost:8080/styles/ptm-white-lines/style.json'; //'mapbox://styles/roelz/cjbp18k2y6h922rmxjdv2r6zn';
+        return 'http://localhost:8080/styles/ptm-white-lines-final/style.json'; //'mapbox://styles/roelz/cjbp18k2y6h922rmxjdv2r6zn';
     }
     else if(name == 'granite'){
         varId = 1209
-        return 'http://localhost:8080/styles/ptm-white-lines/style.json'; //'mapbox://styles/roelz/cjbp18k2y6h922rmxjdv2r6zn';
+        return 'http://localhost:8080/styles/ptm-white-lines-final/style.json'; //'mapbox://styles/roelz/cjbp18k2y6h922rmxjdv2r6zn';
     }
     else if(name == 'mint'){
         varId = 1210
-        return 'http://localhost:8080/styles/ptm-white-lines/style.json'; //'mapbox://styles/roelz/cjbp18k2y6h922rmxjdv2r6zn';
+        return 'http://localhost:8080/styles/ptm-white-lines-final/style.json'; //'mapbox://styles/roelz/cjbp18k2y6h922rmxjdv2r6zn';
     }
     
 }
