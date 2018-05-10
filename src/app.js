@@ -1,7 +1,10 @@
 import 'bootstrap';
 import $ from 'jquery';
 import mapboxgl from 'mapbox-gl';
+import jsPDF from 'jspdf';
 import './assets/scss/app.scss';
+//import Base64 from './assets/js/base64.js';
+//import svgCanvas from './assets/js/svgcanvas.js';
 import mapboxStyle from './assets/styles/style.json';
 import mapputnikStyle from './assets/styles/maputnik.json';
 
@@ -52,11 +55,50 @@ const geocoder = new MapboxGeocoder({
 //map.addControl(geocoder);
 $('#geocoder').append(geocoder.onAdd(map));
 
+var mapCanvas = map.getCanvas();
+//mapCanvas.width = 600;
+//mapCanvas.height = 600;
+
 // Adding source layer after map is loaded
 map.on('load', function(){   
 
     // laden van een default marker
     // addMarker();
+    var imgData = mapCanvas.toDataURL('image/png',1);
+    //var svg = $('#mapbox .mapbox-canvas').html();
+    //console.log(imgData);
+    $('#canvasImage').attr("src",imgData);    
+    //var ctx = new SVGCanvas("mapboxgl-canvas");
+    //$('#canvasImage').parent().html(ctx.toDataURL("image/svg+xml"));
+    //var xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"><svg xmlns="http://www.w3.org/2000/svg" width="' + 600 + '" height="' + 600 + '" xmlns:xlink="http://www.w3.org/1999/xlink"><source><![CDATA[' + imgData + ']]></source>' + svg + '</svg>';
+    //var b64 = Base64.encode(svg);
+    
+    //$('#canvasImage').append("<a href-lang='image/svg+xml' href='data:image/svg+xml;base64,\n"+b64+"'>download</a>");
+    /*
+    var doc = new jsPDF();
+
+    if(currentStyle == "granite"){
+        doc.setFillColor("44","34","22","77");  //44 34 22 77
+    } else if(currentStyle == "mint"){
+        doc.setFillColor("54","8","47","14");  //54 8 47 14
+    } else {
+        doc.setFillColor(44,34,22,77);  //44 34 22 77
+    }
+
+    doc.roundedRect(5,7,200,200,100,100);
+
+    doc.setFontSize("56");
+    //doc.setFont("Open Sans");
+    doc.setTextColor("255");
+    if($('#momentInput').val())
+        var docText = $('#momentInput').val();
+    else
+        var docText = "Place the moment";
+    doc.text(docText,"50","220");
+
+    doc.addImage(imgData, 'png', 5, 7, 200, 200, '', 'slow');
+    doc.save('ptm-print.pdf');
+    */
 
     console.log('Line 52: '+map.getCenter());
     $('#addToCart input[name="design_id"]').val(token());
@@ -173,13 +215,15 @@ map.on('load', function(){
     
 
 });  // end Map onLoad
-            
+
+/*
 map.on('dragend', function(e){
     $('#addToCart input[name="marker_coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
 });
 map.on('moveend', function(e){
     $('#addToCart input[name="marker_coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
 });
+*/
 
 var rand = function() {
     return Math.random().toString(36).substr(2); // remove `0.`
@@ -271,6 +315,35 @@ function getMarkerStyle(){
         return '#d8ae46';
     else 
         return '#54575c';
+}
+
+if(findGetParameter("debug")){
+    $("#toPDF").parent('nav').removeClass('d-none');
+    $("#canvasImage").parent('div').removeClass('d-none');
+    $("#toPDF").click(function(e){
+        var imgData = map.getCanvas().toDataURL();
+
+        var doc = new jsPDF();
+
+        /*
+        if(currentStyle == "granite"){
+            doc.setFillColor("44","34","22","77");  //44 34 22 77
+        } else if(currentStyle == "mint"){
+            doc.setFillColor("54","8","47","14");  //54 8 47 14
+        }
+        doc.setFontSize("56");
+        //doc.setFont("Open Sans");
+        //doc.setTextColor("255");
+        if($('#momentInput').val())
+            var docText = $('#momentInput').val();
+        else
+            var docText = "Place the moment";
+        doc.text(docText,"50","555");
+        */
+        doc.addImage(imgData, 'PNG', 52, 73, 400, 400);
+        doc.save('ptm-print.pdf');
+    });
+
 }
 
 // Tabs: Moment

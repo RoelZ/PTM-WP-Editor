@@ -62,13 +62,18 @@ body {
   }
 }
 
+.mapwindow {
+  width:466px;
+  height:466px;
+  margin:85px auto;
+  border-radius:50%;
+  border: 2px solid;
+  overflow: hidden;
+}
 #mapbox 
 { 
-    height:466px;
-    width:466px;
-    border-radius:50%;
-    margin:85px auto;
-    border: 2px solid;
+    height:1000px; //466
+    width:1000px;  //466
 }
 
 
