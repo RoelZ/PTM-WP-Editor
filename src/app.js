@@ -5,7 +5,8 @@ import jsPDF from 'jspdf';
 import './assets/scss/app.scss';
 //import Base64 from './assets/js/base64.js';
 //import svgCanvas from './assets/js/svgcanvas.js';
-import mapboxStyle from './assets/styles/style.json';
+import mapboxBlackStyle from './assets/styles/style.json';
+import mapboxWhiteStyle from './assets/styles/mapbox-white/style.json';
 import mapputnikStyle from './assets/styles/maputnik.json';
 
 var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
@@ -13,13 +14,13 @@ var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 
 var varId;  // WooCommerce ID
 var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70cm&attribute_design=';
-var styleUrl = 'http://localhost:8080/styles/ptm-black-lines-final/style.json';
+//var styleUrl = 'http://localhost:8080/styles/ptm-white-lines-final/style.json';
 //var styleUrl = 'http://placethemoment.com/dev/ptm-editor/assets/styles/style.json';
-//var styleUrl = mapputnikStyle;
+var styleUrl = mapboxWhiteStyle;
 
 var currentStyle = "snow";
 var currentMarkerStyle = "mint";
-
+var imgData = "";
 /*
 function checkUrlExists(host,cb) {
     http.request({method:'HEAD',host,port:80,path: '/'}, (r) => {
@@ -55,7 +56,6 @@ const geocoder = new MapboxGeocoder({
 //map.addControl(geocoder);
 $('#geocoder').append(geocoder.onAdd(map));
 
-var mapCanvas = map.getCanvas();
 //mapCanvas.width = 600;
 //mapCanvas.height = 600;
 
@@ -64,10 +64,32 @@ map.on('load', function(){
 
     // laden van een default marker
     // addMarker();
-    var imgData = mapCanvas.toDataURL('image/png',1);
+
+    var mapCanvas = map.getCanvas();
+
+    //BLOB
+    /*
+    mapCanvas.toBlob(function(blob){
+        var newImg = document.createElement('img'),
+        url = URL.createObjectURL(blob);
+
+        newImg.onload = function(){
+            URL.revokeObjectURL(url);
+        };
+
+        newImg.src = url;
+        $('#canvasImage').parent('div').append(newImg);
+        //document.body.appendChild(newImg);
+    });
+    */
+
+    //var mapCanvas = map.getCanvas();
+    imgData = mapCanvas.toDataURL('image/png',1);
+    
     //var svg = $('#mapbox .mapbox-canvas').html();
     //console.log(imgData);
     $('#canvasImage').attr("src",imgData);    
+    
     //var ctx = new SVGCanvas("mapboxgl-canvas");
     //$('#canvasImage').parent().html(ctx.toDataURL("image/svg+xml"));
     //var xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"><svg xmlns="http://www.w3.org/2000/svg" width="' + 600 + '" height="' + 600 + '" xmlns:xlink="http://www.w3.org/1999/xlink"><source><![CDATA[' + imgData + ']]></source>' + svg + '</svg>';
@@ -317,7 +339,44 @@ function getMarkerStyle(){
         return '#54575c';
 }
 
-if(findGetParameter("debug")){
+$(document).keyup(function(e){
+
+    if(e.keyCode == 49){       
+        map.setStyle(mapboxWhiteStyle);
+    } else if(e.keyCode == 50){
+        map.setStyle(mapboxBlackStyle);
+    }
+//});
+    else if(e.keyCode == 27){
+/*
+        var mapCanvas = map.getCanvas();
+        mapCanvas.toBlob(function(blob){
+            var newImg = document.createElement('img'),
+            url = URL.createObjectURL(blob);
+
+            newImg.onload = function(){
+                URL.revokeObjectURL(url);
+            };
+
+            newImg.src = url;
+            $('#canvasImage').parent('div').append(newImg);
+            //document.body.appendChild(newImg);
+        });
+*/
+//if(findGetParameter("debug")){
+    // IMG
+    /*
+    var mapCanvas = map.getCanvas();
+    on.mapCanvas.getContext('webgl').finish()
+    imgData = mapCanvas.toDataURL('image/png',1);
+    */  
+    //console.log('putting data to img...')
+    //var imgData = map.getCanvas().toDataURL('image/jpeg');
+    $("#canvasImage").parent('div').removeClass('d-none');
+    //$('#canvasImage').attr("src",imgData); 
+    //console.log(imgData);
+
+    // PDF
     $("#toPDF").parent('nav').removeClass('d-none');
     $("#canvasImage").parent('div').removeClass('d-none');
     $("#toPDF").click(function(e){
@@ -344,7 +403,9 @@ if(findGetParameter("debug")){
         doc.save('ptm-print.pdf');
     });
 
-}
+};
+
+});
 
 // Tabs: Moment
 var activeTab;

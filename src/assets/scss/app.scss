@@ -72,8 +72,17 @@ body {
 }
 #mapbox 
 { 
-    height:1000px; //466
-    width:1000px;  //466
+    height:4746px; //466,4746
+    width:4746px;  //466,4746
+/* 
+    .mapboxgl-canvas {
+      top:-25%;
+      left:-25%;
+    }
+*/
+}
+#canvasImage {
+  zoom:0.1;
 }
 
 

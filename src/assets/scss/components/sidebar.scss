@@ -26,6 +26,10 @@ overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
         bottom: 0;
         width: 100%;
     }
+
+    div:has(img) {
+        background-color:darkgrey;
+    }
 }
 
 .sidebar .nav-link {

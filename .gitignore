@@ -2,3 +2,4 @@ node_modules
 wordpress
 dist
 package-lock.json
+src/assets/styles/mapbox-white/icons/
