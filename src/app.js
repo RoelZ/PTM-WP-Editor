@@ -16,7 +16,7 @@ var varId;  // WooCommerce ID
 var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70cm&attribute_design=';
 //var styleUrl = 'http://localhost:8080/styles/ptm-white-lines-final/style.json';
 //var styleUrl = 'http://placethemoment.com/dev/ptm-editor/assets/styles/style.json';
-var styleUrl = mapboxWhiteStyle;
+var styleUrl = mapboxBlackStyle;
 
 var currentStyle = "snow";
 var currentMarkerStyle = "mint";
@@ -35,8 +35,9 @@ urlExists(styleUrl, function(err, exists){
         styleUrl = 'mapbox://styles/mapbox/basic-v9'; ///styles/roelz/cjbp002fe6an22smmpzfotnk4?optimize=true
 });
 */
-
 mapboxgl.accessToken = 'pk.eyJ1Ijoicm9lbHoiLCJhIjoiY2phczkwc25mNXJieTJxbnduYTNtaDNneiJ9.7eTxRRsp0GbqkZOJMxRw8g';
+
+//const debugPanel = document.getElementById('debugger').addClass('debugPanel');
 const map = new mapboxgl.Map({
     container: 'mapbox',
     style: styleUrl,
@@ -45,9 +46,18 @@ const map = new mapboxgl.Map({
     hash: true,
 });
 
-var geojson = {
+var canvas = map.getCanvasContainer();
 
-}
+var geojson = {
+    "type": "FeatureCollection",
+    "features": [{
+        "type": "Feature",
+        "geometry": {
+            "type": "Point",
+            "coordinates": [0, 0]
+        }
+    }]
+};
 
 const geocoder = new MapboxGeocoder({
     accessToken: mapboxgl.accessToken
@@ -63,12 +73,34 @@ $('#geocoder').append(geocoder.onAdd(map));
 map.on('load', function(){   
 
     // laden van een default marker
-    // addMarker();
+    //addMarker();
+
+    map.on('mousedown', 'point', function(e) {
+
+        // Prevent the default map drag behavior.
+        e.preventDefault();
+
+        canvas.style.cursor = 'grab';
+
+        map.on('mousemove', onMove);
+        map.once('mouseup', onUp);
+    });
+
+    map.on('touchstart', 'point', function(e) {
+        if (e.points.length !== 1) return;
+
+        // Prevent the default map drag behavior.
+        e.preventDefault();
+
+        map.on('touchmove', onMove);
+        map.once('touchend', onUp);
+    });
 
     var mapCanvas = map.getCanvas();
 
     //BLOB
     /*
+function({
     mapCanvas.toBlob(function(blob){
         var newImg = document.createElement('img'),
         url = URL.createObjectURL(blob);
@@ -83,12 +115,15 @@ map.on('load', function(){
     });
     */
 
-    //var mapCanvas = map.getCanvas();
+    // PNG
+    /*    
     imgData = mapCanvas.toDataURL('image/png',1);
-    
+    $('#canvasImage').attr("src",imgData);  
+    */
+
+    // SVG
     //var svg = $('#mapbox .mapbox-canvas').html();
-    //console.log(imgData);
-    $('#canvasImage').attr("src",imgData);    
+    //console.log(imgData);  
     
     //var ctx = new SVGCanvas("mapboxgl-canvas");
     //$('#canvasImage').parent().html(ctx.toDataURL("image/svg+xml"));
@@ -96,6 +131,8 @@ map.on('load', function(){
     //var b64 = Base64.encode(svg);
     
     //$('#canvasImage').append("<a href-lang='image/svg+xml' href='data:image/svg+xml;base64,\n"+b64+"'>download</a>");
+    
+    //PDF
     /*
     var doc = new jsPDF();
 
@@ -120,9 +157,10 @@ map.on('load', function(){
 
     doc.addImage(imgData, 'png', 5, 7, 200, 200, '', 'slow');
     doc.save('ptm-print.pdf');
+)}
     */
 
-    console.log('Line 52: '+map.getCenter());
+    //console.log('Line 52: '+map.getCenter());
     $('#addToCart input[name="design_id"]').val(token());
     $('#addToCart input[name="marker_coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
     
@@ -185,31 +223,12 @@ map.on('load', function(){
         });
     }
     
-
     // Wachten op een geocoder.input event
     geocoder.on('result', function(ev){
+        
         console.log(ev.result);
 
-        var locationMarker = 
-            {
-                type: 'FeatureCollection',
-                features: [{
-                    type: 'Feature',
-                    geometry: {
-                        type: 'Point',
-                        coordinates: ev.result.geometry.coordinates
-                    }
-                }]
-            };        
-        
-        locationMarker.features.forEach(function(marker){
-            var el = document.createElement('div');
-            el.className = 'marker';
-
-            new mapboxgl.Marker(el)
-                .setLngLat(marker.geometry.coordinates)
-                .addTo(map);
-        });
+        addMarker(ev.result.geometry.coordinates);
         
         //map.getSource('single-point').setData(locationMarker);
         
@@ -229,14 +248,42 @@ map.on('load', function(){
         $("#posterText .card-text:first").html(locationCity+" - "+locationCountry);
         $("#posterText .card-text:last").html(locationAddress);
 
+        /*
         map.on('moveend', function(e){
             $('#addToCart input[name="marker_coordinates"]').val(ev.result.geometry.coordinates+','+Math.round(map.getZoom() * 10) / 10);
         });
-        
+        */
+
     }); // end geocode search
+    
     
 
 });  // end Map onLoad
+
+// Draggable markers
+function onMove(e) {
+    var coords = e.lngLat;
+
+    canvas.style.cursor = 'pointer';
+
+    // Update the Point feature in `geojson` coordinates
+    // and call setData to the source layer `point` on it.
+    geojson.features[0].geometry.coordinates = [coords.lng, coords.lat];
+    map.getSource('ptm-marker').setData(geojson);
+}
+function onUp(e) {
+    var coords = e.lngLat;
+
+    // Print the coordinates of where the point had
+    // finished being dragged to on the map.
+    //coordinates.style.display = 'block';
+    //coordinates.innerHTML = 'Longitude: ' + coords.lng + '<br />Latitude: ' + coords.lat;
+    canvas.style.cursor = '';
+
+    // Unbind mouse/touch events
+    map.off('mousemove', onMove);
+    map.off('touchmove', onMove);
+}
 
 /*
 map.on('dragend', function(e){
@@ -277,25 +324,36 @@ function getCoordinates(value){
     return cor;
 }
 
-function addMarker(){   
+function addMarker(data){   
 
-    map.addSource('single-point', {
+    geojson.features[0].geometry.coordinates = data;
+    
+    map.addSource('ptm-marker', {
         "type": "geojson",
-        "data": {
-            "type": "FeatureCollection",
-            "features": []
-        }
+        "data": geojson
     });
 
     map.addLayer({
         "id": "point",
-        "source": "single-point",
+        "source": "ptm-marker",
         "type": "circle",
         "paint": {
             "circle-radius": 10,
-            "circle-color": getMarkerStyle()
+            "circle-color": getMarkerStyle(),
+            "circle-opacity": 0
         }
+    });    
+
+    // Onderstaand waarschijnlijk creert NOG een element boven op de locatie van Point
+    geojson.features.forEach(function(marker){
+        var el = document.createElement('div');
+        el.className = 'marker';
+
+        new mapboxgl.Marker(el)
+            .setLngLat(marker.geometry.coordinates)
+            .addTo(map);
     });
+
 }
 
 function getStyle(name){
