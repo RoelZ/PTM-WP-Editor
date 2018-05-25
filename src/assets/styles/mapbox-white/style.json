@@ -533,7 +533,7 @@
             "source-layer": "water",
             "layout": {},
             "paint": {
-                "line-width": 1,
+                "line-width": 1.5,
                 "line-color": "hsl(0, 0%, 100%)"
             }
         },

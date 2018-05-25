@@ -37,7 +37,8 @@ urlExists(styleUrl, function(err, exists){
 */
 mapboxgl.accessToken = 'pk.eyJ1Ijoicm9lbHoiLCJhIjoiY2phczkwc25mNXJieTJxbnduYTNtaDNneiJ9.7eTxRRsp0GbqkZOJMxRw8g';
 
-//const debugPanel = document.getElementById('debugger').addClass('debugPanel');
+var debugPanel = document.getElementById('debugger');
+
 const map = new mapboxgl.Map({
     container: 'mapbox',
     style: styleUrl,
@@ -81,6 +82,7 @@ map.on('load', function(){
         e.preventDefault();
 
         canvas.style.cursor = 'grab';
+        console.log(map.getSource('ptm-marker'));
 
         map.on('mousemove', onMove);
         map.once('mouseup', onUp);
@@ -116,10 +118,10 @@ function({
     */
 
     // PNG
-    /*    
+        
     imgData = mapCanvas.toDataURL('image/png',1);
     $('#canvasImage').attr("src",imgData);  
-    */
+    
 
     // SVG
     //var svg = $('#mapbox .mapbox-canvas').html();
@@ -162,7 +164,7 @@ function({
 
     //console.log('Line 52: '+map.getCenter());
     $('#addToCart input[name="design_id"]').val(token());
-    $('#addToCart input[name="marker_coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
+    $('#addToCart input[name="coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
     
     // empty on load
     $('#addToCart input[name="ptm_moment"]').val();
@@ -263,21 +265,22 @@ function({
 // Draggable markers
 function onMove(e) {
     var coords = e.lngLat;
-
     canvas.style.cursor = 'pointer';
 
+    //console.log(geojson);    
     // Update the Point feature in `geojson` coordinates
-    // and call setData to the source layer `point` on it.
+    // and call setData to the source layer `point` on it.  
     geojson.features[0].geometry.coordinates = [coords.lng, coords.lat];
     map.getSource('ptm-marker').setData(geojson);
 }
 function onUp(e) {
     var coords = e.lngLat;
-
+    
+    $('#addToCart input[name="marker_coordinates"]').val(coords.lat + ','+ coords.lng);
     // Print the coordinates of where the point had
     // finished being dragged to on the map.
-    //coordinates.style.display = 'block';
-    //coordinates.innerHTML = 'Longitude: ' + coords.lng + '<br />Latitude: ' + coords.lat;
+    debugPanel.style.display = 'block';
+    debugPanel.innerHTML = 'Longitude: ' + coords.lng + '<br />Latitude: ' + coords.lat;
     canvas.style.cursor = '';
 
     // Unbind mouse/touch events
@@ -339,8 +342,7 @@ function addMarker(data){
         "type": "circle",
         "paint": {
             "circle-radius": 10,
-            "circle-color": getMarkerStyle(),
-            "circle-opacity": 0
+            "circle-color": getMarkerStyle()
         }
     });    
 
@@ -423,14 +425,14 @@ $(document).keyup(function(e){
 */
 //if(findGetParameter("debug")){
     // IMG
-    /*
-    var mapCanvas = map.getCanvas();
-    on.mapCanvas.getContext('webgl').finish()
-    imgData = mapCanvas.toDataURL('image/png',1);
-    */  
+    
+    //var mapCanvas = map.getCanvas();
+    //on.mapCanvas.getContext('webgl').finish()
+    //imgData = mapCanvas.toDataURL('image/png',1);
+      
     //console.log('putting data to img...')
     //var imgData = map.getCanvas().toDataURL('image/jpeg');
-    $("#canvasImage").parent('div').removeClass('d-none');
+    //$("#canvasImage").parent('div').removeClass('d-none');
     //$('#canvasImage').attr("src",imgData); 
     //console.log(imgData);
 

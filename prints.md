@@ -9,5 +9,5 @@ Suus & Wes
 -----
 
 1. Savoiepad - http://localhost:12000/#16.79/51.483958/5.44533
-2. 
+2. Rovamieni - http://localhost:12000/#5.5/56.85/8.5    (no zoom: http://localhost:12000/#2/56.85/9.94)
 3. Trouwlocatie - http://localhost:12000/#16.6/51.635025/4.914572
