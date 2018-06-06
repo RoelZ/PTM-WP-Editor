@@ -7,7 +7,8 @@
     <meta name="author" content="">    
 
     <title>Place the Moment</title>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.44.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
 
   </head>
 
@@ -49,10 +50,10 @@
                                         <div class="form-group">
                                             <label class="sidebar-heading text-muted" for="momentInput">Describe your moment</label>
                                             <input type="text" class="form-control" id="momentInput" placeholder="">
-                                            <label class="sidebar-heading text-muted" for="locationInput">Subline</label>
-                                            <input type="text" class="form-control" id="locationInput" placeholder="">
-                                            <label class="sidebar-heading text-muted" for="addressInput">Tagline</label>
-                                            <input type="text" class="form-control" id="addressInput" placeholder="">
+                                            <label class="sidebar-heading text-muted" for="sublineInput">Subline</label>
+                                            <input type="text" class="form-control" id="sublineInput" placeholder="">
+                                            <label class="sidebar-heading text-muted" for="taglineInput">Tagline</label>
+                                            <input type="text" class="form-control" id="taglineInput" placeholder="">
                                         </div>
                                     </form>
                                 </div>
@@ -116,14 +117,14 @@
                                 </div>
                             </div>
                             </div>
-                            <div class="imgDownload d-none" style="overflow:scroll; width: 100%; height: 50%;">
+                            <div class="imgDownload d-none" style="overflow:scroll; width: 100%; height: 50%; background-color: slategrey">
                                 <img id="canvasImage"></img>
                             </div>
                 
                         <nav class="navbar navbar-light bg-yellow d-flex">
                             <span class="navbar-brand mr-auto p-2">&euro;49</span>
                     
-                            <form id="addToCart" method="post" enctype="multipart/form-data" data-product_id="1144" action="http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70cm&attribute_design=snow" class="form-inline my-2 my-lg-0 p-2">
+                            <form id="addToCart" method="post" enctype="multipart/form-data" data-product_id="1144" action="http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=snow" class="form-inline my-2 my-lg-0 p-2">
                                 <input type="hidden" name="add-to-cart" value="1144">
                                 <input type="hidden" name="product_id" value="1144">
                                 <input type="hidden" name="quantity" value="1">
@@ -132,8 +133,8 @@
                                 <input type="hidden" name="marker_coordinates" value="">
                                 <input type="hidden" name="design_id" value="">
                                 <input type="hidden" name="ptm_moment" value="My Moment">
-                                <input type="hidden" name="ptm_location" value="City - Country">
-                                <input type="hidden" name="ptm_address" value="Address">
+                                <input type="hidden" name="ptm_subline" value="Subline">
+                                <input type="hidden" name="ptm_tagline" value="Tagline">
                                 <button class="btn btn-lg btn-primary my-2 my-sm-0" type="submit">Checkout</button>
                             </form>
                         </nav>  
@@ -152,12 +153,15 @@
                             </div>
                             <div id="posterText" class="card-body">
                                 <h3 class="card-title text-center">My Moment</h3>
-                                <p class="card-text text-center">City - Country</p>
-                                <p class="card-text text-center">Address</p>
+                                <p class="card-text text-center">Subline</p>
+                                <p class="card-text text-center">Tagline</p>
                             </div>
                         </div>
                     </div>
-                    <nav class="navbar d-none fixed-bottom navbar-light bg-light"><button type="button" id="toPDF" class="btn">PDF</button></nav>
+                    <nav class="navbar d-none fixed-bottom navbar-light bg-light">
+                        <button type="button" id="toPDF" class="btn">PDF</button>
+                        <button type="button" id="toPNG" class="btn">PNG</button>
+                    </nav>
                 </div>
             </main>
         </div>

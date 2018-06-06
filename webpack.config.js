@@ -9,6 +9,7 @@ const path = require('path'),
     ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const extractPlugin = new ExtractTextPlugin({ filename: './assets/css/app.css' });
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 /*
 mapboxgl.accessToken = 'pk.eyJ1Ijoicm9lbHoiLCJhIjoiY2phczkwc25mNXJieTJxbnduYTNtaDNneiJ9.7eTxRRsp0GbqkZOJMxRw8g';
 const map = new mapboxgl.Map({
@@ -30,7 +31,9 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: './assets/js/[name].bundle.js'
   },
-
+//   optimization: {
+//     minimize: false
+//   },
   module: {
     rules: [
         //babel-loader
@@ -63,12 +66,27 @@ const config = {
     ]    
   },
   plugins: [
+      /*
+    new UglifyJsPlugin({
+        sourceMap: true,
+        uglifyOptions: {
+            compress: {
+                typeofs: false,
+            },
+        },
+    }),
+    */
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
         template: 'index.html'
     }),
     extractPlugin
   ],
+  
+  externals: {
+    'mapbox-gl': 'mapboxgl' 
+  },
+  
   devServer: {
     contentBase: path.resolve(__dirname, "dist/assets/media"),
     stats: 'errors-only',
@@ -76,8 +94,10 @@ const config = {
     port: 12000,
     compress: true,
     allowedHosts: ['192.168.1.26']
-  },
+  }
+  /*,
   devtool: 'inline-source-map'  
+  */
 }
 
 module.exports = config;

@@ -1,10 +1,11 @@
 import 'bootstrap';
 import $ from 'jquery';
-import mapboxgl from 'mapbox-gl';
-import jsPDF from 'jspdf';
+//import mapboxgl from 'mapbox-gl';
+//import jsPDF from 'jspdf';
 import './assets/scss/app.scss';
 //import Base64 from './assets/js/base64.js';
 //import svgCanvas from './assets/js/svgcanvas.js';
+
 import mapboxBlackStyle from './assets/styles/style.json';
 import mapboxWhiteStyle from './assets/styles/mapbox-white/style.json';
 import mapputnikStyle from './assets/styles/maputnik.json';
@@ -13,14 +14,16 @@ var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 //var urlExists = require('url-exists');
 
 var varId;  // WooCommerce ID
-var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70cm&attribute_design=';
+var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=';
 //var styleUrl = 'http://localhost:8080/styles/ptm-white-lines-final/style.json';
 //var styleUrl = 'http://placethemoment.com/dev/ptm-editor/assets/styles/style.json';
-var styleUrl = mapboxBlackStyle;
+var styleUrl = mapputnikStyle;
+//var styleUrl = "mapbox://styles/roelz/cjbp002fe6an22smmpzfotnk4";
 
 var currentStyle = "snow";
 var currentMarkerStyle = "mint";
 var imgData = "";
+
 /*
 function checkUrlExists(host,cb) {
     http.request({method:'HEAD',host,port:80,path: '/'}, (r) => {
@@ -168,8 +171,8 @@ function({
     
     // empty on load
     $('#addToCart input[name="ptm_moment"]').val();
-    $('#addToCart input[name="ptm_location"]').val();
-    $('#addToCart input[name="ptm_address"]').val();
+    $('#addToCart input[name="ptm_subline"]').val();
+    $('#addToCart input[name="ptm_tagline"]').val();
     
 
     if(findGetParameter("mc")){
@@ -242,10 +245,10 @@ function({
         var locationCountry = ev.result.context[3].text;
         var locationAddress = ev.result.text+" "+ev.result.address;
 
-        $('#locationInput').val(locationCity+" - "+locationCountry);
-        $('#addToCart input[name="ptm_location"]').val(locationCity+" - "+locationCountry);
-        $('#addressInput').val(locationAddress);
-        $('#addToCart input[name="ptm_address"]').val(locationAddress);
+        $('#sublineInput').val(locationCity+" - "+locationCountry);
+        $('#addToCart input[name="ptm_subline"]').val(locationCity+" - "+locationCountry);
+        $('#taglineInput').val(locationAddress);
+        $('#addToCart input[name="ptm_tagline"]').val(locationAddress);
 
         $("#posterText .card-text:first").html(locationCity+" - "+locationCountry);
         $("#posterText .card-text:last").html(locationAddress);
@@ -371,19 +374,19 @@ function getStyle(name){
     }
     else if(name == 'snow'){
         varId = 1207
-        return 'http://localhost:8080/styles/ptm-black-lines-final/style.json'; //'mapbox://styles/roelz/cjbp002fe6an22smmpzfotnk4';
+        return 'mapbox://styles/roelz/cjbp002fe6an22smmpzfotnk4'; //'http://localhost:8080/styles/ptm-black-lines-final/style.json'; 
     }
     else if(name == 'moon'){
         varId = 1208
-        return 'http://localhost:8080/styles/ptm-white-lines-final/style.json'; //'mapbox://styles/roelz/cjbp18k2y6h922rmxjdv2r6zn';
+        return 'mapbox://styles/roelz/cjgeti3cb00202smyp9c3p099'; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'granite'){
         varId = 1209
-        return 'http://localhost:8080/styles/ptm-white-lines-final/style.json'; //'mapbox://styles/roelz/cjbp18k2y6h922rmxjdv2r6zn';
+        return 'mapbox://styles/roelz/cjgeti3cb00202smyp9c3p099'; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'mint'){
         varId = 1210
-        return 'http://localhost:8080/styles/ptm-white-lines-final/style.json'; //'mapbox://styles/roelz/cjbp18k2y6h922rmxjdv2r6zn';
+        return 'mapbox://styles/roelz/cjgeti3cb00202smyp9c3p099'; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     
 }
@@ -426,16 +429,21 @@ $(document).keyup(function(e){
 //if(findGetParameter("debug")){
     // IMG
     
-    //var mapCanvas = map.getCanvas();
-    //on.mapCanvas.getContext('webgl').finish()
-    //imgData = mapCanvas.toDataURL('image/png',1);
-      
-    //console.log('putting data to img...')
-    //var imgData = map.getCanvas().toDataURL('image/jpeg');
-    //$("#canvasImage").parent('div').removeClass('d-none');
-    //$('#canvasImage').attr("src",imgData); 
-    //console.log(imgData);
+    $("#toPNG").click(function(e){
+        var mapCanvas = map.getCanvas();
+        imgData = mapCanvas.toDataURL('image/png',1);
+        $('#canvasImage').attr("src",imgData); 
 
+        //var mapCanvas = map.getCanvas();
+        //on.mapCanvas.getContext('webgl').finish()
+        //imgData = mapCanvas.toDataURL('image/png',1);
+        
+        //console.log('putting data to img...')
+        //var imgData = map.getCanvas().toDataURL('image/jpeg');
+        //$("#canvasImage").parent('div').removeClass('d-none');
+        //$('#canvasImage').attr("src",imgData); 
+        //console.log(imgData);
+    });
     // PDF
     $("#toPDF").parent('nav').removeClass('d-none');
     $("#canvasImage").parent('div').removeClass('d-none');
@@ -493,14 +501,14 @@ $("#momentInput").on("input", function(){
     $('#addToCart input[name="ptm_moment"]').val($(this).val());
 });
 
-$("#locationInput").on("input", function(){    
-    $("#posterText .card-text:first")
-        .html($(this).val());
+$("#sublineInput").on("input", function(){    
+    $("#posterText .card-text:first").text($(this).val());
+    $('#addToCart input[name="ptm_subline"]').val($(this).val());
 });
 
-$("#addressInput").on("input", function(){    
-    $("#posterText .card-text:last")
-        .html($(this).val());
+$("#taglineInput").on("input", function(){    
+    $("#posterText .card-text:last").text($(this).val());
+    $('#addToCart input[name="ptm_tagline"]').val($(this).val());
 });
 
 // Styling UI
