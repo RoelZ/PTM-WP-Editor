@@ -17,7 +17,7 @@ var varId;  // WooCommerce ID
 var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=';
 //var styleUrl = 'http://localhost:8080/styles/ptm-white-lines-final/style.json';
 //var styleUrl = 'http://placethemoment.com/dev/ptm-editor/assets/styles/style.json';
-var styleUrl = mapputnikStyle;
+var styleUrl = mapboxWhiteStyle;
 //var styleUrl = "mapbox://styles/roelz/cjbp002fe6an22smmpzfotnk4";
 
 var currentStyle = "snow";
@@ -305,7 +305,7 @@ var rand = function() {
 };
 
 var token = function() {
-    return rand(); // + rand() to make it longer
+    return rand() + rand() // extra rand() to make it longer
 };
 
 // Deze functie haalt de coordinaten van de GET header op

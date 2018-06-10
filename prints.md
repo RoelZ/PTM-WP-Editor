@@ -3,7 +3,7 @@ Settings
 Gebruik de onderstaande stappen om een conversie te maken van web naar print resolutie.
 1. Op canvas (466px) je gebied bepalen
 2. Resolutie canvas in app.scss veranderen naar 4746px
-3. Zoom factor (in URL) met 3 punten verhogen (evt. 2.5)
+3. Zoom factor (in URL) met 3.35 punten verhogen
 
 Suus & Wes
 -----
