@@ -11,3 +11,7 @@ $theme-colors: (
 }
 
 $font-family-base: 'Open Sans';
+
+.btn-block + .btn-block {
+    margin-top:0;
+}

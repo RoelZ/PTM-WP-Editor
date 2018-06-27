@@ -1,5 +1,7 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Open+Sans:300,400');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import 'settings/md-icons';
 
 // Overrides Bootstrap styling
 @import "custom";
@@ -9,7 +11,7 @@
 
 @import "~@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
-@import 'settings/colors.scss';
+@import 'settings/colors';
 @import 'components/sidebar.scss';
 @import 'components/debug.scss';
 
@@ -63,6 +65,7 @@ body {
   }
 }
 
+
 .mapwindow {
   width:466px;
   height:466px;
@@ -73,8 +76,12 @@ body {
 }
 #mapbox 
 { 
-    height:4746px; //466,4746
-    width:4746px;  //466,4746
+    height: 466px;
+    width: 466px;
+    //transform:scale(0.1);
+    //height:calc(466px * 2); //466,4746
+    //width: calc(466px * 2);  //466,4746
+    //transform: scale(0.5) translate(-50%,-50%);
 /* 
     .mapboxgl-canvas {
       top:-25%;
@@ -82,6 +89,22 @@ body {
     }
 */
 }
+
+@include media-breakpoint-down(md){
+  .poster {
+    width:400px;    // 5  (aspect ratio)
+    height:558px;   // 7    
+    transform: translateX(-50%) translateY(-70%);
+  }
+  .mapwindow {
+    margin: 55px auto;
+  }
+  .mapwindow, #mapbox {
+    width: 317px;
+    height: 317px;
+  }
+}
+
 #canvasImage {
   zoom:0.1;
 }

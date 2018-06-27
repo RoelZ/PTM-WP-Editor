@@ -2,27 +2,52 @@ import 'bootstrap';
 import $ from 'jquery';
 //import mapboxgl from 'mapbox-gl';
 //import jsPDF from 'jspdf';
+//import domtoimage from 'dom-to-image';
 import './assets/scss/app.scss';
 //import Base64 from './assets/js/base64.js';
 //import svgCanvas from './assets/js/svgcanvas.js';
 
+
 import mapboxBlackStyle from './assets/styles/style.json';
 import mapboxWhiteStyle from './assets/styles/mapbox-white/style.json';
-import mapputnikStyle from './assets/styles/maputnik.json';
+//import mapputnikStyle from './assets/styles/maputnik.json';
+
+var maptilerBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 
 var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 //var urlExists = require('url-exists');
 
 var varId;  // WooCommerce ID
 var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=';
+//var styleUrl = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 //var styleUrl = 'http://localhost:8080/styles/ptm-white-lines-final/style.json';
 //var styleUrl = 'http://placethemoment.com/dev/ptm-editor/assets/styles/style.json';
-var styleUrl = mapboxWhiteStyle;
 //var styleUrl = "mapbox://styles/roelz/cjbp002fe6an22smmpzfotnk4";
+var styleUrl = mapboxBlackStyle;
+
 
 var currentStyle = "snow";
 var currentMarkerStyle = "mint";
 var imgData = "";
+
+/* INITIAL BREAKPOINTS CHECK */
+$(document).ready(function() {
+    checkSize();
+
+    //$(window).resize(checkSize);
+});
+
+function checkSize(){
+    let isMobile = false;
+    if ($(".sidebar-sticky").css('position') != 'sticky'){
+        isMobile = true;
+        $('#collapseOne').removeClass('show');    
+    }        
+    else if(!$('#collapseOne').hasClass('snow'))
+        $('#collapseOne').addClass('show');
+}
+
 
 /*
 function checkUrlExists(host,cb) {
@@ -101,11 +126,15 @@ map.on('load', function(){
         map.once('touchend', onUp);
     });
 
+    debugPanel.style.display = 'block';
+    debugPanel.innerHTML = 'Longitude: ' + map.getBounds();
     var mapCanvas = map.getCanvas();
 
+    if(!isMobile){
     //BLOB
-    /*
-function({
+    
+    //function({
+        /*
     mapCanvas.toBlob(function(blob){
         var newImg = document.createElement('img'),
         url = URL.createObjectURL(blob);
@@ -122,11 +151,32 @@ function({
 
     // PNG
         
-    imgData = mapCanvas.toDataURL('image/png',1);
-    $('#canvasImage').attr("src",imgData);  
-    
+   imgData = mapCanvas.toDataURL('image/png',1);
+   $('#canvasImage').attr("src",imgData);  
+
+   /*
+   domtoimage.toBlob(mapCanvas)
+   .then(function(blob){
+    window.saveAs(blob, 'ptm-map.png');
+   });
+    */
 
     // SVG
+    //mapCanvas.toBlob(function(blob){
+/*
+    var svgString = new XMLSerializer().serializeToString(mapCanvas);
+    var svg = new Blob([svgString], { type: "image/svg+xml;charset=utf-8"});
+    var svgurl = URL.createObjectURL(svg);
+    
+    var newImg = document.createElement('img');
+    newImg.onload = function(){
+        URL.revokeObjectURL(svgurl);
+    };
+
+    newImg.src = svgurl;
+    $('#canvasImage').parent('div').append(newImg);
+*/
+    //});
     //var svg = $('#mapbox .mapbox-canvas').html();
     //console.log(imgData);  
     
@@ -164,6 +214,7 @@ function({
     doc.save('ptm-print.pdf');
 )}
     */
+}
 
     //console.log('Line 52: '+map.getCenter());
     $('#addToCart input[name="design_id"]').val(token());
@@ -374,19 +425,19 @@ function getStyle(name){
     }
     else if(name == 'snow'){
         varId = 1207
-        return 'mapbox://styles/roelz/cjbp002fe6an22smmpzfotnk4'; //'http://localhost:8080/styles/ptm-black-lines-final/style.json'; 
+        return maptilerBlack; //'http://localhost:8080/styles/ptm-black-lines-final/style.json'; 
     }
     else if(name == 'moon'){
         varId = 1208
-        return 'mapbox://styles/roelz/cjgeti3cb00202smyp9c3p099'; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return maptilerWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'granite'){
         varId = 1209
-        return 'mapbox://styles/roelz/cjgeti3cb00202smyp9c3p099'; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return maptilerWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'mint'){
         varId = 1210
-        return 'mapbox://styles/roelz/cjgeti3cb00202smyp9c3p099'; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return maptilerWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     
 }
@@ -405,14 +456,21 @@ function getMarkerStyle(){
 $(document).keyup(function(e){
 
     if(e.keyCode == 49){       
-        map.setStyle(mapboxWhiteStyle);
+        map.setStyle(maptilerWhite);
     } else if(e.keyCode == 50){
-        map.setStyle(mapboxBlackStyle);
+        map.setStyle(maptilerBlack);
     }
 //});
     else if(e.keyCode == 27){
+         /*
+         var mapCanvas = map.getCanvas();
+       
+        domtoimage.toBlob(mapCanvas)
+        .then(function(blob){
+            window.saveAs(blob, 'ptm-map.png');
+        });
+        */
 /*
-        var mapCanvas = map.getCanvas();
         mapCanvas.toBlob(function(blob){
             var newImg = document.createElement('img'),
             url = URL.createObjectURL(blob);
