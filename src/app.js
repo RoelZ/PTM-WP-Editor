@@ -59,7 +59,7 @@ function checkSize(){
     if ($(".sidebar-sticky").css('position') != 'sticky'){
         isMobile = true;
 
-        $('#collapseOne').removeClass('show'); 
+        //$('#collapseOne').removeClass('show'); 
     }        
     else if(!$('#collapseOne').hasClass('snow'))
         $('#collapseOne').addClass('show');
