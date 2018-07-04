@@ -1,5 +1,6 @@
 import 'bootstrap';
 import $ from 'jquery';
+require('webpack-jquery-ui/resizable');
 //import mapboxgl from 'mapbox-gl';
 //import jsPDF from 'jspdf';
 //import domtoimage from 'dom-to-image';
@@ -30,24 +31,85 @@ var styleUrl = mapboxBlackStyle;
 var currentStyle = "snow";
 var currentMarkerStyle = "mint";
 var imgData = "";
+let isMobile = false;
 
 /* INITIAL BREAKPOINTS CHECK */
 $(document).ready(function() {
-    checkSize();
-
-    //$(window).resize(checkSize);
+    checkSize();    
+    $(window).resize(checkSize);   
+    
+    // Needs realtime isMobile check!
+    if(isMobile){
+        $('main').on('click', function(){
+            $('.collapse').collapse('hide');
+        });
+        $('#posterText').on('click', function(){
+            $('#collapseTwo').collapse('toggle');
+        });
+        $('#collapseTwo').on('show.bs.collapse', function(){
+            $('#posterWrapper').css('transform', 'translateY(-70%)');
+        });        
+        $('#collapseTwo').on('hide.bs.collapse', function(){
+            $('#posterWrapper').css('transform','');
+        });
+    }
 });
 
 function checkSize(){
-    let isMobile = false;
     if ($(".sidebar-sticky").css('position') != 'sticky'){
         isMobile = true;
-        $('#collapseOne').removeClass('show');    
+
+        $('#collapseOne').removeClass('show'); 
     }        
     else if(!$('#collapseOne').hasClass('snow'))
         $('#collapseOne').addClass('show');
 }
 
+
+var $el = $("#posterCanvas");
+var elHeight = $el.outerHeight();
+var elWidth = $el.outerWidth();
+
+var $wrapper = $("#posterWrapper");
+
+$wrapper.resizable({
+    resize: doResize
+});
+
+function doResize(event, ui) {
+
+var scale, origin;
+    
+scale = Math.min(
+    ui.size.width / elWidth,    
+    ui.size.height / elHeight
+);
+
+scale = scale > 1 ? 1 : scale;
+
+$el.css({
+    transform: "translate(-50%, -50%) " + "scale(" + scale + ")"
+});
+
+}
+
+var starterData = { 
+size: {
+    width: $wrapper.width(),
+    height: $wrapper.height()
+}
+}
+doResize(null, starterData);
+
+$(window).resize(function() {
+    starterData = { 
+        size: {
+            width: $wrapper.width(),
+            height: $wrapper.height()
+        }
+    }
+    doResize(null, starterData);
+});
 
 /*
 function checkUrlExists(host,cb) {
@@ -126,7 +188,7 @@ map.on('load', function(){
         map.once('touchend', onUp);
     });
 
-    debugPanel.style.display = 'block';
+    debugPanel.style.display = 'none';
     debugPanel.innerHTML = 'Longitude: ' + map.getBounds();
     var mapCanvas = map.getCanvas();
 
@@ -632,3 +694,4 @@ $("#styleSelector .btn").click(function ( event ) {
     //map.setStyle('mapbox://styles/mapbox/basic-v9');
     //event.preventDefault();
 });
+

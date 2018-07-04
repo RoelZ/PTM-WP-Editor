@@ -38,6 +38,7 @@
     "material-design-icons": "^3.0.1",
     "popper.js": "^1.14.3",
     "sharp": "^0.20.3",
-    "url-exists": "^1.0.3"
+    "url-exists": "^1.0.3",
+    "webpack-jquery-ui": "^1.0.0"
   }
 }

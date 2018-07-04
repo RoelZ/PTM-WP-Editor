@@ -62,6 +62,10 @@ const config = {
                 use: ['css-loader', 'sass-loader'],
                 fallback: 'style-loader'
             })
+        },
+        {
+        test: /\.css$/,
+        loaders: ["style-loader","css-loader"]
         }
     ]    
   },
@@ -76,6 +80,12 @@ const config = {
         },
     }),
     */
+    new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery'",
+        "window.$": "jquery"
+    }),
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
         template: 'index.html'

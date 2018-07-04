@@ -20,20 +20,6 @@
                 <div class="sidebar-sticky">
 
                         <div id="accordion">
-                            <div class="btn-group btn-group-lg btn-block d-lg-none" role="group" aria-label="Choose your edit option">
-                                <button class="btn btn-light btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                    <div class="text-center"><i class="material-icons md-36 md-dark">location_on</i></div>
-                                    <span>PLACE</span>
-                                </button>
-                                <button class="btn btn-light btn-block" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <div class="text-center"><i class="material-icons md-36 md-dark">text_format</i></div>
-                                    <span>MOMENT</span>
-                                </button>
-                                <button class="btn btn-light btn-block" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <div class="text-center"><i class="material-icons md-36 md-dark">format_paint</i></div>
-                                    <span>DESIGN</span>
-                                </button>
-                            </div>
                             <div class="card">
                                 <div class="card-header d-none d-lg-block" id="headingOne">
                                 <h5 class="mb-0">
@@ -130,10 +116,24 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="btn-group btn-group-lg btn-block d-lg-none" role="group" aria-label="Choose your edit option">
+                                <button class="btn btn-light btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                    <div class="text-center"><i class="material-icons md-36 md-dark">location_on</i></div>
+                                    <span>PLACE</span>
+                                </button>
+                                <button class="btn btn-light btn-block" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <div class="text-center"><i class="material-icons md-36 md-dark">text_format</i></div>
+                                    <span>MOMENT</span>
+                                </button>
+                                <button class="btn btn-light btn-block" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <div class="text-center"><i class="material-icons md-36 md-dark">format_paint</i></div>
+                                    <span>DESIGN</span>
+                                </button>
                             </div>
-                            <div class="imgDownload d-none" style="overflow:scroll; width: 100%; height: 50%; background-color: slategrey">
-                                <img id="canvasImage"></img>
-                            </div>
+                        </div>
+                        <div class="imgDownload d-none" style="overflow:scroll; width: 100%; height: 50%; background-color: slategrey">
+                            <img id="canvasImage"></img>
+                        </div>
                 
                         <nav class="navbar navbar-light bg-yellow d-flex">
                             <span class="navbar-brand mr-auto p-2">&euro;49</span>
@@ -156,11 +156,11 @@
 
             </nav>
             
-            <main role="main" class="col-lg-9 col-xl-9 pt-3 px-4">
+            <main role="main" class="col-lg-9 col-xl-9 pt-lg-3 px-4">
                 <div id="debugger" class="debugPanel"></div>
                 <div class="col-12">
-                    <div class="posterArea">
-                        <div class="card poster snow">
+                    <div id="posterWrapper" class="posterArea">
+                        <div id="posterCanvas" class="card poster snow">
                             <!-- <img class="card-img-top" src="https://via.placeholder.com/500x500" alt="Poster image"> -->            
                             <div class="mapwindow">
                                 <div id="mapbox" class="card-img-top"></div>
@@ -181,5 +181,4 @@
         </div>
     </div><!-- /.container -->
     
-
 </body>
