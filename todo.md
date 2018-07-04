@@ -3,14 +3,12 @@ TODO
 
 UX
 ----
-- Place openzetten
 - CheckSize() verneukt mobiel keypad (gelinkt met bovenstaande)
 - Schaduw achter poster toevoegen
 - Next button (per panel)
 - Checkout button is nog niet juist (later bekijken)
 - Kruisje (sluiten) toevoegen (zie prototype)
-- Titels toevoegen (zie prototype)
-- Design namaken als prototype (check ook nike)
+- Design Tab namaken als prototype (check ook nike)
 
 GET endpoints
 -------------
