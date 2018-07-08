@@ -1,8 +1,22 @@
 $theme-colors: (
   "primary": #d8ae46,
   "secondary": #54575c,
-  "info": #7961a8
+  "info": #7961a8,
+  "light": #e9ecef
 );
+
+.card.bg-lighter {
+    border-bottom-color: #f8f9fa !important; 
+    border-top-color: #f8f9fa !important;
+    background-color: #f8f9fa !important;
+}
+
+.btn-light:not(:disabled):not(.disabled):active, 
+.btn-light:not(:disabled):not(.disabled).active, 
+.show > .btn-light.dropdown-toggle {
+    border-color:#f8f9fa !important;
+    background-color:#f8f9fa !important;
+}
 
 .optionsTab.nav-pills {
     .nav-link {

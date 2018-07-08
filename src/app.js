@@ -52,6 +52,13 @@ $(document).ready(function() {
         $('#collapseTwo').on('hide.bs.collapse', function(){
             $('#posterWrapper').css('transform','');
         });
+
+        let addToCart = $('#addToCart');
+        addToCart.appendTo('#accordion .btn-group');
+        // addToCart.children('')
+
+        $('nav.navbar').removeClass('d-flex').addClass('d-none');
+        
     }
 });
 
@@ -166,27 +173,27 @@ map.on('load', function(){
     // laden van een default marker
     //addMarker();
 
-    map.on('mousedown', 'point', function(e) {
+    // map.on('mousedown', 'point', function(e) {
 
-        // Prevent the default map drag behavior.
-        e.preventDefault();
+    //     // Prevent the default map drag behavior.
+    //     e.preventDefault();
 
-        canvas.style.cursor = 'grab';
-        console.log(map.getSource('ptm-marker'));
+    //     canvas.style.cursor = 'grab';
+    //     console.log(map.getSource('ptm-marker'));
 
-        map.on('mousemove', onMove);
-        map.once('mouseup', onUp);
-    });
+    //     map.on('mousemove', onMove);
+    //     map.once('mouseup', onUp);
+    // });
 
-    map.on('touchstart', 'point', function(e) {
-        if (e.points.length !== 1) return;
+    // map.on('touchstart', 'point', function(e) {
+    //     if (e.points.length !== 1) return;
 
-        // Prevent the default map drag behavior.
-        e.preventDefault();
+    //     // Prevent the default map drag behavior.
+    //     e.preventDefault();
 
-        map.on('touchmove', onMove);
-        map.once('touchend', onUp);
-    });
+    //     map.on('touchmove', onMove);
+    //     map.once('touchend', onUp);
+    // });
 
     debugPanel.style.display = 'none';
     debugPanel.innerHTML = 'Longitude: ' + map.getBounds();
@@ -287,7 +294,7 @@ map.on('load', function(){
     $('#addToCart input[name="ptm_subline"]').val();
     $('#addToCart input[name="ptm_tagline"]').val();
     
-
+    // Bij GET values (mc,s,m), locatie, stijl en marker tonen
     if(findGetParameter("mc")){
 
         var markerCoordinates = getCoordinates(findGetParameter("mc"));
@@ -346,8 +353,18 @@ map.on('load', function(){
         
         console.log(ev.result);
 
-        addMarker(ev.result.geometry.coordinates);
+        //addMarker(ev.result.geometry.coordinates);
+        let markerElement = document.createElement('div');
+        markerElement.className = 'marker';
         
+        let markert = new mapboxgl.Marker({ element: markerElement, draggable: true})
+            .setLngLat(ev.result.geometry.coordinates)
+            .addTo(map);
+
+        markert.on('dragStart', function(){
+            console.log('drag');
+        });
+        //doelenstraat 22, eindhoven
         //map.getSource('single-point').setData(locationMarker);
         
         // Adding marker coordinates to form
