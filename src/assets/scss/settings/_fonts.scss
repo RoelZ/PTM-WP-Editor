@@ -1,0 +1,46 @@
+@font-face {
+	font-family: "ETmodules";
+	src: url("http://www.placethemoment.com/dev/wp-content/themes/Divi/core/admin/fonts/modules.eot");
+	src: url("http://www.placethemoment.com/dev/wp-content/themes/Divi/core/admin/fonts/modules.eot?#iefix") format("embedded-opentype"), url("http://www.placethemoment.com/dev/wp-content/themes/Divi/core/admin/fonts/modules.ttf") format("truetype"), url("http://www.placethemoment.com/dev/wp-content/themes/Divi/core/admin/fonts/modules.woff") format("woff"), url("http://www.placethemoment.com/dev/wp-content/themes/Divi/core/admin/fonts/modules.svg#ETmodules") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+
+// .placeit .et-pb-icon::after {
+//     content: "\f124";
+//     font-family: "FontAwesome" !important;
+//     font-size: 56px;
+//     color: transparent;
+//     -webkit-text-stroke-width: 3px;
+//     -webkit-text-stroke-color: #d8ae46;
+// }
+// .nameit .et-pb-icon::after {
+//     content: "\f277";
+//     font-family: "FontAwesome" !important;
+//     font-size: 56px;
+//     color: transparent;
+//     -webkit-text-stroke-width: 3px;
+//     -webkit-text-stroke-color: #d8ae46;
+// }
+// .loveit .et-pb-icon::after {
+//     content: "\f004";
+//     font-family: "FontAwesome" !important;
+//     font-size: 56px;
+//     color: transparent;
+//     -webkit-text-stroke-width: 3px;
+//     -webkit-text-stroke-color: #d8ae46;
+// }
+
+.fa {
+    font-size: 1.6rem;
+    color: transparent;
+    -webkit-text-stroke-width: 1.5px;
+    -webkit-text-stroke-color:  #3D3C37; 
+}
+.ptm-shopping-bag:before{
+    font-size: 1.6rem;
+    content: '\e013';
+    font-family: "ETmodules";
+    color: #fff;
+}

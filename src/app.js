@@ -53,6 +53,10 @@ $(document).ready(function() {
             $('#posterWrapper').css('transform','');
         });
 
+        $('#accordion .btn-group button.btn-ptmLight').on('click', function(){
+            $('#accordion .btn-group button').removeClass('active');
+        });
+
         let addToCart = $('#addToCart');
         addToCart.appendTo('#accordion .btn-group');
         // addToCart.children('')
@@ -66,9 +70,10 @@ function checkSize(){
     if ($(".sidebar-sticky").css('position') != 'sticky'){
         isMobile = true;
 
-        //$('#collapseOne').removeClass('show'); 
+        //$('#collapseOne').addClass('show'); 
+        // $('#accordion .btn-group button[data-target="#collapseOne"]').trigger("click");
     }        
-    else if(!$('#collapseOne').hasClass('snow'))
+    else if(!$('#collapseOne').hasClass('show'))
         $('#collapseOne').addClass('show');
 }
 

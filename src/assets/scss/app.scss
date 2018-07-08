@@ -1,26 +1,38 @@
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300|Open+Sans:300,400');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-@import 'settings/md-icons';
+// @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+// @import 'settings/md-icons';
+@import 'settings/colors';
+@import "settings/fonts";
+
+// Includes all of Bootstrap
+// @import "~bootstrap/scss/bootstrap";
 
 // Overrides Bootstrap styling
 @import "custom";
 
-// Includes all of Bootstrap
-@import "~bootstrap/scss/bootstrap";
 
 @import "~@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
-@import 'settings/colors';
 @import 'components/sidebar.scss';
 @import 'components/debug.scss';
 
 body {
-    background: $ptmLight;
+    background: $ptmMediumLight;
     font-family: $font-family-base;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
 }
+
+
+.btn-block + .btn-block {
+  margin-top:0;
+}
+// .btn-light {   
+//     color: white;
+//     background-color: $ptmLightGrey;
+// }
+
 
 .posterArea {
   height: calc(100vh - 70px);

@@ -1,3 +1,4 @@
+// @import "node_modules/bootstrap/scss/bootstrap";
 $theme-colors: (
   "primary": #d8ae46,
   "secondary": #54575c,
@@ -5,10 +6,42 @@ $theme-colors: (
   "light": #e9ecef
 );
 
+@import "~bootstrap/scss/bootstrap";
+
 .card.bg-lighter {
-    border-bottom-color: #f8f9fa !important; 
-    border-top-color: #f8f9fa !important;
-    background-color: #f8f9fa !important;
+    // border-bottom-color: $ptmLight !important; 
+    // border-top-color:$ptmLight !important;
+    border: none;
+    background-color: $ptmLight !important;
+}
+#accordion {
+    border-top:$ptmLightGrey 1px solid;
+}
+
+.btn { 
+    font-size: 0.75rem;
+  }
+.btn-primary { 
+    color: #fff;
+    font-size: 1.125rem;
+    box-shadow: 0 -5px 0 $ptmYellow;
+    border-radius: 3px 0 0 0 ;
+}
+.btn-ptmLight {
+    background-color:$ptmLightGrey;  
+
+    
+    &:active, 
+    &:focus,
+    &.active {
+        background-color: $ptmLight;
+        box-shadow: none;
+        color: $ptmDark;
+        -webkit-text-stroke-color: $ptmDark;
+    }
+    &.collapse {
+        background-color:initial;
+    }
 }
 
 .btn-light:not(:disabled):not(.disabled):active, 
@@ -25,7 +58,3 @@ $theme-colors: (
 }
 
 $font-family-base: 'Open Sans';
-
-.btn-block + .btn-block {
-    margin-top:0;
-}

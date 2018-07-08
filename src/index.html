@@ -9,7 +9,9 @@
     <title>Place the Moment</title>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
   </head>
 
 <body>
@@ -117,17 +119,26 @@
                                 </div>
                             </div>
                             <div class="btn-group btn-group btn-block d-lg-none" role="group" aria-label="Choose your edit option">
-                                <button class="btn btn-light btn-block active" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" aria-pressed="true">
-                                    <div class="text-center"><i class="material-icons md-24 md-dark">location_on</i></div>
-                                    <span>PLACE</span>
+                                <button class="btn btn-ptmLight btn-block active" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" aria-pressed="true">
+                                    <div class="text-center py-1">
+                                        <i class="fa fa-location-arrow"></i>
+                                        <!-- <i class="material-icons md-36 md-dark">location_on</i> -->
+                                    </div>
+                                    <span>PLACE IT.</span>
                                 </button>
-                                <button class="btn btn-light btn-block" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <div class="text-center"><i class="material-icons md-24 md-dark">text_format</i></div>
-                                    <span>MOMENT</span>
+                                <button class="btn btn-ptmLight btn-block" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <div class="text-center py-1">
+                                        <i class="fa fa-map-signs"></i>
+                                        <!-- <i class="material-icons md-36 md-dark">text_format</i> -->
+                                    </div>
+                                    <span>NAME IT.</span>
                                 </button>
-                                <button class="btn btn-light btn-block" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <div class="text-center"><i class="material-icons md-24 md-dark">format_paint</i></div>
-                                    <span>DESIGN</span>
+                                <button class="btn btn-ptmLight btn-block" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <div class="text-center py-1">
+                                        <i class="fa fa-heart"></i>
+                                        <!-- <i class="material-icons md-36 md-dark">format_paint</i> -->
+                                    </div>
+                                    <span>LOVE IT.</span>
                                 </button>
                             </div>
                         </div>
@@ -150,8 +161,12 @@
                                 <input type="hidden" name="ptm_subline" value="Subline">
                                 <input type="hidden" name="ptm_tagline" value="Tagline">
                                 <button class="btn btn-lg btn-primary my-lg-0 px-4" type="submit">
-                                        <div class="text-center"><i class="material-icons md-24 md-dark">payment</i></div>
-                                    &euro;49,-</button>
+                                        <div class="text-center">
+                                            <!-- <i class="material-icons md-36 md-dark">payment</i> -->
+                                            <i class="ptm-shopping-bag"></i>
+                                            &nbsp;&euro;49
+                                        </div>
+                                </button>
                             </form>
                         </nav>  
                 </div>              
