@@ -29,23 +29,37 @@
         color: inherit;
         }
     }
+
+    .ptm-poster-styles {      
+
+        .ptm-btn {
+            span {
+                pointer-events: none;
+            }
+        }
+    }
     .ptm-map-color {
 
         &-btn {
-            margin-right:1rem;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 2px;
+            pointer-events: none;
 
-            &:last-child{
-                margin-right: 0;
+            &:active,&.active,
+            &:focus,&.focus {
+                box-shadow: 0 0 3px 3px #d8ae46
             }
         }
+        
         &-icon {
             max-width:48px;
             overflow: hidden;
             margin: 0 auto;
-            margin-bottom:1rem;
             border-radius: 50%;
             border:1px solid;
             background-color:transparent;
+            pointer-events: none;
 
             img {                
             max-width: 100%;
@@ -59,6 +73,16 @@
     .sidebar {
         .navbar {
             padding:0 1rem;
+        }
+    }
+    .ptm-map-color {
+
+        &-btn {
+            border-radius: 0;
+
+            span {
+                font-size:0.7rem;
+            }
         }
     }
 }

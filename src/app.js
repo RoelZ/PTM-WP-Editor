@@ -701,7 +701,7 @@ function setStyle(style, marker = ''){
 }
 
 
-$("#styleSelector .btn").click(function ( event ) {
+$("#styleSelector .ptm-btn").click(function ( event ) {
     
     currentStyle = toString(event.target.id);
     console.log(event.target.id+': '+getStyle(event.target.id));
