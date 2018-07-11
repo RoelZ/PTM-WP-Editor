@@ -1,0 +1,20 @@
+.sidebar-heading {
+    font-size: 13px;
+    font-weight: 600;
+    color: $ptmDark;
+}
+input[type=text]{
+    margin-bottom: 10px;
+    height: 42px;
+    border: 1px solid #e2e1de;
+    border-radius: 3px;
+    color: #3D3C37;
+    background-color: #fff;
+    box-shadow: none;
+    font-size: 14px;
+    font-weight: 500;
+&:focus{
+    background-color: #FAFAF9;
+    border: 1px solid #e2e1de;
+    box-shadow: none;
+}}

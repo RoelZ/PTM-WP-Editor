@@ -72,18 +72,34 @@
                                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                                     <h6 class="align-items-center d-flex justify-content-between mb-1 mt-4 px-3 sidebar-heading text-muted"><span>Map Color</span></h6>
                                     <div id="styleSelector" class="card-body">
-                                        <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-                                            <label id="snow" class="btn btn-primary btn-lg btn-block active">
-                                            <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Snow
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                                            <label id="snow" class="ptm-map-color-btn snow btn btn-lg btn-block active">
+                                                <div class="ptm-map-color-icon">
+                                                    <img src="https://www.placethemoment.com/dev/wp-content/uploads/2018/07/Map-Icon-Black-Lines.png" />
+                                                </div>
+                                                <span>Snow</span>
+                                            <!-- <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Snow -->
                                             </label>
-                                            <label id="moon" class="btn btn-primary btn-lg btn-block">
-                                            <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Moon
+                                            <label id="moon" class="ptm-map-color-btn moon btn btn-lg btn-block">
+                                                <div class="ptm-map-color-icon">
+                                                    <img src="https://www.placethemoment.com/dev/wp-content/uploads/2018/07/Map-Icon-White-Lines.png" />
+                                                </div>
+                                                <span>Moon</span>
+                                            <!-- <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Moon -->
                                             </label>
-                                            <label id="granite" class="btn btn-primary btn-lg btn-block">
-                                            <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Granite
+                                            <label id="granite" class="ptm-map-color-btn granite btn btn-lg btn-block">
+                                                <div class="ptm-map-color-icon">
+                                                    <img src="https://www.placethemoment.com/dev/wp-content/uploads/2018/07/Map-Icon-White-Lines.png"/>
+                                                </div>
+                                                <span>Granite</span>
+                                            <!-- <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Granite -->
                                             </label>
-                                            <label id="mint" class="btn btn-primary btn-lg btn-block">
-                                            <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Mint
+                                            <label id="mint" class="ptm-map-color-btn mint btn btn-lg btn-block">
+                                                <div class="ptm-map-color-icon">
+                                                    <img src="https://www.placethemoment.com/dev/wp-content/uploads/2018/07/Map-Icon-White-Lines.png" />
+                                                </div>
+                                                <span>Mint</span>
+                                            <!-- <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Mint -->
                                             </label>   
                                         </div>
                                         <!-- <br>
@@ -118,7 +134,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="btn-group btn-group btn-block d-lg-none" role="group" aria-label="Choose your edit option">
+                            <div id="btnGroup" class="btn-group btn-group btn-block d-lg-none" role="group" aria-label="Choose your edit option">
                                 <button class="btn btn-ptmLight btn-block active" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" aria-pressed="true">
                                     <div class="text-center py-1">
                                         <i class="fa fa-location-arrow"></i>
@@ -160,7 +176,7 @@
                                 <input type="hidden" name="ptm_moment" value="My Moment">
                                 <input type="hidden" name="ptm_subline" value="Subline">
                                 <input type="hidden" name="ptm_tagline" value="Tagline">
-                                <button class="btn btn-lg btn-primary my-lg-0 px-4" type="submit">
+                                <button class="btn btn-lg btn-primary my-lg-0 px-2 py-3" type="submit">
                                         <div class="text-center">
                                             <!-- <i class="material-icons md-36 md-dark">payment</i> -->
                                             <i class="ptm-shopping-bag"></i>

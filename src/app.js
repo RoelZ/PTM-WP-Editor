@@ -48,6 +48,7 @@ $(document).ready(function() {
         });
         $('#collapseTwo').on('show.bs.collapse', function(){
             $('#posterWrapper').css('transform', 'translateY(-70%)');
+
         });        
         $('#collapseTwo').on('hide.bs.collapse', function(){
             $('#posterWrapper').css('transform','');
@@ -56,9 +57,19 @@ $(document).ready(function() {
         $('#accordion .btn-group button.btn-ptmLight').on('click', function(){
             $('#accordion .btn-group button').removeClass('active');
         });
+      
 
+        $('.collapse').on('show.bs.collapse', function (){
+            $('button[data-target="#'+$(this).attr('id')+'"]').addClass('active');
+        });
+        $('.collapse').on('hide.bs.collapse', function (){
+            $('button[data-target="#'+$(this).attr('id')+'"]').removeClass('active');
+        });
+
+
+        
         let addToCart = $('#addToCart');
-        addToCart.appendTo('#accordion .btn-group');
+        addToCart.appendTo('#btnGroup');
         // addToCart.children('')
 
         $('nav.navbar').removeClass('d-flex').addClass('d-none');

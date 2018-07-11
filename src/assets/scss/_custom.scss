@@ -6,7 +6,12 @@ $theme-colors: (
   "light": #e9ecef
 );
 
+.sidebar-heading {
+    margin-bottom: 0;
+}
+
 @import "~bootstrap/scss/bootstrap";
+
 
 .card.bg-lighter {
     // border-bottom-color: $ptmLight !important; 
