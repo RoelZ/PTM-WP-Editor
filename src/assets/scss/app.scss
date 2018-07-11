@@ -221,12 +221,14 @@ body {
 .poster, .ptm-map-color-btn {
   &.snow {    
       color: black;
+      background-color:white;
       .marker {
           background-image: url('https://www.placethemoment.com/dev/wp-content/uploads/2017/11/ptm-marker-mint.png');
       }
   }
   &.moon {
       color: #54575c;
+      background-color:white;
       .mapboxgl-map, .ptm-map-color-icon {
           background-color: #54575c;
       }

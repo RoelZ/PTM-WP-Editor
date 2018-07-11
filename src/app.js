@@ -670,13 +670,14 @@ function setStyle(style, marker = ''){
     if(style){
         $('#styleSelector').find("label").each(function(){
              if($(this).attr("id") == style){
-                $(this).addClass('active');
-                $(this).children('input').attr("checked", true);                 
+                // $(this).addClass('active');
+                // $(this).children('input').attr("checked", true);                 
              }
              else {
-                $(this).removeClass('active');
-                $(this).children('input').attr("checked", false);                 
-             }
+                // $(this).removeClass('active');
+                // $(this).children('input').attr("checked", false);                 
+             }             
+             $(this).removeClass('active');
         })       
      } 
     // GET
@@ -703,8 +704,11 @@ function setStyle(style, marker = ''){
 
 $("#styleSelector .ptm-btn").click(function ( event ) {
     
+    $(this).parent().find("label").each(function(){
+        $(this).removeClass('active');
+    });
     currentStyle = toString(event.target.id);
-    console.log(event.target.id+': '+getStyle(event.target.id));
+    // console.log(event.target.id+': '+getStyle(event.target.id));
 
     //map.setStyle(getStyle(event.target.id));
     //$('.card').removeClass('snow', 'moon', 'granite', '')

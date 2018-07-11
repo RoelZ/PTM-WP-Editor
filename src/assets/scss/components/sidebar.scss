@@ -30,10 +30,19 @@
         }
     }
 
+    #collapseThree .card-body {
+        padding: 0.65rem;
+    }
+
     .ptm-poster-styles {      
 
         .ptm-btn {
             background: none;
+
+            &:active,&.active,
+            &:focus,&.focus {
+                box-shadow: 0 0 3px 3px #d8ae46
+            }
 
             .marker {
                 margin: 0 auto;
@@ -52,11 +61,6 @@
             margin-bottom: 0.5rem;
             border-radius: 2px;
             pointer-events: none;
-
-            &:active,&.active,
-            &:focus,&.focus {
-                box-shadow: 0 0 3px 3px #d8ae46
-            }
         }
         
         &-icon {
