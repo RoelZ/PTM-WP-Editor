@@ -33,6 +33,13 @@
     .ptm-poster-styles {      
 
         .ptm-btn {
+            background: none;
+
+            .marker {
+                margin: 0 auto;
+                margin-bottom: 0.5rem;
+            }
+
             span {
                 pointer-events: none;
             }
