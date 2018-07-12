@@ -2,6 +2,8 @@
     * Sidebar
 */
 
+
+
 .sidebar {
     position: fixed;
     top: auto;
@@ -27,6 +29,27 @@
         &:hover .feather,
         &.active .feather {
         color: inherit;
+        }
+    }
+
+    .card-header {
+        background-color:white;
+        
+        .btn {
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: black;
+            font-weight: 700;
+        }
+    }
+
+    .card-body {
+
+        > span {
+            font-size: 0.65rem;
+            line-height: 1rem;
+            color: $ptmGrey;
+            display: block;
         }
     }
 
@@ -101,22 +124,21 @@
 }
 
 @include media-breakpoint-up(lg) { 
-    .sidebar {
-        top:0;
-    }
+.sidebar {
+    top:0;
+}
     
-.sidebar-sticky {
+.sidebar-sticky {    
     position: sticky;
     top: 48px; /* Height of navbar */
     height: 100vh;
-    padding-top: .5rem;
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color:white;
     
         .navbar {
             position: absolute;
-            bottom: 0;
-            width: 100%;
+            bottom: 10px;
         }
     
         div:has(img) {

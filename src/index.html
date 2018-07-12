@@ -25,8 +25,9 @@
                             <div class="card bg-lighter">
                                 <div class="card-header d-none d-lg-block" id="headingOne">
                                 <h5 class="mb-0">
+                                    <i class="fa fa-location-arrow align-middle"></i>
                                     <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    1. Choose your place
+                                    Place it.
                                     </button>
                                 </h5>
                                 </div>
@@ -41,13 +42,18 @@
                             <div class="card bg-lighter">
                                 <div class="card-header d-none d-lg-block" id="headingTwo">
                                 <h5 class="mb-0">
+                                    <i class="fa fa-map-signs align-middle"></i>
                                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    2. Name your moment
+                                    Name it.
                                     </button>
                                 </h5>
                                 </div>
                                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                                 <div class="card-body">
+                                    <span class="d-lg-block mb-3">
+                                        Choose that special moment where your heart skipped a beat and use your
+                                        own words to describe this magical memory.
+                                    </span>
                                     <form>
                                         <div class="form-group">
                                             <label class="sidebar-heading text-muted" for="momentInput">Describe your moment</label>
@@ -64,8 +70,9 @@
                             <div class="card bg-lighter">
                                 <div class="card-header d-none d-lg-block" id="headingThree">
                                 <h5 class="mb-0">
+                                    <i class="fa fa-heart align-middle"></i>
                                     <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    3. Select your design
+                                    Love it.
                                     </button>
                                 </h5>
                                 </div>
@@ -176,10 +183,10 @@
                             <img id="canvasImage"></img>
                         </div>
                 
-                        <nav class="navbar navbar-light bg-yellow d-flex">
+                        <nav class="navbar navbar-light d-flex w-100">
                             <span class="navbar-brand mr-auto p-2">&euro;49</span>
                     
-                            <form id="addToCart" method="post" enctype="multipart/form-data" data-product_id="1144" action="https://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=snow" class="form-inline my-lg-0 p-lg-2">
+                            <form id="addToCart" method="post" enctype="multipart/form-data" data-product_id="1144" action="https://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=snow" class="form-inline my-lg-0 p-lg-2 w-75">
                                 <input type="hidden" name="add-to-cart" value="1144">
                                 <input type="hidden" name="product_id" value="1144">
                                 <input type="hidden" name="quantity" value="1">
@@ -190,12 +197,13 @@
                                 <input type="hidden" name="ptm_moment" value="My Moment">
                                 <input type="hidden" name="ptm_subline" value="Subline">
                                 <input type="hidden" name="ptm_tagline" value="Tagline">
-                                <button class="btn btn-lg btn-primary my-lg-0 px-2 py-3" type="submit">
-                                        <div class="text-center">
-                                            <!-- <i class="material-icons md-36 md-dark">payment</i> -->
-                                            <i class="ptm-shopping-bag"></i>
-                                            &nbsp;&euro;49
-                                        </div>
+                                <button class="btn btn-lg btn-primary px-sm-2 py-3 btn-block" type="submit">
+                                    <div class="text-center">
+                                        <!-- <i class="material-icons md-36 md-dark">payment</i> -->
+                                        <i class="ptm-shopping-bag d-lg-none"></i>
+                                        <span class="d-lg-none">&nbsp;&euro;49</span>
+                                        <span class="d-none d-lg-block">Add to cart</span>
+                                    </div>
                                 </button>
                             </form>
                         </nav>  
