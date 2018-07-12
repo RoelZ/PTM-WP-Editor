@@ -39,9 +39,10 @@
         .ptm-btn {
             background: none;
 
-            &:active,&.active,
-            &:focus,&.focus {
-                box-shadow: 0 0 3px 3px #d8ae46
+            &.active {
+                .ptm-map-color-btn {
+                    box-shadow: 0 0 3px 3px #d8ae46
+                }
             }
 
             .marker {
@@ -50,6 +51,7 @@
             }
 
             span {
+                color: $ptmGrey;
                 pointer-events: none;
             }
         }
