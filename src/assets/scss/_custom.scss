@@ -63,6 +63,9 @@ $font-family-base: 'Open Sans';
 @include media-breakpoint-up(lg) { 
     .btn-primary {
         color:white;
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: uppercase;
         box-shadow: none;
     }
 }

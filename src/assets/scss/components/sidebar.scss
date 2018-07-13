@@ -47,7 +47,7 @@
         }
     }
 
-    .card-body {
+    .card-body, .navbar {
 
         > span {
             font-size: 0.65rem;
@@ -112,6 +112,24 @@
             height:auto;
             }
         }
+    }
+}
+
+.ptm-cta {
+    > span {
+        font-size: 1.2rem;
+        background-color:#d2a32f;
+    }
+}
+
+.ptm-usps {
+    font-size: 0.85rem;
+    color:$ptmDark;
+
+    .fa {
+        font-size: 1rem;
+        color:$ptmDark;
+        -webkit-text-stroke: 0;
     }
 }
 

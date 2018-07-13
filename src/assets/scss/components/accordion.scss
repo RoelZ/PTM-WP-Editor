@@ -24,8 +24,13 @@
             transition: transform 300ms ease-out;
         }
     }
+}
 
-    .collapse {
-        border-bottom:1px solid rgba(0, 0, 0, 0.125);
+@include media-breakpoint-up(lg) { 
+
+    .accordion {
+        .collapse {
+            border-bottom:1px solid rgba(0, 0, 0, 0.125);
+        }
     }
 }

@@ -195,9 +195,12 @@
                         </div>
                 
                         <nav class="navbar navbar-light d-flex w-100">
-                            <span class="navbar-brand mr-auto p-2">&euro;49</span>
+                            <span class="w-100 p-2 text-center">
+                                <strong>Loving it?</strong><br />
+                                Finish your order to create a lasting memory
+                            </span>
                     
-                            <form id="addToCart" method="post" enctype="multipart/form-data" data-product_id="1144" action="https://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=snow" class="form-inline my-lg-0 p-lg-2 w-75">
+                            <form id="addToCart" class="form-inline my-lg-0 p-lg-2 w-100" method="post" enctype="multipart/form-data" data-product_id="1144" action="https://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=snow">
                                 <input type="hidden" name="add-to-cart" value="1144">
                                 <input type="hidden" name="product_id" value="1144">
                                 <input type="hidden" name="quantity" value="1">
@@ -208,15 +211,27 @@
                                 <input type="hidden" name="ptm_moment" value="My Moment">
                                 <input type="hidden" name="ptm_subline" value="Subline">
                                 <input type="hidden" name="ptm_tagline" value="Tagline">
-                                <button class="btn btn-lg btn-primary px-sm-2 py-3 btn-block" type="submit">
-                                    <div class="text-center">
-                                        <!-- <i class="material-icons md-36 md-dark">payment</i> -->
-                                        <i class="ptm-shopping-bag d-lg-none"></i>
-                                        <span class="d-lg-none">&nbsp;&euro;49</span>
-                                        <span class="d-none d-lg-block">Add to cart</span>
+                                <button class="ptm-cta btn btn-primary rounded-top w-100 mx-auto px-lg-0 py-lg-0 btn-block" type="submit">
+                                    <div class="d-flex align-items-stretch text-center">
+                                        <i class="ptm-shopping-bag py-2 d-lg-none"></i>                                        
+                                        <span class=" d-lg-none py-3 w-75">&euro;49</span>
+                                        <span class="d-none d-lg-block py-3 w-25">&euro;49</span>
+                                        <span class="d-none d-lg-block py-lg-3 w-75">Add to cart</span>
                                     </div>
                                 </button>
                             </form>
+
+                            <div class="ptm-usps d-none d-lg-flex justify-content-center w-100 mt-lg-3 text-center">
+                                <!-- <span class="p-2">
+                                    <i class="fa fa-globe" aria-hidden="true"></i>&nbsp;World shipping
+                                </span>                                 -->
+                                <span class="p-2">
+                                    <i class="fa fa-lock" aria-hidden="true"></i>&nbsp;Secure payment
+                                </span>                                
+                                <span class="p-2">
+                                    <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;High quality print
+                                </span>                                
+                            </div>
                         </nav>  
                 </div>              
 
