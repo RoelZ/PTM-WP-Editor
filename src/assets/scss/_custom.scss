@@ -19,10 +19,6 @@ $theme-colors: (
     border: none;
     background-color: $ptmLight !important;
 }
-#accordion {
-    border-top:$ptmLightGrey 1px solid;
-}
-
 .btn { 
     font-size: 0.75rem;
 }
@@ -34,7 +30,6 @@ $theme-colors: (
 }
 .btn-ptmLight {
     background-color:$ptmLightGrey;  
-
     
     &:active, 
     &:focus,

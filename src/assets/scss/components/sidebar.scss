@@ -33,13 +33,17 @@
     }
 
     .card-header {
-        background-color:white;
+        background-color: white;
         
         .btn {
             font-size: 1rem;
             text-transform: uppercase;
             color: black;
             font-weight: 700;
+
+            &:hover, &:focus {
+                text-decoration: none;
+            }
         }
     }
 
@@ -63,14 +67,20 @@
             background: none;
 
             &.active {
-                .ptm-map-color-btn {
+                .ptm-map-color-btn, .marker {
                     box-shadow: 0 0 3px 3px #d8ae46
+                }
+                span {
+                    color:$ptmDark;
                 }
             }
 
             .marker {
                 margin: 0 auto;
                 margin-bottom: 0.5rem;
+                width: 30px;
+                border: 3px solid transparent;
+                border-radius: 2px;
             }
 
             span {
@@ -135,6 +145,7 @@
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
     background-color:white;
+    border-left: 1px solid rgba(0, 0, 0, 0.125);
     
         .navbar {
             position: absolute;

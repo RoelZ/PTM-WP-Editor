@@ -1,0 +1,31 @@
+.accordion {
+
+    border-top:$ptmLightGrey 1px solid;
+    
+    .card-header {
+
+        cursor: pointer;
+
+        &.collapsed {
+            
+        }
+        &:not(.collapsed){
+            .fa-angle-down {
+                transform: rotate(180deg);
+            }
+        }
+        &:hover {
+            background-color: $ptmLight;
+        }
+
+        .fa-angle-down {
+            color:$ptmDark;            
+            -webkit-text-stroke-width: 0;
+            transition: transform 300ms ease-out;
+        }
+    }
+
+    .collapse {
+        border-bottom:1px solid rgba(0, 0, 0, 0.125);
+    }
+}

@@ -84,8 +84,9 @@ function checkSize(){
         //$('#collapseOne').addClass('show'); 
         // $('#accordion .btn-group button[data-target="#collapseOne"]').trigger("click");
     }        
-    else if(!$('#collapseOne').hasClass('show'))
+    else if(!$('#collapseOne').hasClass('show')){
         $('#collapseOne').addClass('show');
+    }
 }
 
 

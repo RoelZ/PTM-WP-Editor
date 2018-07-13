@@ -11,10 +11,10 @@
 // Overrides Bootstrap styling
 @import "custom";
 
-
 @import "~@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 @import 'components/sidebar.scss';
+@import 'components/accordion.scss';
 @import 'components/debug.scss';
 
 body {
