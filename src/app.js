@@ -378,9 +378,9 @@ map.on('load', function(){
             .setLngLat(ev.result.geometry.coordinates)
             .addTo(map);
 
-        markert.on('dragStart', function(){
-            console.log('drag');
-        });
+        // markert.on('dragStart', function(){
+        //     console.log('drag');
+        // });
         //doelenstraat 22, eindhoven
         //map.getSource('single-point').setData(locationMarker);
         
@@ -667,6 +667,7 @@ $("#taglineInput").on("input", function(){
 
 // Styling UI
 function setStyle(style, marker = ''){
+    console.log(marker);
     // UI checked
     if(style){
         $('#styleSelector').find("label").each(function(){
@@ -685,21 +686,6 @@ function setStyle(style, marker = ''){
     // POST
     // Poster
     $('.poster').attr('class','card poster '+style);
-
-    // Marker
-    if(marker){
-        
-        $('#markerSelector').find("label").each(function(){
-            if($(this).attr("id") == marker){
-                $(this).addClass('active');
-                $(this).children('input').attr("checked", true);
-            }
-            else {
-                $(this).removeClass('active');
-                $(this).children('input').attr("checked", false);
-            }                
-       })       
-    }
 }
 
 
@@ -717,19 +703,37 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
 
     $('#addToCart').attr('action', cartUrl+event.target.id);
 
-    var styleUrl = getStyle(event.target.id);        
+    var styleUrl = getStyle(event.target.id);
     map.setStyle(styleUrl);
 
-    /*
-    map.on('load', function(){
-    //if(map.isStyleLoaded){
-        addMarker();
-        console.log(map.getSource('single-point'));
-        map.getSource('single-point').setData(locationMarker);
-    });
-    */
-    $('#addToCart input[name="variation_id"]').val(varId);
+    
+
+    let marker = $('#markerSelector').find("label.active").attr('id');
+    $('#mapbox .marker').addClass(marker);
+    
+    // map.on('load', function(){
+    //     if(map.isStyleLoaded){
+    //     }
+    // });
+
+    // $('#addToCart input[name="variation_id"]').val(varId);
     //map.setStyle('mapbox://styles/mapbox/basic-v9');
     //event.preventDefault();
 });
 
+
+
+// Marker
+$('#markerSelector .ptm-btn').click(function ( event ) {
+
+    $(this).parent().find("label").each(function(){        
+        $(this).removeClass('active');
+        if($(this).attr('id') == clickedMarker){
+            $(this).addClass('active');
+        }        
+    });
+
+    let clickedMarker = $(this).attr('id');
+    $('#mapbox .marker').removeClass('yellow granite mint').addClass(clickedMarker);
+        
+});
