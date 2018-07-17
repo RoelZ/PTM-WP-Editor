@@ -1,8 +1,6 @@
 import 'bootstrap';
 import $ from 'jquery';
 require('webpack-jquery-ui/resizable');
-import L from 'leaflet';
-import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
 //import mapboxgl from 'mapbox-gl';
 //import jsPDF from 'jspdf';
 //import domtoimage from 'dom-to-image';
@@ -11,25 +9,15 @@ import './assets/scss/app.scss';
 //import svgCanvas from './assets/js/svgcanvas.js';
 
 
-// import mapboxBlackStyle from './assets/styles/style.json';
-// import mapboxWhiteStyle from './assets/styles/mapbox-white/style.json';
-// import mapputnikStyle from './assets/styles/maputnik.json';
+//import mapboxBlackStyle from './assets/styles/style.json';
+//import mapboxWhiteStyle from './assets/styles/mapbox-white/style.json';
+//import mapputnikStyle from './assets/styles/maputnik.json';
 
-// var maptilerBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
-// var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
-var maptilerBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
-var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 
-// var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
+var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 //var urlExists = require('url-exists');
-const provider = new OpenStreetMapProvider();
-const searchControl = new GeoSearchControl({
-  provider: provider,
-  autoCompleteDelay: 250,
-  retainZoomLevel: false,
-  animateZoom: false,
-
-});
 
 var varId;  // WooCommerce ID
 var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=';
@@ -95,11 +83,8 @@ function checkSize(){
 
         //$('#collapseOne').addClass('show'); 
         // $('#accordion .btn-group button[data-target="#collapseOne"]').trigger("click");
-    } else {
-        $('#mapbox').find('.geosearch').appendTo($('#geocoder'));
-    }
-
-    if(!$('#collapseOne').hasClass('show')){
+    }        
+    else if(!$('#collapseOne').hasClass('show')){
         $('#collapseOne').addClass('show');
     }
 }
@@ -164,27 +149,19 @@ urlExists(styleUrl, function(err, exists){
         styleUrl = 'mapbox://styles/mapbox/basic-v9'; ///styles/roelz/cjbp002fe6an22smmpzfotnk4?optimize=true
 });
 */
-// mapboxgl.accessToken = 'pk.eyJ1Ijoicm9lbHoiLCJhIjoiY2phczkwc25mNXJieTJxbnduYTNtaDNneiJ9.7eTxRRsp0GbqkZOJMxRw8g';
+mapboxgl.accessToken = 'pk.eyJ1Ijoicm9lbHoiLCJhIjoiY2phczkwc25mNXJieTJxbnduYTNtaDNneiJ9.7eTxRRsp0GbqkZOJMxRw8g';
 
 var debugPanel = document.getElementById('debugger');
-var map = L.map('mapbox')
-    .setView([51.441767, 5.470247], 13);
 
-L.tileLayer(maptilerBlack, {
-    // attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-}).addTo(map);
+const map = new mapboxgl.Map({
+    container: 'mapbox',
+    style: styleUrl,
+    center: [5.4546,51.4553],
+    zoom: 10,
+    hash: true,
+});
 
-// var map = new mapboxgl.Map({
-//     container: 'mapbox',
-//     style: styleUrl,
-//     center: [5.4546,51.4553],
-//     zoom: 10,
-//     hash: true,
-// });
-
-
-
-// var canvas = map.getCanvasContainer();
+var canvas = map.getCanvasContainer();
 
 var geojson = {
     "type": "FeatureCollection",
@@ -197,48 +174,12 @@ var geojson = {
     }]
 };
 
-// const geocoder = new MapboxGeocoder({
-//     accessToken: mapboxgl.accessToken
-// });
+const geocoder = new MapboxGeocoder({
+    accessToken: mapboxgl.accessToken
+});
 
 //map.addControl(geocoder);
-// $('#geocoder').append(geocoder.onAdd(map));
-// const geocoder = $('#geocoder');
-// const geocoderInput = geocoder.children('input[type="text"]');
-// geocoder.append('<ul id="georesults" class="list-group" role="tablist">');
-
-// geocoderInput.on('keyup', function() {    
-//     // console.log($(this).val());
-//     let i = 0;
-//     let list = geocoder.find('.list-group');
-// //   const results = provider.search({ query: geocoder.value });
-//     provider
-//     .search({ query: $(this).val() })
-//     .then(function(result) {
-
-//         list.empty();
-
-//         result.forEach(function(){
-//             // console.log(result[i]);
-//             list.append('<li class="list-group-item list-group-item-action" data-toggle="list" data-latlng="['+result[i].y+', '+result[i].x+']">'+result[i].label+'</a>');
-//             i++;
-//         });
-        
-//         list.children('li').on('click', function(){
-//             // e.preventDefault();
-//             console.log($(this).data('latlng'));
-//             map.panTo(L.latLng($(this).data('latlng')).setMinZoom(4).setMaxZoom(20));
-//         });
-//     });
-// });
-
-
-map.addControl(searchControl);
-map.on('geosearch/showlocation', function(e){
-    console.log('test', e);
-    map.flyTo(L.latLng(e.location.y,e.location.x));
-});
-// $('#geocoder').append(searchControl);
+$('#geocoder').append(geocoder.onAdd(map));
 
 //mapCanvas.width = 600;
 //mapCanvas.height = 600;
@@ -427,23 +368,19 @@ map.on('load', function(){
     // Wachten op een geocoder.input event
     geocoder.on('result', function(ev){
         
-        console.log(ev.result.geometry.coordinates);
+        console.log(ev.result);
 
         //addMarker(ev.result.geometry.coordinates);
         let markerElement = document.createElement('div');
         markerElement.className = 'marker';
         
+        let markert = new mapboxgl.Marker({ element: markerElement, draggable: true})
+            .setLngLat(ev.result.geometry.coordinates)
+            .addTo(map);
 
-        var markert = new mapboxgl.Marker({ draggable: true})
-        .setLngLat([5.454257, 51.442008])
-        .addTo(map);
-
-        function blabla(){
-        console.log('check');
-        }
-
-        markert.on('click', blabla());
-
+        // markert.on('dragStart', function(){
+        //     console.log('drag');
+        // });
         //doelenstraat 22, eindhoven
         //map.getSource('single-point').setData(locationMarker);
         
@@ -452,7 +389,7 @@ map.on('load', function(){
 
         // Adding address on poster
         var locationCity = ev.result.context[1].text;
-        var locationCountry = (ev.result.context[3].text === undefined) ? ev.result.context[3].text : '';
+        var locationCountry = ev.result.context[3].text;
         var locationAddress = ev.result.text+" "+ev.result.address;
 
         $('#sublineInput').val(locationCity+" - "+locationCountry);
@@ -474,11 +411,6 @@ map.on('load', function(){
     
 
 });  // end Map onLoad
-
-marker.on('dragend', function(){
-    console.log('echo');
-});
-
 
 // Draggable markers
 function onMove(e) {

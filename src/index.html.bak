@@ -10,8 +10,9 @@
     <!-- <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script> -->
     <!-- <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' /> -->
     <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    
   </head>
 
 <body>
@@ -44,9 +45,7 @@
                                         your first kiss or the country where you had your best holiday ever.
                                     </span>
                                     <label class="sidebar-heading text-muted" for="geocoder">Find a location</label>
-                                    <div id='geocoder' class='geocoder'>
-                                        <input type="text" />
-                                    </div>
+                                    <div id='geocoder' class='geocoder'></div>
                                 </div>
                                 </div>
                             </div>
