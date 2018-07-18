@@ -2,7 +2,9 @@ import 'bootstrap';
 import $ from 'jquery';
 require('webpack-jquery-ui/resizable');
 import L from 'leaflet';
-import { GeoSearchControl, OpenStreetMapProvider } from 'leaflet-geosearch';
+import leafletSearch from 'leaflet-search';
+import { GeoSearchControl, GoogleProvider } from 'leaflet-geosearch';
+
 //import mapboxgl from 'mapbox-gl';
 //import jsPDF from 'jspdf';
 //import domtoimage from 'dom-to-image';
@@ -22,7 +24,11 @@ var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9
 
 // var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 //var urlExists = require('url-exists');
-const provider = new OpenStreetMapProvider();
+const provider = new GoogleProvider({
+    params: {
+        key: 'AIzaSyCE1svBjPmf71zWMhdr5r0Xu9EDN2sxwHk'
+    }
+});
 const searchControl = new GeoSearchControl({
   provider: provider,
   autoCompleteDelay: 250,
@@ -156,328 +162,341 @@ function checkUrlExists(host,cb) {
         cb(null, r.statusCode > 200 && r.statusCode < 400 );
     }).on('error', cb).end();
 }
-
-console.log(checkUrlExists(styleUrl));
-
-urlExists(styleUrl, function(err, exists){
-    if(!exists)
-        styleUrl = 'mapbox://styles/mapbox/basic-v9'; ///styles/roelz/cjbp002fe6an22smmpzfotnk4?optimize=true
-});
 */
-// mapboxgl.accessToken = 'pk.eyJ1Ijoicm9lbHoiLCJhIjoiY2phczkwc25mNXJieTJxbnduYTNtaDNneiJ9.7eTxRRsp0GbqkZOJMxRw8g';
+
+// var canvas = map.getCanvasContainer();
 
 var debugPanel = document.getElementById('debugger');
-var map = L.map('mapbox')
+var map = L.map('mapbox', { zoomControl: false})
     .setView([51.441767, 5.470247], 13);
 
 L.tileLayer(maptilerBlack, {
     // attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 }).addTo(map);
 
-// var map = new mapboxgl.Map({
-//     container: 'mapbox',
-//     style: styleUrl,
-//     center: [5.4546,51.4553],
-//     zoom: 10,
-//     hash: true,
-// });
 
 
+const geocoderInput = $('#geocoder');
 
-// var canvas = map.getCanvasContainer();
-
-var geojson = {
-    "type": "FeatureCollection",
-    "features": [{
-        "type": "Feature",
-        "geometry": {
-            "type": "Point",
-            "coordinates": [0, 0]
-        }
-    }]
-};
-
-// const geocoder = new MapboxGeocoder({
-//     accessToken: mapboxgl.accessToken
-// });
-
-//map.addControl(geocoder);
-// $('#geocoder').append(geocoder.onAdd(map));
-// const geocoder = $('#geocoder');
-// const geocoderInput = geocoder.children('input[type="text"]');
-// geocoder.append('<ul id="georesults" class="list-group" role="tablist">');
-
-// geocoderInput.on('keyup', function() {    
-//     // console.log($(this).val());
-//     let i = 0;
-//     let list = geocoder.find('.list-group');
-// //   const results = provider.search({ query: geocoder.value });
-//     provider
-//     .search({ query: $(this).val() })
-//     .then(function(result) {
-
-//         list.empty();
-
-//         result.forEach(function(){
-//             // console.log(result[i]);
-//             list.append('<li class="list-group-item list-group-item-action" data-toggle="list" data-latlng="['+result[i].y+', '+result[i].x+']">'+result[i].label+'</a>');
-//             i++;
-//         });
-        
-//         list.children('li').on('click', function(){
-//             // e.preventDefault();
-//             console.log($(this).data('latlng'));
-//             map.panTo(L.latLng($(this).data('latlng')).setMinZoom(4).setMaxZoom(20));
-//         });
-//     });
-// });
-
-
-map.addControl(searchControl);
-map.on('geosearch/showlocation', function(e){
-    console.log('test', e);
-    map.flyTo(L.latLng(e.location.y,e.location.x));
+const GooglePlacesSearchBox = L.Control.extend({
+onAdd: function() {
+    var element = document.createElement("input");
+    element.id = "searchBox";
+    return element;
+}
 });
-// $('#geocoder').append(searchControl);
 
-//mapCanvas.width = 600;
-//mapCanvas.height = 600;
+L.control.zoom({position:'topright'}).addTo(map);
+
+(new GooglePlacesSearchBox).addTo(map);
+  
+  var input = document.getElementById("searchBox");
+  $(input).addClass('form-control py-2 border-right-0 border');
+  var searchBox = new google.maps.places.SearchBox(input);
+
+  let marker;
+
+  searchBox.addListener('places_changed', function() {
+    var places = searchBox.getPlaces();
+  
+    if (places.length == 0) {
+      return;
+    }
+
+    let latlng,latlngbounds;
+  
+    places.forEach(function(place) {
+        console.log(place.address_component);
+
+        fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid='+place.place_id+'&fields=name,rating,formatted_phone_number&key=AIzaSyCE1svBjPmf71zWMhdr5r0Xu9EDN2sxwHk')
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(myJson){
+            console.log(myJson);
+        });
+
+        // var placeInfo = 
+        // console.log(https://maps.googleapis.com/maps/api/place/details/json?placeid=''&fields=name,rating,formatted_phone_number&key=YOUR_API_KEY);
+        latlng = L.latLng(
+                place.geometry.location.lat(),
+                place.geometry.location.lng()
+        );
+
+        let northeast = L.latLng(place.geometry.viewport.f.b,place.geometry.viewport.b.b);
+        let southwest = L.latLng(place.geometry.viewport.f.f,place.geometry.viewport.b.f);
+
+        latlngbounds = L.latLngBounds(northeast,southwest);
+
+    if(marker)
+        map.removeLayer(marker);
+
+      marker = new L.marker(latlng, {
+          icon: L.icon({iconUrl: 'https://www.placethemoment.com/dev/wp-content/uploads/2017/11/ptm-marker-mint.png', className: 'marker'}),
+          draggable: true,
+        })
+        .addTo(map);        
+       
+    }); 
+
+    map.flyToBounds(latlngbounds, {duration: 3, maxZoom: 15});
+    
+    
+    // var locationCity = ev.result.context[1].text;
+    // var locationCountry = (ev.result.context[3].text === undefined) ? ev.result.context[3].text : '';
+    // var locationAddress = ev.result.text+" "+ev.result.address;
+
+    // $('#sublineInput').val(locationCity+" - "+locationCountry);
+    // $('#addToCart input[name="ptm_subline"]').val(locationCity+" - "+locationCountry);
+    // $('#taglineInput').val(locationAddress);
+    // $('#addToCart input[name="ptm_tagline"]').val(locationAddress);
+
+    // $("#posterText .card-text:first").html(locationCity+" - "+locationCountry);
+    // $("#posterText .card-text:last").html(locationAddress);
+  
+  });
+
+$('.mapwindow').append($('.leaflet-control-container'));
+geocoderInput.append(input);
+geocoderInput.append('<span class="input-group-append"><button class="btn btn-outline-light border-left-0 border" type="button"><i class="fa fa-search"></i></button></span>');
+
+
 
 // Adding source layer after map is loaded
-map.on('load', function(){   
+// map.on('load', function(){   
 
-    // laden van een default marker
-    //addMarker();
+//     // laden van een default marker
+//     //addMarker();
 
-    // map.on('mousedown', 'point', function(e) {
+//     // map.on('mousedown', 'point', function(e) {
 
-    //     // Prevent the default map drag behavior.
-    //     e.preventDefault();
+//     //     // Prevent the default map drag behavior.
+//     //     e.preventDefault();
 
-    //     canvas.style.cursor = 'grab';
-    //     console.log(map.getSource('ptm-marker'));
+//     //     canvas.style.cursor = 'grab';
+//     //     console.log(map.getSource('ptm-marker'));
 
-    //     map.on('mousemove', onMove);
-    //     map.once('mouseup', onUp);
-    // });
+//     //     map.on('mousemove', onMove);
+//     //     map.once('mouseup', onUp);
+//     // });
 
-    // map.on('touchstart', 'point', function(e) {
-    //     if (e.points.length !== 1) return;
+//     // map.on('touchstart', 'point', function(e) {
+//     //     if (e.points.length !== 1) return;
 
-    //     // Prevent the default map drag behavior.
-    //     e.preventDefault();
+//     //     // Prevent the default map drag behavior.
+//     //     e.preventDefault();
 
-    //     map.on('touchmove', onMove);
-    //     map.once('touchend', onUp);
-    // });
+//     //     map.on('touchmove', onMove);
+//     //     map.once('touchend', onUp);
+//     // });
 
-    debugPanel.style.display = 'none';
-    debugPanel.innerHTML = 'Longitude: ' + map.getBounds();
-    var mapCanvas = map.getCanvas();
+//     debugPanel.style.display = 'none';
+//     debugPanel.innerHTML = 'Longitude: ' + map.getBounds();
+//     var mapCanvas = map.getCanvas();
 
-    if(!isMobile){
-    //BLOB
+//     if(!isMobile){
+//     //BLOB
     
-    //function({
-        /*
-    mapCanvas.toBlob(function(blob){
-        var newImg = document.createElement('img'),
-        url = URL.createObjectURL(blob);
+//     //function({
+//         /*
+//     mapCanvas.toBlob(function(blob){
+//         var newImg = document.createElement('img'),
+//         url = URL.createObjectURL(blob);
 
-        newImg.onload = function(){
-            URL.revokeObjectURL(url);
-        };
+//         newImg.onload = function(){
+//             URL.revokeObjectURL(url);
+//         };
 
-        newImg.src = url;
-        $('#canvasImage').parent('div').append(newImg);
-        //document.body.appendChild(newImg);
-    });
-    */
+//         newImg.src = url;
+//         $('#canvasImage').parent('div').append(newImg);
+//         //document.body.appendChild(newImg);
+//     });
+//     */
 
-    // PNG
+//     // PNG
         
-   imgData = mapCanvas.toDataURL('image/png',1);
-   $('#canvasImage').attr("src",imgData);  
+//    imgData = mapCanvas.toDataURL('image/png',1);
+//    $('#canvasImage').attr("src",imgData);  
 
-   /*
-   domtoimage.toBlob(mapCanvas)
-   .then(function(blob){
-    window.saveAs(blob, 'ptm-map.png');
-   });
-    */
+//    /*
+//    domtoimage.toBlob(mapCanvas)
+//    .then(function(blob){
+//     window.saveAs(blob, 'ptm-map.png');
+//    });
+//     */
 
-    // SVG
-    //mapCanvas.toBlob(function(blob){
-/*
-    var svgString = new XMLSerializer().serializeToString(mapCanvas);
-    var svg = new Blob([svgString], { type: "image/svg+xml;charset=utf-8"});
-    var svgurl = URL.createObjectURL(svg);
+//     // SVG
+//     //mapCanvas.toBlob(function(blob){
+// /*
+//     var svgString = new XMLSerializer().serializeToString(mapCanvas);
+//     var svg = new Blob([svgString], { type: "image/svg+xml;charset=utf-8"});
+//     var svgurl = URL.createObjectURL(svg);
     
-    var newImg = document.createElement('img');
-    newImg.onload = function(){
-        URL.revokeObjectURL(svgurl);
-    };
+//     var newImg = document.createElement('img');
+//     newImg.onload = function(){
+//         URL.revokeObjectURL(svgurl);
+//     };
 
-    newImg.src = svgurl;
-    $('#canvasImage').parent('div').append(newImg);
-*/
-    //});
-    //var svg = $('#mapbox .mapbox-canvas').html();
-    //console.log(imgData);  
+//     newImg.src = svgurl;
+//     $('#canvasImage').parent('div').append(newImg);
+// */
+//     //});
+//     //var svg = $('#mapbox .mapbox-canvas').html();
+//     //console.log(imgData);  
     
-    //var ctx = new SVGCanvas("mapboxgl-canvas");
-    //$('#canvasImage').parent().html(ctx.toDataURL("image/svg+xml"));
-    //var xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"><svg xmlns="http://www.w3.org/2000/svg" width="' + 600 + '" height="' + 600 + '" xmlns:xlink="http://www.w3.org/1999/xlink"><source><![CDATA[' + imgData + ']]></source>' + svg + '</svg>';
-    //var b64 = Base64.encode(svg);
+//     //var ctx = new SVGCanvas("mapboxgl-canvas");
+//     //$('#canvasImage').parent().html(ctx.toDataURL("image/svg+xml"));
+//     //var xml = '<?xml version="1.0" encoding="utf-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd"><svg xmlns="http://www.w3.org/2000/svg" width="' + 600 + '" height="' + 600 + '" xmlns:xlink="http://www.w3.org/1999/xlink"><source><![CDATA[' + imgData + ']]></source>' + svg + '</svg>';
+//     //var b64 = Base64.encode(svg);
     
-    //$('#canvasImage').append("<a href-lang='image/svg+xml' href='data:image/svg+xml;base64,\n"+b64+"'>download</a>");
+//     //$('#canvasImage').append("<a href-lang='image/svg+xml' href='data:image/svg+xml;base64,\n"+b64+"'>download</a>");
     
-    //PDF
-    /*
-    var doc = new jsPDF();
+//     //PDF
+//     /*
+//     var doc = new jsPDF();
 
-    if(currentStyle == "granite"){
-        doc.setFillColor("44","34","22","77");  //44 34 22 77
-    } else if(currentStyle == "mint"){
-        doc.setFillColor("54","8","47","14");  //54 8 47 14
-    } else {
-        doc.setFillColor(44,34,22,77);  //44 34 22 77
-    }
+//     if(currentStyle == "granite"){
+//         doc.setFillColor("44","34","22","77");  //44 34 22 77
+//     } else if(currentStyle == "mint"){
+//         doc.setFillColor("54","8","47","14");  //54 8 47 14
+//     } else {
+//         doc.setFillColor(44,34,22,77);  //44 34 22 77
+//     }
 
-    doc.roundedRect(5,7,200,200,100,100);
+//     doc.roundedRect(5,7,200,200,100,100);
 
-    doc.setFontSize("56");
-    //doc.setFont("Open Sans");
-    doc.setTextColor("255");
-    if($('#momentInput').val())
-        var docText = $('#momentInput').val();
-    else
-        var docText = "Place the moment";
-    doc.text(docText,"50","220");
+//     doc.setFontSize("56");
+//     //doc.setFont("Open Sans");
+//     doc.setTextColor("255");
+//     if($('#momentInput').val())
+//         var docText = $('#momentInput').val();
+//     else
+//         var docText = "Place the moment";
+//     doc.text(docText,"50","220");
 
-    doc.addImage(imgData, 'png', 5, 7, 200, 200, '', 'slow');
-    doc.save('ptm-print.pdf');
-)}
-    */
-}
+//     doc.addImage(imgData, 'png', 5, 7, 200, 200, '', 'slow');
+//     doc.save('ptm-print.pdf');
+// )}
+//     */
+// }
 
-    //console.log('Line 52: '+map.getCenter());
-    $('#addToCart input[name="design_id"]').val(token());
-    $('#addToCart input[name="coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
+//     //console.log('Line 52: '+map.getCenter());
+//     $('#addToCart input[name="design_id"]').val(token());
+//     $('#addToCart input[name="coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
     
-    // empty on load
-    $('#addToCart input[name="ptm_moment"]').val();
-    $('#addToCart input[name="ptm_subline"]').val();
-    $('#addToCart input[name="ptm_tagline"]').val();
+//     // empty on load
+//     $('#addToCart input[name="ptm_moment"]').val();
+//     $('#addToCart input[name="ptm_subline"]').val();
+//     $('#addToCart input[name="ptm_tagline"]').val();
     
-    // Bij GET values (mc,s,m), locatie, stijl en marker tonen
-    if(findGetParameter("mc")){
+//     // Bij GET values (mc,s,m), locatie, stijl en marker tonen
+//     if(findGetParameter("mc")){
 
-        var markerCoordinates = getCoordinates(findGetParameter("mc"));
-        //var locationMarker = [{"type":"FeatureCollection","features":[{"type":"Feature", "geomerty": { "type": "Point", "coordinates": [5.463783, 51.443383] }}]}];
-        var locationMarker = {type: 'FeatureCollection',
-        features: [{
-        type: 'Feature',
-        geometry: {
-            type: 'Point',
-            coordinates: markerCoordinates
-        }
-        }]};
+//         var markerCoordinates = getCoordinates(findGetParameter("mc"));
+//         //var locationMarker = [{"type":"FeatureCollection","features":[{"type":"Feature", "geomerty": { "type": "Point", "coordinates": [5.463783, 51.443383] }}]}];
+//         var locationMarker = {type: 'FeatureCollection',
+//         features: [{
+//         type: 'Feature',
+//         geometry: {
+//             type: 'Point',
+//             coordinates: markerCoordinates
+//         }
+//         }]};
         
-        console.log('line 75: '+markerCoordinates);
+//         console.log('line 75: '+markerCoordinates);
         
-        switch(findGetParameter('s')){
-            case "moon":
-                currentStyle = "moon";
-                break;
-            case "granite":
-                currentStyle = "granite";
-                break;
-            case "mint":    
-                currentStyle = "mint";
-                break;
-            default:
-                currentStyle = "snow";
-        }
+//         switch(findGetParameter('s')){
+//             case "moon":
+//                 currentStyle = "moon";
+//                 break;
+//             case "granite":
+//                 currentStyle = "granite";
+//                 break;
+//             case "mint":    
+//                 currentStyle = "mint";
+//                 break;
+//             default:
+//                 currentStyle = "snow";
+//         }
         
-        switch(findGetParameter('m')){    
-            case "granite":
-                currentMarkerStyle = "granite";
-                break;
-            case "yellow":    
-                currentMarkerStyle = "yellow";
-                break;
-            default:
-                currentMarkerStyle = "mint";
-        }
-        console.log('s: '+findGetParameter('s')+', m: '+findGetParameter('m'));
-        setStyle(currentStyle,currentMarkerStyle);
+//         switch(findGetParameter('m')){    
+//             case "granite":
+//                 currentMarkerStyle = "granite";
+//                 break;
+//             case "yellow":    
+//                 currentMarkerStyle = "yellow";
+//                 break;
+//             default:
+//                 currentMarkerStyle = "mint";
+//         }
+//         console.log('s: '+findGetParameter('s')+', m: '+findGetParameter('m'));
+//         setStyle(currentStyle,currentMarkerStyle);
 
-        locationMarker.features.forEach(function(marker){
-            var el = document.createElement('div');
-            //el.id = 'marker';
-            el.className = 'marker ' + currentMarkerStyle;
+//         locationMarker.features.forEach(function(marker){
+//             var el = document.createElement('div');
+//             //el.id = 'marker';
+//             el.className = 'marker ' + currentMarkerStyle;
 
-            new mapboxgl.Marker(el)
-                .setLngLat(marker.geometry.coordinates)
-                .addTo(map);
-        });
-    }
+//             new mapboxgl.Marker(el)
+//                 .setLngLat(marker.geometry.coordinates)
+//                 .addTo(map);
+//         });
+//     }
     
-    // Wachten op een geocoder.input event
-    geocoder.on('result', function(ev){
+//     // Wachten op een geocoder.input event
+//     geocoder.on('result', function(ev){
         
-        console.log(ev.result.geometry.coordinates);
+//         console.log(ev.result.geometry.coordinates);
 
-        //addMarker(ev.result.geometry.coordinates);
-        let markerElement = document.createElement('div');
-        markerElement.className = 'marker';
+//         //addMarker(ev.result.geometry.coordinates);
+//         let markerElement = document.createElement('div');
+//         markerElement.className = 'marker';
         
 
-        var markert = new mapboxgl.Marker({ draggable: true})
-        .setLngLat([5.454257, 51.442008])
-        .addTo(map);
+//         var markert = new mapboxgl.Marker({ draggable: true})
+//         .setLngLat([5.454257, 51.442008])
+//         .addTo(map);
 
-        function blabla(){
-        console.log('check');
-        }
+//         function blabla(){
+//         console.log('check');
+//         }
 
-        markert.on('click', blabla());
+//         markert.on('click', blabla());
 
-        //doelenstraat 22, eindhoven
-        //map.getSource('single-point').setData(locationMarker);
+//         //doelenstraat 22, eindhoven
+//         //map.getSource('single-point').setData(locationMarker);
         
-        // Adding marker coordinates to form
-        //$('#addToCart input[name="marker_coordinates"]').val(locationMarker.coordinates[0]+','+locationMarker.coordinates[1]+','+map.getZoom());
+//         // Adding marker coordinates to form
+//         //$('#addToCart input[name="marker_coordinates"]').val(locationMarker.coordinates[0]+','+locationMarker.coordinates[1]+','+map.getZoom());
 
-        // Adding address on poster
-        var locationCity = ev.result.context[1].text;
-        var locationCountry = (ev.result.context[3].text === undefined) ? ev.result.context[3].text : '';
-        var locationAddress = ev.result.text+" "+ev.result.address;
+//         // Adding address on poster
+//         var locationCity = ev.result.context[1].text;
+//         var locationCountry = (ev.result.context[3].text === undefined) ? ev.result.context[3].text : '';
+//         var locationAddress = ev.result.text+" "+ev.result.address;
 
-        $('#sublineInput').val(locationCity+" - "+locationCountry);
-        $('#addToCart input[name="ptm_subline"]').val(locationCity+" - "+locationCountry);
-        $('#taglineInput').val(locationAddress);
-        $('#addToCart input[name="ptm_tagline"]').val(locationAddress);
+//         $('#sublineInput').val(locationCity+" - "+locationCountry);
+//         $('#addToCart input[name="ptm_subline"]').val(locationCity+" - "+locationCountry);
+//         $('#taglineInput').val(locationAddress);
+//         $('#addToCart input[name="ptm_tagline"]').val(locationAddress);
 
-        $("#posterText .card-text:first").html(locationCity+" - "+locationCountry);
-        $("#posterText .card-text:last").html(locationAddress);
+//         $("#posterText .card-text:first").html(locationCity+" - "+locationCountry);
+//         $("#posterText .card-text:last").html(locationAddress);
 
-        /*
-        map.on('moveend', function(e){
-            $('#addToCart input[name="marker_coordinates"]').val(ev.result.geometry.coordinates+','+Math.round(map.getZoom() * 10) / 10);
-        });
-        */
+//         /*
+//         map.on('moveend', function(e){
+//             $('#addToCart input[name="marker_coordinates"]').val(ev.result.geometry.coordinates+','+Math.round(map.getZoom() * 10) / 10);
+//         });
+//         */
 
-    }); // end geocode search
+//     }); // end geocode search
     
     
 
-});  // end Map onLoad
+// });  // end Map onLoad
 
-marker.on('dragend', function(){
-    console.log('echo');
-});
+// marker.on('dragend', function(){
+//     console.log('echo');
+// });
 
 
 // Draggable markers

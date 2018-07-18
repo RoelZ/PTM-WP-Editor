@@ -51,6 +51,26 @@ $theme-colors: (
     background-color:#f8f9fa !important;
 }
 
+.geocoder {
+
+    .form-control {
+
+        font-size:0.875rem;
+
+        &:focus {
+            outline: 0 !important;
+            border-color: initial;
+            box-shadow: none;
+        }
+    }
+    
+    .fa-search {
+        color:$ptmDark;  
+        font-size: initial;          
+        -webkit-text-stroke-width: 0;
+    }
+}
+
 .optionsTab.nav-pills {
     .nav-link {
         border-radius: 0;
