@@ -276,11 +276,29 @@ L.control.zoom({position:'topright'}).addTo(map);
     if(markerOnMap)
         map.removeLayer(markerOnMap);
         
+        let markerStyle;
+        
+        $('#markerSelector').find("label").each(function(){ 
+            if($(this).hasClass('active')){
+                console.log($(this).attr('id'));
+                markerStyle = getMarker($(this).attr('id'), true);
+                return;
+            } else {
+                markerStyle = getMarker(currentStyle, true);
+                console.log(currentStyle);
+                return;
+            }
+        });
+
+
         markerOnMap = new L.marker(latlng, {
-          icon: L.icon({iconUrl:'http://www.placethemoment.com/dev/editor/images/ptm-marker.svg', className: 'marker'}),
+          icon: L.icon({iconUrl: markerStyle, className: 'marker'}),
           draggable: true,
         })
-        .addTo(map);        
+        .addTo(map);
+        
+        markerOnMap.setIcon(L.icon({ iconUrl: markerStyle, className: 'marker' }));
+        
        
     }); 
 
@@ -669,15 +687,26 @@ function getMarkerStyle(){
         return '#54575c';
 }
 
-function getMarker(marker){
-    if(marker == "snow")
-        return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-snow.svg';
-    else if(marker == "granite")
-        return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-granite.svg';
-    else if(marker == "yellow")
-        return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-yellow.svg';
-    else if(marker == "mint")
-        return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-mint.svg';
+function getMarker(style, poster = false){
+    if(!poster){
+        if(style == "snow")
+            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-snow.svg';
+        else if(style == "granite")
+            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-granite.svg';
+        else if(style == "yellow")
+            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-yellow.svg';
+        else if(style == "mint")
+            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-mint.svg';
+    } else {
+        if(style == "snow")
+            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-mint.svg';
+        else if(style == "granite")
+            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-yellow.svg';
+        else if(style == "moon")
+            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-snow.svg';
+        else if(style == "mint")
+            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-granite.svg';        
+    }
 }
 
 $(document).keyup(function(e){

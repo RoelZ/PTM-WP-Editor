@@ -187,6 +187,7 @@ body {
     width: 22px; //28
     height: 27px; //34
     cursor: pointer;
+    filter: drop-shadow( 0px 1px 1px rgba(0,0,0,0.5) );
 
     .granite {
       fill: $ptmGranite;      
@@ -199,7 +200,6 @@ body {
     }
     .snow {
       fill: white;
-      filter: drop-shadow( 0px 1px 1px rgba(0,0,0,0.3) );
     }
 /*
     position: absolute;
@@ -229,7 +229,8 @@ body {
       color: black;
       background-color:white;
       .marker {
-          background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-mint.svg');
+        filter: none;
+          // background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-mint.svg');
       }
   }
   &.moon {
@@ -239,21 +240,24 @@ body {
           background-color: #54575c;
       }
       .marker {
-          background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-snow.svg');
+        filter: none;
+          // background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-snow.svg');
       }
   }
   &.granite {
       color: white;
       background-color: #54575c;
       .marker {
-          background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-yellow.svg');
+        filter: none;
+          // background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-yellow.svg');
       }
   }
   &.mint {
       color: white;
       background-color: #6fa189;
       .marker {
-          background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-granite.svg');
+          filter: none;
+          // background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-granite.svg');
       }
   }
 }
