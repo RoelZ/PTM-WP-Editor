@@ -105,8 +105,11 @@ const config = {
   externals: {
     'mapbox-gl': 'mapboxgl' 
   },
-  
+
   devServer: {
+    // proxy: {
+    //     '/maps/api/*':'https://maps.googleapis.com'
+    // },
     contentBase: path.resolve(__dirname, "dist/assets/media"),
     stats: 'errors-only',
     port: 12000,

@@ -2,10 +2,11 @@ import 'bootstrap';
 import $ from 'jquery';
 require('webpack-jquery-ui/resizable');
 import L from 'leaflet';
+import mapboxgl from 'mapbox-gl';
+import mapboxGL from 'mapbox-gl-leaflet';
 import leafletSearch from 'leaflet-search';
 import { GeoSearchControl, GoogleProvider } from 'leaflet-geosearch';
 
-//import mapboxgl from 'mapbox-gl';
 //import jsPDF from 'jspdf';
 //import domtoimage from 'dom-to-image';
 import './assets/scss/app.scss';
@@ -20,7 +21,9 @@ import './assets/scss/app.scss';
 // var maptilerBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 // var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerVectorBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerVectorWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 
 // var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 //var urlExists = require('url-exists');
@@ -170,9 +173,14 @@ var debugPanel = document.getElementById('debugger');
 var map = L.map('mapbox', { zoomControl: false})
     .setView([51.441767, 5.470247], 13);
 
-L.tileLayer(maptilerBlack, {
-    // attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+let mapStyle = L.mapboxGL({
+    style: maptilerVectorWhite,
+    accessToken: 'no-token'
 }).addTo(map);
+
+// let mapStyle = L.tileLayer(maptilerWhite, {
+//     // attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+// }).addTo(map);
 
 
 
@@ -191,7 +199,7 @@ L.control.zoom({position:'topright'}).addTo(map);
 (new GooglePlacesSearchBox).addTo(map);
   
   var input = document.getElementById("searchBox");
-  $(input).addClass('form-control py-2 border-right-0 border');
+  $(input).addClass('form-control py-2 border-right-0 border').attr('placeholder','Enter your place');
   var searchBox = new google.maps.places.SearchBox(input);
 
   let marker;
@@ -204,17 +212,54 @@ L.control.zoom({position:'topright'}).addTo(map);
     }
 
     let latlng,latlngbounds;
-  
+    let locationCity, locationCountry, locationName;
+    let subline,tagline;
+    
     places.forEach(function(place) {
-        console.log(place.address_component);
+        console.log(place.place_id);
+        
+        $.getJSON('https://www.placethemoment.com/api/v1/json.php?placeid='+place.place_id, function(data){
+            
+        console.log(data.result);
 
-        fetch('https://maps.googleapis.com/maps/api/place/details/json?placeid='+place.place_id+'&fields=name,rating,formatted_phone_number&key=AIzaSyCE1svBjPmf71zWMhdr5r0Xu9EDN2sxwHk')
-        .then(function(response){
-            return response.json();
-        })
-        .then(function(myJson){
-            console.log(myJson);
+            data.result.address_components.forEach(address => {
+                address.types.forEach(type => {
+                    if(type == 'country')
+                        locationCountry = address.long_name;
+
+                    if(locationCity == '' && type == 'administrative_area_level_2'){
+                        locationCity = address.short_name;
+                    }else if(type == 'locality'){
+                        locationCity = address.long_name;
+                    }
+                });
+            });              
+            locationName = data.result.name;
+            // if(!locationCity === undefined)
+            if(locationCity == locationName)
+                tagline = locationCountry;
+            else if(locationCountry == locationName)
+                tagline = locationCity;
+            else
+                tagline = locationCity ? locationCity+" - "+locationCountry : locationCountry;
+
+            $('#sublineInput').val(locationName);
+            $('#addToCart input[name="ptm_subline"]').val(locationName);
+            $('#taglineInput').val(tagline);
+            $('#addToCart input[name="ptm_tagline"]').val(tagline);
+
+            $("#posterText .card-text:first").html(locationName);
+            $("#posterText .card-text:last").html(tagline);
+
         });
+
+        // fetch('https://www.placethemoment.com/api/v1/json.php?placeid='+place.place_id,{mode: 'no-cors'})
+        // .then(function(myJson){
+
+        // }).catch(function(error){
+        //     console.log(error);
+        //     console.log('houdoe');
+        // });
 
         // var placeInfo = 
         // console.log(https://maps.googleapis.com/maps/api/place/details/json?placeid=''&fields=name,rating,formatted_phone_number&key=YOUR_API_KEY);
@@ -241,18 +286,6 @@ L.control.zoom({position:'topright'}).addTo(map);
 
     map.flyToBounds(latlngbounds, {duration: 3, maxZoom: 15});
     
-    
-    // var locationCity = ev.result.context[1].text;
-    // var locationCountry = (ev.result.context[3].text === undefined) ? ev.result.context[3].text : '';
-    // var locationAddress = ev.result.text+" "+ev.result.address;
-
-    // $('#sublineInput').val(locationCity+" - "+locationCountry);
-    // $('#addToCart input[name="ptm_subline"]').val(locationCity+" - "+locationCountry);
-    // $('#taglineInput').val(locationAddress);
-    // $('#addToCart input[name="ptm_tagline"]').val(locationAddress);
-
-    // $("#posterText .card-text:first").html(locationCity+" - "+locationCountry);
-    // $("#posterText .card-text:last").html(locationAddress);
   
   });
 
@@ -608,19 +641,19 @@ function getStyle(name){
     }
     else if(name == 'snow'){
         varId = 1207
-        return maptilerBlack; //'http://localhost:8080/styles/ptm-black-lines-final/style.json'; 
+        return maptilerVectorBlack; //'http://localhost:8080/styles/ptm-black-lines-final/style.json'; 
     }
     else if(name == 'moon'){
         varId = 1208
-        return maptilerWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return maptilerVectorWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'granite'){
         varId = 1209
-        return maptilerWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return maptilerVectorWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'mint'){
         varId = 1210
-        return maptilerWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return maptilerVectorWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     
 }
@@ -776,6 +809,7 @@ function setStyle(style, marker = ''){
 }
 
 
+
 $("#styleSelector .ptm-btn").click(function ( event ) {
     
     $(this).parent().find("label").each(function(){
@@ -791,8 +825,13 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
     $('#addToCart').attr('action', cartUrl+event.target.id);
 
     var styleUrl = getStyle(event.target.id);
-    map.setStyle(styleUrl);
-
+    // map.setStyle({
+    //     style: styleUrl});
+        
+    console.log(styleUrl);
+    // mapStyle.setUrl(styleUrl);
+    mapStyle._glMap.setStyle(styleUrl);
+    
     
 
     let marker = $('#markerSelector').find("label.active").attr('id');

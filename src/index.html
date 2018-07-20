@@ -7,8 +7,8 @@
     <meta name="author" content="">    
 
     <title>Place the Moment</title>
-    <!-- <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script> -->
-    <!-- <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' /> -->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
     <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
@@ -67,11 +67,11 @@
                                     <form>
                                         <div class="form-group">
                                             <label class="sidebar-heading text-muted" for="momentInput">Describe your moment</label>
-                                            <input type="text" class="form-control" id="momentInput" placeholder="">
+                                            <input type="text" class="form-control" id="momentInput" maxlength="100" placeholder="">
                                             <label class="sidebar-heading text-muted" for="sublineInput">Subline</label>
-                                            <input type="text" class="form-control" id="sublineInput" placeholder="">
+                                            <input type="text" class="form-control" id="sublineInput" maxlength="40" placeholder="">
                                             <label class="sidebar-heading text-muted" for="taglineInput">Tagline</label>
-                                            <input type="text" class="form-control" id="taglineInput" placeholder="">
+                                            <input type="text" class="form-control" id="taglineInput" maxlength="40" placeholder="">
                                         </div>
                                     </form>
                                 </div>
@@ -243,7 +243,7 @@
                 <div id="debugger" class="debugPanel"></div>
                 <div class="col-12">
                     <div id="posterWrapper" class="posterArea">
-                        <div id="posterCanvas" class="card poster snow">
+                        <div id="posterCanvas" class="card poster mint">
                             <!-- <img class="card-img-top" src="https://via.placeholder.com/500x500" alt="Poster image"> -->            
                             <div class="mapwindow">
                                 <div id="mapbox" class="card-img-top"></div>
