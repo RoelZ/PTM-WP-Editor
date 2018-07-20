@@ -193,16 +193,16 @@ onAdd: function() {
     return element;
 }
 });
-
 L.control.zoom({position:'topright'}).addTo(map);
 
 (new GooglePlacesSearchBox).addTo(map);
   
   var input = document.getElementById("searchBox");
   $(input).addClass('form-control py-2 border-right-0 border').attr('placeholder','Enter your place');
+    
   var searchBox = new google.maps.places.SearchBox(input);
-
-  let marker;
+  
+  let markerOnMap;
 
   searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
@@ -273,11 +273,11 @@ L.control.zoom({position:'topright'}).addTo(map);
 
         latlngbounds = L.latLngBounds(northeast,southwest);
 
-    if(marker)
-        map.removeLayer(marker);
-
-      marker = new L.marker(latlng, {
-          icon: L.icon({iconUrl: 'https://www.placethemoment.com/dev/wp-content/uploads/2017/11/ptm-marker-mint.png', className: 'marker'}),
+    if(markerOnMap)
+        map.removeLayer(markerOnMap);
+        
+        markerOnMap = new L.marker(latlng, {
+          icon: L.icon({iconUrl:'http://www.placethemoment.com/dev/editor/images/ptm-marker.svg', className: 'marker'}),
           draggable: true,
         })
         .addTo(map);        
@@ -285,10 +285,10 @@ L.control.zoom({position:'topright'}).addTo(map);
     }); 
 
     map.flyToBounds(latlngbounds, {duration: 3, maxZoom: 15});
-    
   
   });
 
+  input.focus();
 $('.mapwindow').append($('.leaflet-control-container'));
 geocoderInput.append(input);
 geocoderInput.append('<span class="input-group-append"><button class="btn btn-outline-light border-left-0 border" type="button"><i class="fa fa-search"></i></button></span>');
@@ -669,6 +669,17 @@ function getMarkerStyle(){
         return '#54575c';
 }
 
+function getMarker(marker){
+    if(marker == "snow")
+        return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-snow.svg';
+    else if(marker == "granite")
+        return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-granite.svg';
+    else if(marker == "yellow")
+        return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-yellow.svg';
+    else if(marker == "mint")
+        return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-mint.svg';
+}
+
 $(document).keyup(function(e){
 
     if(e.keyCode == 49){       
@@ -835,7 +846,8 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
     
 
     let marker = $('#markerSelector').find("label.active").attr('id');
-    $('#mapbox .marker').addClass(marker);
+    // $('#mapbox .marker').addClass(marker);
+    markerOnMap.setIcon(L.icon({ iconUrl: getMarker(marker), className: 'marker' }));
     
     // map.on('load', function(){
     //     if(map.isStyleLoaded){
@@ -860,6 +872,7 @@ $('#markerSelector .ptm-btn').click(function ( event ) {
     });
 
     let clickedMarker = $(this).attr('id');
-    $('#mapbox .marker').removeClass('yellow granite mint').addClass(clickedMarker);
+    // $('#mapbox .marker').removeClass('yellow granite mint snow').addClass(clickedMarker);
+    markerOnMap.setIcon(L.icon({ iconUrl: getMarker(clickedMarker), className: 'marker'}));
         
 });
