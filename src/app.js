@@ -49,7 +49,8 @@ var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attr
 var styleUrl = maptilerBlack;
 
 
-var currentStyle = "snow";
+let currentStyle = "snow";
+let defaultMarkerStyle = getMarker('yellow');
 var currentMarkerStyle = "mint";
 var imgData = "";
 let isMobile = false;
@@ -171,17 +172,49 @@ function checkUrlExists(host,cb) {
 
 var debugPanel = document.getElementById('debugger');
 var map = L.map('mapbox', { zoomControl: false})
-    .setView([51.441767, 5.470247], 13);
+    // .setView([51.441767, 5.470247], 13);
+    .setView(defaultView(),13);
 
 let mapStyle = L.mapboxGL({
     style: maptilerVectorWhite,
     accessToken: 'no-token'
 }).addTo(map);
 
+new L.marker(map.getCenter(), {
+    icon: L.icon({iconUrl: defaultMarkerStyle, className: 'marker'}),
+    draggable: true,
+}).addTo(map);
+
 // let mapStyle = L.tileLayer(maptilerWhite, {
 //     // attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 // }).addTo(map);
 
+function defaultView(){
+    let places = {
+        0 : {
+            name: 'eindhoven',
+            lat : '51.441767',
+            lng : '5.470247',
+            zoom : '12.1'
+        },
+        1 : {
+            name: 'utrecht',
+            lat : '52.090737',
+            lng : '5.12142',
+            zoom : '12.1'
+        },
+        2 : {
+            name: 'amsterdam',
+            lat : '52.370216',
+            lng : '4.895168',
+            zoom : '12.1'
+        },
+    }
+
+    let randomItem = Math.floor(Math.random() * Object.keys(places).length);  
+        
+    return L.latLng(places[randomItem].lat,places[randomItem].lng);
+}
 
 
 const geocoderInput = $('#geocoder');
@@ -197,14 +230,14 @@ L.control.zoom({position:'topright'}).addTo(map);
 
 (new GooglePlacesSearchBox).addTo(map);
   
-  var input = document.getElementById("searchBox");
-  $(input).addClass('form-control py-2 border-right-0 border').attr('placeholder','Enter your place');
-    
-  var searchBox = new google.maps.places.SearchBox(input);
-  
-  let markerOnMap;
+var input = document.getElementById("searchBox");
+$(input).addClass('form-control py-2 border-right-0 border').attr('placeholder','Enter your place');
 
-  searchBox.addListener('places_changed', function() {
+var searchBox = new google.maps.places.SearchBox(input);
+
+let markerOnMap;
+
+searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
   
     if (places.length == 0) {
@@ -216,53 +249,45 @@ L.control.zoom({position:'topright'}).addTo(map);
     let subline,tagline;
     
     places.forEach(function(place) {
-        console.log(place.place_id);
-        
-        $.getJSON('https://www.placethemoment.com/api/v1/json.php?placeid='+place.place_id, function(data){
-            
+        console.log(place.place_id);        
+        $('#addToCart input[name="placeid"]').val(place.place_id);
+
+        $.getJSON('https://www.placethemoment.com/api/v1/json.php?placeid='+place.place_id, function(data){            
         console.log(data.result);
 
-            data.result.address_components.forEach(address => {
-                address.types.forEach(type => {
-                    if(type == 'country')
-                        locationCountry = address.long_name;
+        // Adding address fields
+        data.result.address_components.forEach(address => {
+            address.types.forEach(type => {
+                if(type == 'country')
+                    locationCountry = address.long_name;
 
-                    if(locationCity == '' && type == 'administrative_area_level_2'){
-                        locationCity = address.short_name;
-                    }else if(type == 'locality'){
-                        locationCity = address.long_name;
-                    }
-                });
-            });              
-            locationName = data.result.name;
-            // if(!locationCity === undefined)
-            if(locationCity == locationName)
-                tagline = locationCountry;
-            else if(locationCountry == locationName)
-                tagline = locationCity;
-            else
-                tagline = locationCity ? locationCity+" - "+locationCountry : locationCountry;
+                if(locationCity == '' && type == 'administrative_area_level_2'){
+                    locationCity = address.short_name;
+                }else if(type == 'locality'){
+                    locationCity = address.long_name;
+                }
+            });
+        });
 
-            $('#sublineInput').val(locationName);
-            $('#addToCart input[name="ptm_subline"]').val(locationName);
-            $('#taglineInput').val(tagline);
-            $('#addToCart input[name="ptm_tagline"]').val(tagline);
+        locationName = data.result.name;
 
-            $("#posterText .card-text:first").html(locationName);
-            $("#posterText .card-text:last").html(tagline);
+        if(locationCity == locationName)
+            tagline = locationCountry;
+        else if(locationCountry == locationName)
+            tagline = locationCity;
+        else
+            tagline = locationCity ? locationCity+" - "+locationCountry : locationCountry;
+
+        $('#sublineInput').val(locationName);
+        $('#addToCart input[name="ptm_subline"]').val(locationName);
+        $('#taglineInput').val(tagline);
+        $('#addToCart input[name="ptm_tagline"]').val(tagline);
+
+        $("#posterText .card-text:first").html(locationName);
+        $("#posterText .card-text:last").html(tagline);
 
         });
 
-        // fetch('https://www.placethemoment.com/api/v1/json.php?placeid='+place.place_id,{mode: 'no-cors'})
-        // .then(function(myJson){
-
-        // }).catch(function(error){
-        //     console.log(error);
-        //     console.log('houdoe');
-        // });
-
-        // var placeInfo = 
-        // console.log(https://maps.googleapis.com/maps/api/place/details/json?placeid=''&fields=name,rating,formatted_phone_number&key=YOUR_API_KEY);
         latlng = L.latLng(
                 place.geometry.location.lat(),
                 place.geometry.location.lng()
@@ -299,17 +324,44 @@ L.control.zoom({position:'topright'}).addTo(map);
         
         markerOnMap.setIcon(L.icon({ iconUrl: markerStyle, className: 'marker' }));
         
+        $('#addToCart input[name="marker_style"]').val(currentStyle);
+        $('#addToCart input[name="marker_coordinates"]').val(markerOnMap.getLatLng());
+        
+        markerOnMap.on('dragend', function(){
+            $('#addToCart input[name="marker_coordinates"]').val(markerOnMap.getLatLng());
+        });
        
     }); 
 
     map.flyToBounds(latlngbounds, {duration: 3, maxZoom: 15});
-  
+
+    // Adding coordinate bounds
+    // console.log(latlngbounds);
+    $('#addToCart input[name="coordinates"]').val(JSON.stringify(latlngbounds));
+
+
   });
 
-  input.focus();
+input.focus();
+
 $('.mapwindow').append($('.leaflet-control-container'));
 geocoderInput.append(input);
 geocoderInput.append('<span class="input-group-append"><button class="btn btn-outline-light border-left-0 border" type="button"><i class="fa fa-search"></i></button></span>');
+
+
+map.on('zoomend', function(){
+    $('#addToCart input[name="zoom"]').val(map.getZoom());
+    $('#addToCart input[name="coordinates"]').val(JSON.stringify(map.getBounds()));
+});
+    
+
+map.on('dragend', function(){
+    $('#addToCart input[name="coordinates"]').val(JSON.stringify(map.getBounds()));
+});
+
+map.on('click', function(){
+    console.log('click');
+});
 
 
 
