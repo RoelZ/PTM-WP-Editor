@@ -40,20 +40,36 @@ const searchControl = new GeoSearchControl({
 
 });
 
-var varId;  // WooCommerce ID
-var cartUrl = 'http://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=';
+let varId;  // WooCommerce ID
+var cartUrl = 'https://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=';
 //var styleUrl = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 //var styleUrl = 'http://localhost:8080/styles/ptm-white-lines-final/style.json';
 //var styleUrl = 'http://placethemoment.com/dev/ptm-editor/assets/styles/style.json';
 //var styleUrl = "mapbox://styles/roelz/cjbp002fe6an22smmpzfotnk4";
-var styleUrl = maptilerBlack;
+//var styleUrl = maptilerBlack;
 
-
-let currentStyle = "snow";
-let defaultMarkerStyle = getMarker('yellow');
-var currentMarkerStyle = "mint";
+let currentStyle = "moon";
+let currentMarkerStyle = "yellow";
+let defaultStartView = defaultView();
+let defaultMarkerStyleUrl = getMarker(currentMarkerStyle);
 var imgData = "";
 let isMobile = false;
+
+// Hidden Form values
+let formCoordinates = $('#addToCart input[name="coordinates"]');
+let formPlaceId = $('#addToCart input[name="placeid"]');
+let formZoom = $('#addToCart input[name="zoom"]');
+let formMarkerCoordinates = $('#addToCart input[name="marker_coordinates"]');
+let formMarkerStyle = $('#addToCart input[name="marker_style"]');
+let formVariationId = $('#addToCart input[name="variation_id"]');
+
+let ptm_moment = $('#addToCart input[name="ptm_moment"]');
+let ptm_subline = $('#addToCart input[name="ptm_subline"]');
+let ptm_tagline = $('#addToCart input[name="ptm_tagline"]');
+
+ptm_subline.val(defaultStartView.name);
+ptm_tagline.val('The Netherlands');
+
 
 /* INITIAL BREAKPOINTS CHECK */
 $(document).ready(function() {
@@ -169,52 +185,29 @@ function checkUrlExists(host,cb) {
 */
 
 // var canvas = map.getCanvasContainer();
+let debugPanel = document.getElementById('debugger');
 
-var debugPanel = document.getElementById('debugger');
-var map = L.map('mapbox', { zoomControl: false})
-    // .setView([51.441767, 5.470247], 13);
-    .setView(defaultView(),13);
+let map = L.map('mapbox', { zoomControl: false});
+
+map.on('load', function(){
+    console.log(defaultStartView);
+    formCoordinates.val(JSON.stringify(map.getBounds()));
+    formZoom.val(13);
+    formMarkerStyle.val(currentMarkerStyle);
+    formMarkerCoordinates.val(L.latLng(defaultStartView.lat,defaultView.lng));
+}).setView(L.latLng(defaultStartView.lat,defaultView.lng),13);
 
 let mapStyle = L.mapboxGL({
     style: maptilerVectorWhite,
     accessToken: 'no-token'
 }).addTo(map);
 
-new L.marker(map.getCenter(), {
-    icon: L.icon({iconUrl: defaultMarkerStyle, className: 'marker'}),
+let markerOnMap = new L.marker(map.getCenter(), {
+    icon: L.icon({iconUrl: defaultMarkerStyleUrl, className: 'marker'}),
     draggable: true,
 }).addTo(map);
 
-// let mapStyle = L.tileLayer(maptilerWhite, {
-//     // attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-// }).addTo(map);
 
-function defaultView(){
-    let places = {
-        0 : {
-            name: 'eindhoven',
-            lat : '51.441767',
-            lng : '5.470247',
-            zoom : '12.1'
-        },
-        1 : {
-            name: 'utrecht',
-            lat : '52.090737',
-            lng : '5.12142',
-            zoom : '12.1'
-        },
-        2 : {
-            name: 'amsterdam',
-            lat : '52.370216',
-            lng : '4.895168',
-            zoom : '12.1'
-        },
-    }
-
-    let randomItem = Math.floor(Math.random() * Object.keys(places).length);  
-        
-    return L.latLng(places[randomItem].lat,places[randomItem].lng);
-}
 
 
 const geocoderInput = $('#geocoder');
@@ -235,8 +228,6 @@ $(input).addClass('form-control py-2 border-right-0 border').attr('placeholder',
 
 var searchBox = new google.maps.places.SearchBox(input);
 
-let markerOnMap;
-
 searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
   
@@ -250,7 +241,7 @@ searchBox.addListener('places_changed', function() {
     
     places.forEach(function(place) {
         console.log(place.place_id);        
-        $('#addToCart input[name="placeid"]').val(place.place_id);
+        formPlaceId.val(place.place_id);
 
         $.getJSON('https://www.placethemoment.com/api/v1/json.php?placeid='+place.place_id, function(data){            
         console.log(data.result);
@@ -305,13 +296,7 @@ searchBox.addListener('places_changed', function() {
         
         $('#markerSelector').find("label").each(function(){ 
             if($(this).hasClass('active')){
-                console.log($(this).attr('id'));
-                markerStyle = getMarker($(this).attr('id'), true);
-                return;
-            } else {
-                markerStyle = getMarker(currentStyle, true);
-                console.log(currentStyle);
-                return;
+                markerStyle = getMarker($(this).attr('id'));
             }
         });
 
@@ -323,12 +308,11 @@ searchBox.addListener('places_changed', function() {
         .addTo(map);
         
         markerOnMap.setIcon(L.icon({ iconUrl: markerStyle, className: 'marker' }));
-        
-        $('#addToCart input[name="marker_style"]').val(currentStyle);
-        $('#addToCart input[name="marker_coordinates"]').val(markerOnMap.getLatLng());
+                
+        formMarkerCoordinates.val(markerOnMap.getLatLng());
         
         markerOnMap.on('dragend', function(){
-            $('#addToCart input[name="marker_coordinates"]').val(markerOnMap.getLatLng());
+            formMarkerCoordinates.val(markerOnMap.getLatLng());
         });
        
     }); 
@@ -337,7 +321,7 @@ searchBox.addListener('places_changed', function() {
 
     // Adding coordinate bounds
     // console.log(latlngbounds);
-    $('#addToCart input[name="coordinates"]').val(JSON.stringify(latlngbounds));
+    formCoordinates.val(JSON.stringify(latlngbounds));
 
 
   });
@@ -350,48 +334,20 @@ geocoderInput.append('<span class="input-group-append"><button class="btn btn-ou
 
 
 map.on('zoomend', function(){
-    $('#addToCart input[name="zoom"]').val(map.getZoom());
-    $('#addToCart input[name="coordinates"]').val(JSON.stringify(map.getBounds()));
+    formZoom.val(map.getZoom());
+    formCoordinates.val(JSON.stringify(map.getBounds()));
 });
     
 
 map.on('dragend', function(){
-    $('#addToCart input[name="coordinates"]').val(JSON.stringify(map.getBounds()));
+    formCoordinates.val(JSON.stringify(map.getBounds()));
 });
 
-map.on('click', function(){
-    console.log('click');
-});
 
 
 
 // Adding source layer after map is loaded
 // map.on('load', function(){   
-
-//     // laden van een default marker
-//     //addMarker();
-
-//     // map.on('mousedown', 'point', function(e) {
-
-//     //     // Prevent the default map drag behavior.
-//     //     e.preventDefault();
-
-//     //     canvas.style.cursor = 'grab';
-//     //     console.log(map.getSource('ptm-marker'));
-
-//     //     map.on('mousemove', onMove);
-//     //     map.once('mouseup', onUp);
-//     // });
-
-//     // map.on('touchstart', 'point', function(e) {
-//     //     if (e.points.length !== 1) return;
-
-//     //     // Prevent the default map drag behavior.
-//     //     e.preventDefault();
-
-//     //     map.on('touchmove', onMove);
-//     //     map.once('touchend', onUp);
-//     // });
 
 //     debugPanel.style.display = 'none';
 //     debugPanel.innerHTML = 'Longitude: ' + map.getBounds();
@@ -482,160 +438,9 @@ map.on('click', function(){
 // )}
 //     */
 // }
-
-//     //console.log('Line 52: '+map.getCenter());
-//     $('#addToCart input[name="design_id"]').val(token());
-//     $('#addToCart input[name="coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
     
-//     // empty on load
-//     $('#addToCart input[name="ptm_moment"]').val();
-//     $('#addToCart input[name="ptm_subline"]').val();
-//     $('#addToCart input[name="ptm_tagline"]').val();
-    
-//     // Bij GET values (mc,s,m), locatie, stijl en marker tonen
-//     if(findGetParameter("mc")){
-
-//         var markerCoordinates = getCoordinates(findGetParameter("mc"));
-//         //var locationMarker = [{"type":"FeatureCollection","features":[{"type":"Feature", "geomerty": { "type": "Point", "coordinates": [5.463783, 51.443383] }}]}];
-//         var locationMarker = {type: 'FeatureCollection',
-//         features: [{
-//         type: 'Feature',
-//         geometry: {
-//             type: 'Point',
-//             coordinates: markerCoordinates
-//         }
-//         }]};
-        
-//         console.log('line 75: '+markerCoordinates);
-        
-//         switch(findGetParameter('s')){
-//             case "moon":
-//                 currentStyle = "moon";
-//                 break;
-//             case "granite":
-//                 currentStyle = "granite";
-//                 break;
-//             case "mint":    
-//                 currentStyle = "mint";
-//                 break;
-//             default:
-//                 currentStyle = "snow";
-//         }
-        
-//         switch(findGetParameter('m')){    
-//             case "granite":
-//                 currentMarkerStyle = "granite";
-//                 break;
-//             case "yellow":    
-//                 currentMarkerStyle = "yellow";
-//                 break;
-//             default:
-//                 currentMarkerStyle = "mint";
-//         }
-//         console.log('s: '+findGetParameter('s')+', m: '+findGetParameter('m'));
-//         setStyle(currentStyle,currentMarkerStyle);
-
-//         locationMarker.features.forEach(function(marker){
-//             var el = document.createElement('div');
-//             //el.id = 'marker';
-//             el.className = 'marker ' + currentMarkerStyle;
-
-//             new mapboxgl.Marker(el)
-//                 .setLngLat(marker.geometry.coordinates)
-//                 .addTo(map);
-//         });
-//     }
-    
-//     // Wachten op een geocoder.input event
-//     geocoder.on('result', function(ev){
-        
-//         console.log(ev.result.geometry.coordinates);
-
-//         //addMarker(ev.result.geometry.coordinates);
-//         let markerElement = document.createElement('div');
-//         markerElement.className = 'marker';
-        
-
-//         var markert = new mapboxgl.Marker({ draggable: true})
-//         .setLngLat([5.454257, 51.442008])
-//         .addTo(map);
-
-//         function blabla(){
-//         console.log('check');
-//         }
-
-//         markert.on('click', blabla());
-
-//         //doelenstraat 22, eindhoven
-//         //map.getSource('single-point').setData(locationMarker);
-        
-//         // Adding marker coordinates to form
-//         //$('#addToCart input[name="marker_coordinates"]').val(locationMarker.coordinates[0]+','+locationMarker.coordinates[1]+','+map.getZoom());
-
-//         // Adding address on poster
-//         var locationCity = ev.result.context[1].text;
-//         var locationCountry = (ev.result.context[3].text === undefined) ? ev.result.context[3].text : '';
-//         var locationAddress = ev.result.text+" "+ev.result.address;
-
-//         $('#sublineInput').val(locationCity+" - "+locationCountry);
-//         $('#addToCart input[name="ptm_subline"]').val(locationCity+" - "+locationCountry);
-//         $('#taglineInput').val(locationAddress);
-//         $('#addToCart input[name="ptm_tagline"]').val(locationAddress);
-
-//         $("#posterText .card-text:first").html(locationCity+" - "+locationCountry);
-//         $("#posterText .card-text:last").html(locationAddress);
-
-//         /*
-//         map.on('moveend', function(e){
-//             $('#addToCart input[name="marker_coordinates"]').val(ev.result.geometry.coordinates+','+Math.round(map.getZoom() * 10) / 10);
-//         });
-//         */
-
-//     }); // end geocode search
-    
-    
-
 // });  // end Map onLoad
 
-// marker.on('dragend', function(){
-//     console.log('echo');
-// });
-
-
-// Draggable markers
-function onMove(e) {
-    var coords = e.lngLat;
-    canvas.style.cursor = 'pointer';
-
-    //console.log(geojson);    
-    // Update the Point feature in `geojson` coordinates
-    // and call setData to the source layer `point` on it.  
-    geojson.features[0].geometry.coordinates = [coords.lng, coords.lat];
-    map.getSource('ptm-marker').setData(geojson);
-}
-function onUp(e) {
-    var coords = e.lngLat;
-    
-    $('#addToCart input[name="marker_coordinates"]').val(coords.lat + ','+ coords.lng);
-    // Print the coordinates of where the point had
-    // finished being dragged to on the map.
-    debugPanel.style.display = 'block';
-    debugPanel.innerHTML = 'Longitude: ' + coords.lng + '<br />Latitude: ' + coords.lat;
-    canvas.style.cursor = '';
-
-    // Unbind mouse/touch events
-    map.off('mousemove', onMove);
-    map.off('touchmove', onMove);
-}
-
-/*
-map.on('dragend', function(e){
-    $('#addToCart input[name="marker_coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
-});
-map.on('moveend', function(e){
-    $('#addToCart input[name="marker_coordinates"]').val(map.getCenter().lat+','+map.getCenter().lng+','+map.getZoom());
-});
-*/
 
 var rand = function() {
     return Math.random().toString(36).substr(2); // remove `0.`
@@ -667,35 +472,32 @@ function getCoordinates(value){
     return cor;
 }
 
-function addMarker(data){   
 
-    geojson.features[0].geometry.coordinates = data;
-    
-    map.addSource('ptm-marker', {
-        "type": "geojson",
-        "data": geojson
-    });
+function defaultView(){
+    let places = {
+        0 : {
+            name: 'Eindhoven',
+            lat : '51.441767',
+            lng : '5.470247',
+            zoom : '12.1'
+        },
+        1 : {
+            name: 'Utrecht',
+            lat : '52.090737',
+            lng : '5.12142',
+            zoom : '12.1'
+        },
+        2 : {
+            name: 'Amsterdam',
+            lat : '52.370216',
+            lng : '4.895168',
+            zoom : '12.1'
+        },
+    }
 
-    map.addLayer({
-        "id": "point",
-        "source": "ptm-marker",
-        "type": "circle",
-        "paint": {
-            "circle-radius": 10,
-            "circle-color": getMarkerStyle()
-        }
-    });    
-
-    // Onderstaand waarschijnlijk creert NOG een element boven op de locatie van Point
-    geojson.features.forEach(function(marker){
-        var el = document.createElement('div');
-        el.className = 'marker';
-
-        new mapboxgl.Marker(el)
-            .setLngLat(marker.geometry.coordinates)
-            .addTo(map);
-    });
-
+    let randomItem = Math.floor(Math.random() * Object.keys(places).length);  
+        
+    return places[randomItem];
 }
 
 function getStyle(name){
@@ -710,33 +512,43 @@ function getStyle(name){
         return maputnikStyle;
     }
     else if(name == 'snow'){
-        varId = 1207
+        formVariationId.val(1207);
         return maptilerVectorBlack; //'http://localhost:8080/styles/ptm-black-lines-final/style.json'; 
     }
     else if(name == 'moon'){
-        varId = 1208
+        formVariationId.val(1208);
         return maptilerVectorWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'granite'){
-        varId = 1209
+        formVariationId.val(1209);
         return maptilerVectorWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'mint'){
-        varId = 1210
+        formVariationId.val(1210);
         return maptilerVectorWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     
 }
+function getVariation(style){
+    if(style == 'snow')
+        return 1207;
+    else if(style == 'moon')
+        return 1208;
+    else if(style == 'granite')
+        return 1209;
+    else if(style == 'mint')
+        return 1210;
+}
 
-function getMarkerStyle(){
+function defaultMarkerStyle(){
     if(currentStyle == "snow")
-        return '#6fa189';
+        return 'mint';
     else if(currentStyle == "moon")
-        return '#ffffff';
+        return 'snow';
     else if(currentStyle == "granite")
-        return '#d8ae46';
-    else 
-        return '#54575c';
+        return 'yellow';
+    else if(currentStyle == "mint")
+        return 'granite';
 }
 
 function getMarker(style, poster = false){
@@ -864,80 +676,46 @@ $('#momentInput').val($("#posterText .card-title").text());
 //$('#momentInput').change(function(){
 $("#momentInput").on("input", function(){
     $("#posterText .card-title").text($(this).val());
-    $('#addToCart input[name="ptm_moment"]').val($(this).val());
+    ptm_moment.val($(this).val());
 });
 
 $("#sublineInput").on("input", function(){    
     $("#posterText .card-text:first").text($(this).val());
-    $('#addToCart input[name="ptm_subline"]').val($(this).val());
+    ptm_subline.val($(this).val());
 });
 
 $("#taglineInput").on("input", function(){    
     $("#posterText .card-text:last").text($(this).val());
-    $('#addToCart input[name="ptm_tagline"]').val($(this).val());
+    ptm_tagline.val($(this).val());
 });
-
-// Styling UI
-function setStyle(style, marker = ''){
-    console.log(marker);
-    // UI checked
-    if(style){
-        $('#styleSelector').find("label").each(function(){
-             if($(this).attr("id") == style){
-                // $(this).addClass('active');
-                // $(this).children('input').attr("checked", true);                 
-             }
-             else {
-                // $(this).removeClass('active');
-                // $(this).children('input').attr("checked", false);                 
-             }             
-             $(this).removeClass('active');
-        })       
-     } 
-    // GET
-    // POST
-    // Poster
-    $('.poster').attr('class','card poster '+style);
-}
-
-
 
 $("#styleSelector .ptm-btn").click(function ( event ) {
     
     $(this).parent().find("label").each(function(){
         $(this).removeClass('active');
     });
-    currentStyle = toString(event.target.id);
-    // console.log(event.target.id+': '+getStyle(event.target.id));
+    currentStyle = event.target.id;
 
-    //map.setStyle(getStyle(event.target.id));
-    //$('.card').removeClass('snow', 'moon', 'granite', '')
+
     $('.poster').attr('class','card poster '+event.target.id);
 
     $('#addToCart').attr('action', cartUrl+event.target.id);
 
-    var styleUrl = getStyle(event.target.id);
-    // map.setStyle({
-    //     style: styleUrl});
-        
-    console.log(styleUrl);
-    // mapStyle.setUrl(styleUrl);
-    mapStyle._glMap.setStyle(styleUrl);
+    mapStyle._glMap.setStyle(getStyle(currentStyle));
     
-    
-
     let marker = $('#markerSelector').find("label.active").attr('id');
-    // $('#mapbox .marker').addClass(marker);
     markerOnMap.setIcon(L.icon({ iconUrl: getMarker(marker), className: 'marker' }));
     
-    // map.on('load', function(){
-    //     if(map.isStyleLoaded){
-    //     }
-    // });
-
-    // $('#addToCart input[name="variation_id"]').val(varId);
-    //map.setStyle('mapbox://styles/mapbox/basic-v9');
-    //event.preventDefault();
+    // Needs refactoring: update (default) text to marker
+    /*
+    $(this).parent().find("label").each(function(){
+        $(this).find('span.text-muted').removeClass('d-block').addClass('d-none');
+            
+        if(defaultMarkerStyle() == $(this).attr('id'))
+            $(this).find('span.text-muted').addClass('d-block');
+    });
+    */
+    
 });
 
 
@@ -946,14 +724,11 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
 $('#markerSelector .ptm-btn').click(function ( event ) {
 
     $(this).parent().find("label").each(function(){        
-        $(this).removeClass('active');
-        if($(this).attr('id') == clickedMarker){
-            $(this).addClass('active');
-        }        
+        $(this).removeClass('active');        
     });
 
     let clickedMarker = $(this).attr('id');
-    // $('#mapbox .marker').removeClass('yellow granite mint snow').addClass(clickedMarker);
+    formMarkerStyle.val(clickedMarker);
     markerOnMap.setIcon(L.icon({ iconUrl: getMarker(clickedMarker), className: 'marker'}));
         
 });
