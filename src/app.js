@@ -189,13 +189,14 @@ let debugPanel = document.getElementById('debugger');
 
 let map = L.map('mapbox', { zoomControl: false});
 
+// console.log(defaultStartView);
+
 map.on('load', function(){
-    console.log(defaultStartView);
     formCoordinates.val(JSON.stringify(map.getBounds()));
     formZoom.val(13);
     formMarkerStyle.val(currentMarkerStyle);
-    formMarkerCoordinates.val(L.latLng(defaultStartView.lat,defaultView.lng));
-}).setView(L.latLng(defaultStartView.lat,defaultView.lng),13);
+    formMarkerCoordinates.val(L.latLng([defaultStartView.lat,defaultStartView.lng]));
+}).setView(L.latLng([defaultStartView.lat,defaultStartView.lng]),13);
 
 let mapStyle = L.mapboxGL({
     style: maptilerVectorWhite,
