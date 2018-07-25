@@ -40,14 +40,15 @@
                                 </div>
                             
                                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                                <div class="card-body">
-                                    <span class="d-none d-lg-block mb-3">
-                                        Choose your place from anywhere in the world. The city you grew up, the exact address you had 
-                                        your first kiss or the country where you had your best holiday ever.
-                                    </span>
-                                    <label class="sidebar-heading text-muted" for="geocoder">Find a location</label>                                    
-                                    <div id='geocoder' class='geocoder input-group'></div>
-                                </div>
+                                    <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseOne" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
+                                    <div class="card-body">
+                                        <span class="d-none d-lg-block mb-3">
+                                            Choose your place from anywhere in the world. The city you grew up, the exact address you had 
+                                            your first kiss or the country where you had your best holiday ever.
+                                        </span>
+                                        <label class="sidebar-heading text-muted" for="geocoder">Find a location</label>                                    
+                                        <div id='geocoder' class='geocoder input-group'></div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="card bg-lighter">
@@ -59,7 +60,8 @@
                                 <i class="fa fa-angle-down ml-auto"></i>
                                 </div>
                                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                                <div class="card-body">
+                                    <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseTwo" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
+                                    <div class="card-body">
                                     <span class="d-none d-lg-block mb-3">
                                         Choose that special moment where your heart skipped a beat and use your
                                         own words to describe this magical memory.
@@ -86,6 +88,7 @@
                                 <i class="fa fa-angle-down ml-auto"></i>
                                 </div>
                                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">                                    
+                                    <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseThree" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
                                     <div class="card-body">
                                         <span class="d-none d-lg-block mb-3 px-lg-3">
                                             Which color fits best in your interior? Choose from one of the four beautiful color options and love your own personalised map forever!
@@ -271,7 +274,7 @@
 
             </nav>
             
-            <main role="main" class="col-lg-9 col-xl-9 pt-lg-3 px-4">
+            <main role="main" class="col-lg-9 col-xl-9 pt-lg-3">
                 <div id="debugger" class="debugPanel"></div>
                 <div class="col-12">
                     <div id="posterWrapper" class="posterArea">
@@ -287,10 +290,15 @@
                             </div>
                         </div>
                     </div>
+                    <!-- 
                     <nav class="navbar d-none fixed-bottom navbar-light bg-light">
                         <button type="button" id="toPDF" class="btn">PDF</button>
                         <button type="button" id="toPNG" class="btn">PNG</button>
                     </nav>
+                     -->
+                     <nav class="ptm-thanks d-none w-75 text-muted p-2 d-lg-block fixed-bottom">
+                        <small>Thanks to &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</small>
+                     </nav>
                 </div>
             </main>
         </div>

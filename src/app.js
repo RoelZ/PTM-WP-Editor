@@ -56,6 +56,7 @@ var imgData = "";
 let isMobile = false;
 
 // Hidden Form values
+let addToCart = $('#addToCart');
 let formCoordinates = $('#addToCart input[name="coordinates"]');
 let formPlaceId = $('#addToCart input[name="placeid"]');
 let formZoom = $('#addToCart input[name="zoom"]');
@@ -68,8 +69,11 @@ let ptm_subline = $('#addToCart input[name="ptm_subline"]');
 let ptm_tagline = $('#addToCart input[name="ptm_tagline"]');
 
 ptm_subline.val(defaultStartView.name);
+$('#sublineInput').val(defaultStartView.name);
+$("#posterText .card-text:first").html(defaultStartView.name);
 ptm_tagline.val('The Netherlands');
-
+$('#taglineInput').val('The Netherlands');
+$("#posterText .card-text:last").html('The Netherlands');
 
 /* INITIAL BREAKPOINTS CHECK */
 $(document).ready(function() {
@@ -84,31 +88,32 @@ $(document).ready(function() {
         $('#posterText').on('click', function(){
             $('#collapseTwo').collapse('toggle');
         });
-        $('#collapseTwo').on('show.bs.collapse', function(){
-            $('#posterWrapper').css('transform', 'translateY(-70%)');
 
-        });        
+        $('#collapseTwo').on('show.bs.collapse', function(){
+            $('#collapseThree').collapse('hide');
+            $('#posterWrapper').css('transform', 'translateY(-27%)');
+        });
         $('#collapseTwo').on('hide.bs.collapse', function(){
+            $('#posterWrapper').css('transform','');
+        });        
+        $('#collapseThree').on('show.bs.collapse', function(){
+            $('#collapseTwo').collapse('hide');
+            $('#posterWrapper').css('transform', 'translateY(-44%)');
+        });
+        $('#collapseThree').on('hide.bs.collapse', function(){
             $('#posterWrapper').css('transform','');
         });
 
         $('#accordion .btn-group button.btn-ptmLight').on('click', function(){
             $('#accordion .btn-group button').removeClass('active');
         });
-      
 
         $('.collapse').on('show.bs.collapse', function (){
             $('button[data-target="#'+$(this).attr('id')+'"]').addClass('active');
         });
         $('.collapse').on('hide.bs.collapse', function (){
             $('button[data-target="#'+$(this).attr('id')+'"]').removeClass('active');
-        });
-
-
-        
-        let addToCart = $('#addToCart');
-        addToCart.appendTo('#btnGroup');
-        // addToCart.children('')
+        });        
 
         $('nav.navbar').removeClass('d-flex').addClass('d-none');
         
@@ -119,15 +124,16 @@ function checkSize(){
     if ($(".sidebar-sticky").css('position') != 'sticky'){
         isMobile = true;
 
-        //$('#collapseOne').addClass('show'); 
-        // $('#accordion .btn-group button[data-target="#collapseOne"]').trigger("click");
+        if(!$('#collapseOne').hasClass('show')){
+            $('#collapseOne').addClass('show');
+        }        
+        
+        addToCart.appendTo('#btnGroup');
+
     } else {
-        $('#mapbox').find('.geosearch').appendTo($('#geocoder'));
+        // $('#accordion .navbar span').next().prepend(addToCart);
     }
 
-    if(!$('#collapseOne').hasClass('show')){
-        $('#collapseOne').addClass('show');
-    }
 }
 
 
@@ -187,7 +193,7 @@ function checkUrlExists(host,cb) {
 // var canvas = map.getCanvasContainer();
 let debugPanel = document.getElementById('debugger');
 
-let map = L.map('mapbox', { zoomControl: false});
+let map = L.map('mapbox', { zoomControl: false, attributionControl: false});
 
 // console.log(defaultStartView);
 
@@ -271,9 +277,9 @@ searchBox.addListener('places_changed', function() {
             tagline = locationCity ? locationCity+" - "+locationCountry : locationCountry;
 
         $('#sublineInput').val(locationName);
-        $('#addToCart input[name="ptm_subline"]').val(locationName);
+        ptm_subline.val(locationName);
         $('#taglineInput').val(tagline);
-        $('#addToCart input[name="ptm_tagline"]').val(tagline);
+        ptm_tagline.val(tagline);
 
         $("#posterText .card-text:first").html(locationName);
         $("#posterText .card-text:last").html(tagline);

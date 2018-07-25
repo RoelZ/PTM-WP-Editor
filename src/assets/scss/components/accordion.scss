@@ -24,6 +24,15 @@
             transition: transform 300ms ease-out;
         }
     }
+    .ptm-close {
+        right:0;
+
+        .fa-times {
+            font-size: initial;
+            color: $ptmDark;
+            -webkit-text-stroke-width: 0;
+        }
+    }
 }
 
 @include media-breakpoint-up(lg) { 
