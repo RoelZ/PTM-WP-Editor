@@ -21,15 +21,17 @@
         <div class="row">
 
             <nav class="col-lg-3 d-lg-block bg-light sidebar">
-                <div class="sidebar-sticky">
+                <!-- <div class="sidebar-sticky"> -->
+                <div class="h-100">
 
-                    <div class="d-none d-lg-block px-5 py-3 text-center bg-ptmlight">
+                <div id="accordion" class="accordion d-flex flex-column h-100 p-md-0">
+
+                    <div class="px-5 py-3 d-none d-lg-block text-center bg-ptmlight">
                         <a class="d-block" href="https://www.placethemoment.com/dev">
                             <img class="w-75 pt-2 px-3" src="https://www.placethemoment.com/dev/wp-content/uploads/2018/06/logo-original-vector.svg" alt="Place The Moment" id="logo" data-height-percentage="100" data-actual-width="300" data-actual-height="110">
                         </a>
                     </div>
 
-                        <div id="accordion" class="accordion">
                             <div class="card bg-lighter">
                                 <div class="card-header ptm-btnLight d-none d-lg-flex align-items-center" id="headingOne" data-toggle="collapse" data-target="#collapseOne">
                                 <i class="fa fa-location-arrow"></i>
@@ -90,11 +92,11 @@
                                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">                                    
                                     <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseThree" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
                                     <div class="card-body">
-                                        <span class="d-none d-lg-block mb-3 px-lg-3">
+                                        <span class="d-none d-lg-block mb-3 px-3">
                                             Which color fits best in your interior? Choose from one of the four beautiful color options and love your own personalised map forever!
                                         </span>
                                         <div id="styleSelector">
-                                        <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted"><span>Map Color</span></h6>
+                                        <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 px-lg-3 sidebar-heading text-muted"><span>Map Color</span></h6>
                                         <div class="btn-group ptm-poster-styles btn-group-toggle" data-toggle="buttons">
                                             <label id="snow" class="ptm-btn btn">
                                                 <div class="ptm-map-color-btn snow">
@@ -105,7 +107,7 @@
                                                 <span>Snow</span>
                                             <!-- <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Snow -->
                                             </label>
-                                            <label id="moon" class="ptm-btn btn active">
+                                            <label id="moon" class="ptm-btn btn pl-lg-0 active">
                                                 <div class="ptm-map-color-btn moon">
                                                     <div class="ptm-map-color-icon">
                                                         <img src="https://www.placethemoment.com/dev/wp-content/uploads/2018/07/Map-Icon-White-Lines.png" />
@@ -114,7 +116,7 @@
                                                 <span>Moon</span>
                                             <!-- <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Moon -->
                                             </label>
-                                            <label id="granite" class="ptm-btn btn">
+                                            <label id="granite" class="ptm-btn pl-lg-0 btn">
                                                 <div class="ptm-map-color-btn granite">
                                                     <div class="ptm-map-color-icon">
                                                         <img src="https://www.placethemoment.com/dev/wp-content/uploads/2018/07/Map-Icon-White-Lines.png"/>
@@ -123,7 +125,7 @@
                                                 <span>Granite</span>
                                             <!-- <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Granite -->
                                             </label>
-                                            <label id="mint" class="ptm-btn btn">
+                                            <label id="mint" class="ptm-btn px-lg-0 btn">
                                                 <div class="ptm-map-color-btn mint">
                                                     <div class="ptm-map-color-icon">
                                                         <img src="https://www.placethemoment.com/dev/wp-content/uploads/2018/07/Map-Icon-White-Lines.png" />
@@ -146,7 +148,7 @@
                                     <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted">Marker Color</h6>
                                     <div id="markerSelector" class="card-body">
                                         <div class="btn-group ptm-poster-styles" data-toggle="buttons">
-                                        <label id="granite" class="ptm-btn btn">
+                                        <label id="granite" class="ptm-btn btn pl-lg-0">
                                             <svg class="marker" x="0px" y="0px" viewBox="0 0 326.4 402.9" style="enable-background:new 0 0 326.4 402.9;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
                                                 <g>
                                                     <path class="granite" d="M326.4,163.2c0,78.9-55.9,144.7-130.3,159.9l-33.9,79.8l-33.7-80.2C55,306.8,0,241.4,0,163.2                                                        C0,73.1,73.1,0,163.2,0S326.4,73.1,326.4,163.2z M163.2,101.1c-34.3,0-62.2,27.8-62.2,62.2s27.8,62.2,62.2,62.2                                                        s62.2-27.8,62.2-62.2S197.5,101.1,163.2,101.1z"/>
@@ -157,7 +159,7 @@
                                             <span class="d-block">Granite</span>
                                             <span class="d-none text-muted"><small>(default)</small></span>
                                         </label>
-                                        <label id="mint" class="ptm-btn btn">
+                                        <label id="mint" class="ptm-btn btn pl-lg-0">
                                             <svg class="marker" x="0px" y="0px" viewBox="0 0 326.4 402.9" style="enable-background:new 0 0 326.4 402.9;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
                                                 <g>
                                                     <path class="mint" d="M326.4,163.2c0,78.9-55.9,144.7-130.3,159.9l-33.9,79.8l-33.7-80.2C55,306.8,0,241.4,0,163.2                                                        C0,73.1,73.1,0,163.2,0S326.4,73.1,326.4,163.2z M163.2,101.1c-34.3,0-62.2,27.8-62.2,62.2s27.8,62.2,62.2,62.2                                                        s62.2-27.8,62.2-62.2S197.5,101.1,163.2,101.1z"/>
@@ -168,7 +170,7 @@
                                             <span class="d-block">Mint</span>   
                                             <span class="d-none text-muted"><small>(default)</small></span>                                         
                                         </label>
-                                        <label id="yellow" class="ptm-btn btn active">
+                                        <label id="yellow" class="ptm-btn btn pl-lg-0 active">
                                             <svg class="marker" x="0px" y="0px" viewBox="0 0 326.4 402.9" style="enable-background:new 0 0 326.4 402.9;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
                                                 <g>
                                                     <path class="yellow" d="M326.4,163.2c0,78.9-55.9,144.7-130.3,159.9l-33.9,79.8l-33.7-80.2C55,306.8,0,241.4,0,163.2                                                        C0,73.1,73.1,0,163.2,0S326.4,73.1,326.4,163.2z M163.2,101.1c-34.3,0-62.2,27.8-62.2,62.2s27.8,62.2,62.2,62.2                                                        s62.2-27.8,62.2-62.2S197.5,101.1,163.2,101.1z"/>
@@ -179,7 +181,7 @@
                                             <span class="d-block">Yellow</span>
                                             <span class="d-block text-muted"><small>(default)</small></span>
                                         </label>
-                                        <label id="snow" class="ptm-btn btn">
+                                        <label id="snow" class="ptm-btn btn px-lg-0">
                                             <svg class="marker" x="0px" y="0px" viewBox="0 0 326.4 402.9" style="enable-background:new 0 0 326.4 402.9;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
                                                 <g>
                                                     <path class="snow" d="M326.4,163.2c0,78.9-55.9,144.7-130.3,159.9l-33.9,79.8l-33.7-80.2C55,306.8,0,241.4,0,163.2                                                        C0,73.1,73.1,0,163.2,0S326.4,73.1,326.4,163.2z M163.2,101.1c-34.3,0-62.2,27.8-62.2,62.2s27.8,62.2,62.2,62.2                                                        s62.2-27.8,62.2-62.2S197.5,101.1,163.2,101.1z"/>
@@ -228,8 +230,9 @@
                             <img id="canvasImage"></img>
                         </div>
                 
-                        <nav class="navbar navbar-light d-flex w-100">
-                            <span class="w-100 p-2 text-center">
+                        <!-- <nav class="navbar navbar-light d-flex w-100"> -->
+                        <nav class="mt-auto navbar-light d-flex flex-column w-100">
+                            <span class="d-none d-lg-block w-100 p-2 text-center">
                                 <strong>Loving it?</strong><br />
                                 Finish your order to create a lasting memory
                             </span>
@@ -258,14 +261,14 @@
                                 </button>
                             </form>
 
-                            <div class="ptm-usps d-none d-lg-flex justify-content-center w-100 mt-lg-3 text-center">
+                            <div class="ptm-usps d-none d-lg-flex justify-content-center w-100 mt-xl-3 text-center">
                                 <!-- <span class="p-2">
                                     <i class="fa fa-globe" aria-hidden="true"></i>&nbsp;World shipping
                                 </span>                                 -->
-                                <span class="p-2">
+                                <span class="p-2 pr-lg-1">
                                     <i class="fa fa-lock" aria-hidden="true"></i>&nbsp;Secure payment
                                 </span>                                
-                                <span class="p-2">
+                                <span class="p-2 pl-lg-1">
                                     <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;High quality print
                                 </span>                                
                             </div>

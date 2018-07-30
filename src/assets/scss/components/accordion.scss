@@ -1,6 +1,16 @@
 .accordion {
+    
+    background-color:white;
+    border-left: 1px solid rgba(0, 0, 0, 0.125);
 
-    border-top:$ptmLightGrey 1px solid;
+    > div:first-child {
+        border-bottom:$ptmLightGrey 1px solid;
+    }
+    .card {
+        .collapse {
+            overflow-y: scroll;
+        }
+    }
     
     .card-header {
 

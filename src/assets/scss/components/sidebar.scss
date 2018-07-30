@@ -153,24 +153,37 @@
 @include media-breakpoint-up(lg) { 
 .sidebar {
     top:0;
-}
-    
-.sidebar-sticky {    
-    position: sticky;
-    top: 48px; /* Height of navbar */
-    height: 100vh;
-    overflow-x: hidden;
-    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-    background-color:white;
-    border-left: 1px solid rgba(0, 0, 0, 0.125);
-    
-        .navbar {
-            position: absolute;
-            bottom: 10px;
-        }
-    
-        div:has(img) {
-            background-color:darkgrey;
+
+    .navbar-light {
+        span {
+            font-size: 0.75rem;
+
+            .fa {
+                font-size: 0.75rem;
+            }
         }
     }
+}
+    
+// .sidebar-sticky {    
+//     position: sticky;
+//     top: 48px; /* Height of navbar */
+//     height: 100vh;
+//     overflow-x: hidden;
+//     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+//     background-color:white;
+//     border-left: 1px solid rgba(0, 0, 0, 0.125);
+    
+//         .navbar {
+//             position: absolute;
+//             bottom: 10px;
+//         }
+    
+//         div:has(img) {
+//             background-color:darkgrey;
+//         }
+//     }
+//     .ptm-usps {
+//         font-size: 0.85rem;
+//     }
  }

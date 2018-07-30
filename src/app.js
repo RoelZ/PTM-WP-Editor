@@ -121,7 +121,8 @@ $(document).ready(function() {
 });
 
 function checkSize(){
-    if ($(".sidebar-sticky").css('position') != 'sticky'){
+    // if ($(".sidebar-sticky").css('position') != 'sticky'){
+    if ($("#accordion > div").css('display') == 'none'){
         isMobile = true;
 
         if(!$('#collapseOne').hasClass('show')){

@@ -84,8 +84,6 @@ body {
   width:466px;
   height:466px;
   margin:85px auto;
-  border-radius:50%;
-  border: 2px solid;
   overflow: hidden;
 }
 #mapbox 
@@ -102,7 +100,12 @@ body {
       left:-25%;
     }
 */
+    -webkit-border-radius: 233px;
+    -moz-border-radius: 233px;
+    border-radius: 233px;
+    border: 2px solid;
     background-color:rgba(0,0,0,0);
+    z-index: 0;
 }
 
 @include media-breakpoint-down(md){
