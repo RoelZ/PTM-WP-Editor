@@ -114,10 +114,30 @@
     }
 }
 
+
 .ptm-cta {
-    > span {
-        font-size: 1.2rem;
+
+    border: none;
+    background-color:#AC8B38;
+
+    div > span {
+        color:white;
+        font-size: 1rem;   
+        -webkit-transition: background-color 200ms linear;
+        -ms-transition: background-color 200ms linear;
+        transition: background-color 200ms linear;     
+    }
+    &:not(:hover) span:last-child {
         background-color:#d2a32f;
+    }
+    &:hover span {
+        background-color: #dfbe6a;
+    }
+
+    &-helper {                   
+        font-size: .65rem;
+        line-height: 1rem;
+        color: $ptmGrey;
     }
 }
 
@@ -134,6 +154,8 @@
 
 @include media-breakpoint-down(md) {
     .sidebar {
+        border-top: 1px solid rgba(0, 0, 0, 0.125);
+
         .navbar {
             padding:0 1rem;
         }
@@ -148,6 +170,19 @@
             }
         }
     }
+    .ptm-cta {
+        background-color: $ptmYellow;
+
+        div > span {
+            font-size: 1.75rem;
+            background-color:inherit;
+        }
+
+        &.btn-primary:hover {
+            background-color: #dfbe6a;
+        }
+    }
+    
 }
 
 @include media-breakpoint-up(lg) { 
@@ -155,14 +190,12 @@
     top:0;
 
     .navbar-light {
-        span {
-            font-size: 0.75rem;
-
-            .fa {
+        .fa {
+                -webkit-text-fill-color: $ptmDark;
                 font-size: 0.75rem;
             }
-        }
     }
+    
 }
     
 // .sidebar-sticky {    

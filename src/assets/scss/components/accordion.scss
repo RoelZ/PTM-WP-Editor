@@ -29,7 +29,8 @@
         }
 
         .fa-angle-down {
-            color:$ptmDark;            
+            color:$ptmDark;    
+            -webkit-text-fill-color: $ptmDark;
             -webkit-text-stroke-width: 0;
             transition: transform 300ms ease-out;
         }
@@ -40,6 +41,7 @@
         .fa-times {
             font-size: initial;
             color: $ptmDark;
+            -webkit-text-fill-color: $ptmDark;
             -webkit-text-stroke-width: 0;
         }
     }

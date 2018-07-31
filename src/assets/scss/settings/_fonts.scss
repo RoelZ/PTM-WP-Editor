@@ -34,7 +34,8 @@
 
 .fa {
     font-size: 1.6rem;
-    color: transparent;
+    color: $ptmGrey;
+    -webkit-text-fill-color: transparent;
     -webkit-text-stroke-width: 1.5px;
     -webkit-text-stroke-color:  #3D3C37; 
 }

@@ -21,6 +21,9 @@ $theme-colors: (
 }
 .btn { 
     font-size: 0.75rem;
+    &.disabled:focus {
+        box-shadow: none;     
+    }
 }
 .btn-primary { 
     color: #fff;
@@ -66,7 +69,8 @@ $theme-colors: (
     
     .fa-search {
         color:$ptmDark;  
-        font-size: initial;          
+        font-size: initial;
+        -webkit-text-fill-color: $ptmDark;
         -webkit-text-stroke-width: 0;
     }
 }
