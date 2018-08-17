@@ -1,12 +1,10 @@
 //import { request } from 'https';
 
 const path = require('path'),
-    webpack = require('webpack'),    
-    //mapboxgl = require('mapbox-gl'),
-    //MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
-    CleanWebpackPlugin = require('clean-webpack-plugin'),
-    HtmlWebpackPlugin = require('html-webpack-plugin'),
-    ExtractTextPlugin = require('extract-text-webpack-plugin');
+webpack = require('webpack'),
+CleanWebpackPlugin = require('clean-webpack-plugin'),
+HtmlWebpackPlugin = require('html-webpack-plugin'),
+ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 const extractPlugin = new ExtractTextPlugin({ filename: './assets/css/app.css' });
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -24,7 +22,7 @@ const config = {
     
     entry: {
     // removing 'src' directory from entry point, since 'context' is taking care of that
-    app: './app.js'
+    app: './leaflet.js'
   },
 
   output: {
@@ -97,14 +95,14 @@ const config = {
     }),
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-        template: 'index.html'
+        template: 'leaflet.html'
     }),
     extractPlugin
   ],
   
-  externals: {
-    'mapbox-gl': 'mapboxgl' 
-  },
+//   externals: {
+//     'mapbox-gl': 'mapboxgl' 
+//   },
 
   devServer: {
     // proxy: {

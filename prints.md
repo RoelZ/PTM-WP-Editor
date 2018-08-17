@@ -1,9 +1,19 @@
+How to create a print
+====
+
+
 Settings
 -----
 Gebruik de onderstaande stappen om een conversie te maken van web naar print resolutie.
 1. Op canvas (466px) je gebied bepalen
 2. Resolutie canvas in app.scss veranderen naar 4746px
 3. Zoom factor (in URL) met 3.35 punten verhogen
+
+
+
+
+Eerdere sjablonen
+=====
 
 Suus & Wes
 -----
@@ -24,7 +34,7 @@ Eindhoven - The Netherlands
 2. http://www.placethemoment.com/dev/editor/#9.99/-4.6898/55.4691
 Granite
 Paradise was found here
-Mahé Island
+Mahï¿½ Island
 Seychelles
 
 3. http://www.placethemoment.com/dev/editor/#11.08/48.8592/2.2732

@@ -10,4 +10,9 @@
     line-height: 18px;
     border-radius: 3px;
     display: none;
+    z-index:1;
+    -webkit-user-select: all;  /* Chrome all / Safari all */
+    -moz-user-select: all;     /* Firefox all */
+    -ms-user-select: all;      /* IE 10+ */
+    user-select: all; 
 }

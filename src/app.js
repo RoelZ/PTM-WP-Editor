@@ -2,9 +2,9 @@ import 'bootstrap';
 import $ from 'jquery';
 require('webpack-jquery-ui/resizable');
 import L from 'leaflet';
-import mapboxgl from 'mapbox-gl';
-import mapboxGL from 'mapbox-gl-leaflet';
-import leafletSearch from 'leaflet-search';
+// import mapboxgl from 'mapbox-gl';
+// import mapboxGL from 'mapbox-gl-leaflet';
+// import leafletSearch from 'leaflet-search';
 import { GeoSearchControl, GoogleProvider } from 'leaflet-geosearch';
 
 //import jsPDF from 'jspdf';
@@ -22,8 +22,12 @@ import './assets/scss/app.scss';
 // var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerVectorBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerRasterBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerRaster2xBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}@2x.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerVectorWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerRasterWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerRaster2xWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}@2x.png?key=T8rAFKMk9t6uFsXlx0KS';
 
 // var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 //var urlExists = require('url-exists');
@@ -192,22 +196,33 @@ function checkUrlExists(host,cb) {
 */
 
 // var canvas = map.getCanvasContainer();
-let debugPanel = document.getElementById('debugger');
+let debugPanel = $('#debugger');
 
-let map = L.map('mapbox', { zoomControl: false, attributionControl: false});
+let map = L.map('mapbox', { 
+    zoomControl: false, 
+    attributionControl: false
+});
 
 // console.log(defaultStartView);
 
 map.on('load', function(){
     formCoordinates.val(JSON.stringify(map.getBounds()));
+    updateDebugger();
     formZoom.val(13);
     formMarkerStyle.val(currentMarkerStyle);
     formMarkerCoordinates.val(L.latLng([defaultStartView.lat,defaultStartView.lng]));
-}).setView(L.latLng([defaultStartView.lat,defaultStartView.lng]),13);
+})
+// .setView([0,0],0);
+.setView(L.latLng([defaultStartView.lat,defaultStartView.lng]),13);
 
-let mapStyle = L.mapboxGL({
-    style: maptilerVectorWhite,
-    accessToken: 'no-token'
+// let mapStyle = L.mapboxGL({
+//     style: maptilerRasterWhite,
+//     accessToken: 'no-token'
+// }).addTo(map);
+
+L.tileLayer(maptilerRasterBlack, {
+    attribution: false,
+    maxZoom: 21
 }).addTo(map);
 
 let markerOnMap = new L.marker(map.getCenter(), {
@@ -330,7 +345,7 @@ searchBox.addListener('places_changed', function() {
     // Adding coordinate bounds
     // console.log(latlngbounds);
     formCoordinates.val(JSON.stringify(latlngbounds));
-
+    updateDebugger();
 
   });
 
@@ -344,11 +359,13 @@ geocoderInput.append('<span class="input-group-append"><button class="btn btn-ou
 map.on('zoomend', function(){
     formZoom.val(map.getZoom());
     formCoordinates.val(JSON.stringify(map.getBounds()));
+    updateDebugger();
 });
     
 
 map.on('dragend', function(){
     formCoordinates.val(JSON.stringify(map.getBounds()));
+    updateDebugger();
 });
 
 
@@ -458,6 +475,19 @@ var token = function() {
     return rand() + rand() // extra rand() to make it longer
 };
 
+function updateDebugger(){
+    console.log(map.getZoom());
+    //map.getBounds().toBBoxString()
+    debugPanel.html('sw='+btoa(
+        map.getBounds().getSouth()+','+
+        map.getBounds().getWest())
+        +'&ne='+btoa(
+        map.getBounds().getNorth()+','+
+        map.getBounds().getEast())
+    );
+
+}
+
 // Deze functie haalt de coordinaten van de GET header op
 function findGetParameter(parameterName) {
     var result = null,
@@ -521,19 +551,19 @@ function getStyle(name){
     }
     else if(name == 'snow'){
         formVariationId.val(1207);
-        return maptilerVectorBlack; //'http://localhost:8080/styles/ptm-black-lines-final/style.json'; 
+        return maptilerRasterBlack; //'http://localhost:8080/styles/ptm-black-lines-final/style.json'; 
     }
     else if(name == 'moon'){
         formVariationId.val(1208);
-        return maptilerVectorWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return maptilerRasterWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'granite'){
         formVariationId.val(1209);
-        return maptilerVectorWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return maptilerRasterWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'mint'){
         formVariationId.val(1210);
-        return maptilerVectorWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return maptilerRasterWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     
 }
@@ -581,85 +611,72 @@ function getMarker(style, poster = false){
     }
 }
 
-$(document).keyup(function(e){
+function KeyPress(e) {
+    var evtobj = window.event? event : e
+    if (evtobj.keyCode == 112 && evtobj.ctrlKey){
 
-    if(e.keyCode == 49){       
-        map.setStyle(maptilerWhite);
-    } else if(e.keyCode == 50){
-        map.setStyle(maptilerBlack);
-    }
-//});
-    else if(e.keyCode == 27){
-         /*
-         var mapCanvas = map.getCanvas();
+        debugPanel.toggleClass('d-block');
+
+    };
+}
+
+document.onkeydown = KeyPress;
+
+// $(document).keyup(function(e){
+
+//     if(e.keyCode == 49){       
+//         map.setStyle(maptilerWhite);
+//     } else if(e.keyCode == 50){
+//         map.setStyle(maptilerBlack);
+//     }
+// //});
+//     else if(e.keyCode == 17 && e.keyCode == 112){
+
+//         debugPanel.addClass('d-block');
+//          /*
+//          var mapCanvas = map.getCanvas();
        
-        domtoimage.toBlob(mapCanvas)
-        .then(function(blob){
-            window.saveAs(blob, 'ptm-map.png');
-        });
-        */
-/*
-        mapCanvas.toBlob(function(blob){
-            var newImg = document.createElement('img'),
-            url = URL.createObjectURL(blob);
+//         domtoimage.toBlob(mapCanvas)
+//         .then(function(blob){
+//             window.saveAs(blob, 'ptm-map.png');
+//         });
+//         */
+// /*
+//         mapCanvas.toBlob(function(blob){
+//             var newImg = document.createElement('img'),
+//             url = URL.createObjectURL(blob);
 
-            newImg.onload = function(){
-                URL.revokeObjectURL(url);
-            };
+//             newImg.onload = function(){
+//                 URL.revokeObjectURL(url);
+//             };
 
-            newImg.src = url;
-            $('#canvasImage').parent('div').append(newImg);
-            //document.body.appendChild(newImg);
-        });
-*/
-//if(findGetParameter("debug")){
-    // IMG
+//             newImg.src = url;
+//             $('#canvasImage').parent('div').append(newImg);
+//             //document.body.appendChild(newImg);
+//         });
+// */
+// //if(findGetParameter("debug")){
+//     // IMG
     
-    $("#toPNG").click(function(e){
-        var mapCanvas = map.getCanvas();
-        imgData = mapCanvas.toDataURL('image/png',1);
-        $('#canvasImage').attr("src",imgData); 
+//     $("#toPNG").click(function(e){
+//         var mapCanvas = map.getCanvas();
+//         imgData = mapCanvas.toDataURL('image/png',1);
+//         $('#canvasImage').attr("src",imgData); 
 
-        //var mapCanvas = map.getCanvas();
-        //on.mapCanvas.getContext('webgl').finish()
-        //imgData = mapCanvas.toDataURL('image/png',1);
+//         //var mapCanvas = map.getCanvas();
+//         //on.mapCanvas.getContext('webgl').finish()
+//         //imgData = mapCanvas.toDataURL('image/png',1);
         
-        //console.log('putting data to img...')
-        //var imgData = map.getCanvas().toDataURL('image/jpeg');
-        //$("#canvasImage").parent('div').removeClass('d-none');
-        //$('#canvasImage').attr("src",imgData); 
-        //console.log(imgData);
-    });
-    // PDF
-    $("#toPDF").parent('nav').removeClass('d-none');
-    $("#canvasImage").parent('div').removeClass('d-none');
-    $("#toPDF").click(function(e){
-        var imgData = map.getCanvas().toDataURL();
+//         //console.log('putting data to img...')
+//         //var imgData = map.getCanvas().toDataURL('image/jpeg');
+//         //$("#canvasImage").parent('div').removeClass('d-none');
+//         //$('#canvasImage').attr("src",imgData); 
+//         //console.log(imgData);
+//     });
 
-        var doc = new jsPDF();
+// };
 
-        /*
-        if(currentStyle == "granite"){
-            doc.setFillColor("44","34","22","77");  //44 34 22 77
-        } else if(currentStyle == "mint"){
-            doc.setFillColor("54","8","47","14");  //54 8 47 14
-        }
-        doc.setFontSize("56");
-        //doc.setFont("Open Sans");
-        //doc.setTextColor("255");
-        if($('#momentInput').val())
-            var docText = $('#momentInput').val();
-        else
-            var docText = "Place the moment";
-        doc.text(docText,"50","555");
-        */
-        doc.addImage(imgData, 'PNG', 52, 73, 400, 400);
-        doc.save('ptm-print.pdf');
-    });
-
-};
-
-});
+// });
 
 // Tabs: Moment
 var activeTab;
@@ -709,7 +726,7 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
 
     $('#addToCart').attr('action', cartUrl+event.target.id);
 
-    mapStyle._glMap.setStyle(getStyle(currentStyle));
+    // map.setStyle(getStyle(currentStyle));
     
     let marker = $('#markerSelector').find("label.active").attr('id');
     markerOnMap.setIcon(L.icon({ iconUrl: getMarker(marker), className: 'marker' }));

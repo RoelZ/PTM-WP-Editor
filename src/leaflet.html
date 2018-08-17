@@ -8,13 +8,19 @@
 
     <title>Place the Moment</title>
     <style>
-        #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0;}
+        html,body { height:100%; }
+        body { min-height: 100%; margin: 0; background-color:#232323; }
+        #map {position: absolute; top: 0; right: 0; bottom: 0; left: 0; }
+        img { width: 120px; height: 120px; }
+        img:hover { background-color: #343434;}
+        button { display: flex; margin: 20px auto; padding: 10px; }
+        #flex { display:grid; grid-template-columns: repeat(16, 1fr); }
       </style>
   </head>
 
 <body>
-    <div class="container-fluid">        
-        <div id="map"></div>
-    </div><!-- /.container -->
-    
+    <!-- <div id="map"></div> -->
+
+    <div id="flex"></div>
+    <button id="next">NEXT</button>
 </body>
