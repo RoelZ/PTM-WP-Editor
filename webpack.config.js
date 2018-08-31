@@ -22,7 +22,7 @@ const config = {
     
     entry: {
     // removing 'src' directory from entry point, since 'context' is taking care of that
-    app: './leaflet.js'
+    app: './app.js'
   },
 
   output: {
@@ -95,7 +95,7 @@ const config = {
     }),
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-        template: 'leaflet.html'
+        template: 'index.html'
     }),
     extractPlugin
   ],

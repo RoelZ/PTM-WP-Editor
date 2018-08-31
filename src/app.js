@@ -2,8 +2,8 @@ import 'bootstrap';
 import $ from 'jquery';
 require('webpack-jquery-ui/resizable');
 import L from 'leaflet';
-// import mapboxgl from 'mapbox-gl';
-// import mapboxGL from 'mapbox-gl-leaflet';
+import mapboxgl from 'mapbox-gl';
+import mapboxGL from 'mapbox-gl-leaflet';
 // import leafletSearch from 'leaflet-search';
 import { GeoSearchControl, GoogleProvider } from 'leaflet-geosearch';
 
@@ -28,6 +28,10 @@ var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9
 var maptilerVectorWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerRasterWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerRaster2xWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}@2x.png?key=T8rAFKMk9t6uFsXlx0KS';
+
+var defaultBlackMapStyle = maptilerVectorBlack;
+var defaultWhiteMapStyle = maptilerVectorWhite;
+
 
 // var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 //var urlExists = require('url-exists');
@@ -215,15 +219,16 @@ map.on('load', function(){
 // .setView([0,0],0);
 .setView(L.latLng([defaultStartView.lat,defaultStartView.lng]),13);
 
-// let mapStyle = L.mapboxGL({
-//     style: maptilerRasterWhite,
-//     accessToken: 'no-token'
-// }).addTo(map);
+var ptmBlack = L.mapboxGL({ style: defaultBlackMapStyle, accessToken: 'no-token' }),
+    ptmWhite = L.mapboxGL({ style: defaultWhiteMapStyle, accessToken: 'no-token' })
 
-L.tileLayer(maptilerRasterBlack, {
-    attribution: false,
-    maxZoom: 21
-}).addTo(map);
+ptmWhite.addTo(map);
+var activeLayer = ptmWhite;
+
+// var ptmBlack = L.tileLayer(defaultBlackMapStyle, { attribution: false, maxZoom: 21 }),
+//     ptmWhite = L.tileLayer(defaultWhiteMapStyle, { attribution: false, maxZoom: 21 });
+
+// ptmBlack.addTo(map);
 
 let markerOnMap = new L.marker(map.getCenter(), {
     icon: L.icon({iconUrl: defaultMarkerStyleUrl, className: 'marker'}),
@@ -551,19 +556,23 @@ function getStyle(name){
     }
     else if(name == 'snow'){
         formVariationId.val(1207);
-        return maptilerRasterBlack; //'http://localhost:8080/styles/ptm-black-lines-final/style.json'; 
+        return ptmBlack
+        // return defaultBlackMapStyle; //'http://localhost:8080/styles/ptm-black-lines-final/style.json'; 
     }
     else if(name == 'moon'){
         formVariationId.val(1208);
-        return maptilerRasterWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return ptmWhite
+        // return defaultWhiteMapStyle; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'granite'){
         formVariationId.val(1209);
-        return maptilerRasterWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return ptmWhite
+        // return defaultWhiteMapStyle; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'mint'){
         formVariationId.val(1210);
-        return maptilerRasterWhite; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
+        return ptmWhite
+        // return defaultWhiteMapStyle; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     
 }
@@ -726,7 +735,9 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
 
     $('#addToCart').attr('action', cartUrl+event.target.id);
 
-    // map.setStyle(getStyle(currentStyle));
+    map.removeLayer(activeLayer);
+    activeLayer = getStyle(currentStyle);
+    map.addLayer(activeLayer);
     
     let marker = $('#markerSelector').find("label.active").attr('id');
     markerOnMap.setIcon(L.icon({ iconUrl: getMarker(marker), className: 'marker' }));
