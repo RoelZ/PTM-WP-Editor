@@ -39,20 +39,18 @@ body {
 
 .posterArea {
   height: calc(100vh - 70px);
-  /*
-  position: relative;
-  margin: 0 auto;
-  flex: 1;
-  -webkit-box-flex: 1;
-  */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: transform 1s ease;
 }
 
 .poster {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
+  // position: absolute;
+  // top: 50%;
+  // left: 50%;
+  // transform: translateX(-50%) translateY(-50%);
+  // transform-origin: top left;
   
   width:588px;    // 5  (aspect ratio)
   height:820px;   // 7

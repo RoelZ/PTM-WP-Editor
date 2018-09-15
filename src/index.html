@@ -10,56 +10,9 @@
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
     
-    <!-- <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" /> -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCE1svBjPmf71zWMhdr5r0Xu9EDN2sxwHk&libraries=places"></script>
-    <!-- <script type="text/javascript" src="assets/js/leaflet-search.min.js"></script> -->
     
-    <!-- <script src="http://www.placethemoment.com/dev/L2PNG/js/jquery.plugin.html2canvas.js"></script> -->
-    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>	
-    <script src="http://www.placethemoment.com/dev/L2PNG/js/html2canvas.min.js"></script>
-    
-    
-    <script>
-		$(function() {
-		
-			$(document).keyup(function(e){
-				if(e.keyCode == 27){ 
-				// setTimeout(function() {
-					$('#map').html2canvas({
-						// flashcanvas: "js/flashcanvas.min.js",
-						// proxy: 'proxy.php',
-						logging: false,
-						profile: false,
-						useCORS: true
-					});
-				// }, 300);
-                };
-			});
-
-		});
-		
-		function manipulateCanvasFunction(savedMap) {
-			dataURL = savedMap.toDataURL("image/png");
-			dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-
-			var img = document.createElement('img');
-			// var dimensions = map.getSize();
-			img.width = '600';
-			img.height = '400';
-			img.src = savedMap.toDataURL("image/png");
-			
-            // document.body.appendChild(img);
-            $('#canvasImage').parent('div').append(img);
-
-			// $.post("ajax/saveMap.php", { savedMap: dataURL }, function(data) {
-			// 	alert('Image Saved to : ' + data);
-			// });
-		}
-		
-	</script> -->
-
   </head>
 
 <body>
@@ -297,6 +250,7 @@
                                 <input type="hidden" name="ptm_moment" value="My Moment">
                                 <input type="hidden" name="ptm_subline" value="Subline">
                                 <input type="hidden" name="ptm_tagline" value="Tagline">
+                                <input type="hidden" name="ptm_thumb" value="">
                                 <button class="ptm-cta btn btn-primary rounded-top w-100 mx-auto px-lg-0 py-lg-0 btn-block" type="submit">
                                     <div class="d-flex align-items-stretch text-center">
                                         <i class="ptm-shopping-bag py-2 d-lg-none"></i>                                        

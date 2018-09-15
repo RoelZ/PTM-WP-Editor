@@ -5,7 +5,7 @@ import L from 'leaflet';
 import mapboxgl from 'mapbox-gl';
 import mapboxGL from 'mapbox-gl-leaflet';
 import { GeoSearchControl, GoogleProvider } from 'leaflet-geosearch';
-// import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas';
 import leafletImage from 'leaflet-image';
 // import manipulateCanvasFunction from './assets/js/manipulateCanvas';
 
@@ -66,6 +66,7 @@ let formVariationId = $('#addToCart input[name="variation_id"]');
 let ptm_moment = $('#addToCart input[name="ptm_moment"]');
 let ptm_subline = $('#addToCart input[name="ptm_subline"]');
 let ptm_tagline = $('#addToCart input[name="ptm_tagline"]');
+let ptm_thumb = $('#addToCart input[name="ptm_thumb"]');
 
 ptm_subline.val(defaultStartView.name);
 $('#sublineInput').val(defaultStartView.name);
@@ -137,50 +138,50 @@ function checkSize(){
 }
 
 // *** Resize Poster Canvas ***
-var $el = $("#posterCanvas");
-var elHeight = $el.outerHeight();
-var elWidth = $el.outerWidth();
+// var $el = $("#posterCanvas");
+// var elHeight = $el.outerHeight();
+// var elWidth = $el.outerWidth();
 
-var $wrapper = $("#posterWrapper");
+// var $wrapper = $("#posterWrapper");
 
-$wrapper.resizable({
-    resize: doResize
-});
+// $wrapper.resizable({
+//     resize: doResize
+// });
 
-function doResize(event, ui) {
+// function doResize(event, ui) {
 
-var scale, origin;
+// var scale, origin;
     
-scale = Math.min(
-    ui.size.width / elWidth,    
-    ui.size.height / elHeight
-);
+// scale = Math.min(
+//     ui.size.width / elWidth,    
+//     ui.size.height / elHeight
+// );
 
-scale = scale > 1 ? 1 : scale;
+// scale = scale > 1 ? 1 : scale;
 
-$el.css({
-    transform: "translate(-50%, -50%) " + "scale(" + scale + ")"
-});
+// $el.css({
+//     transform: "translate(-50%, -50%) " + "scale(" + scale + ")"
+// });
 
-}
+// }
 
-var starterData = { 
-size: {
-    width: $wrapper.width(),
-    height: $wrapper.height()
-}
-}
-doResize(null, starterData);
+// var starterData = { 
+// size: {
+//     width: $wrapper.width(),
+//     height: $wrapper.height()
+// }
+// }
+// doResize(null, starterData);
 
-$(window).resize(function() {
-    starterData = { 
-        size: {
-            width: $wrapper.width(),
-            height: $wrapper.height()
-        }
-    }
-    doResize(null, starterData);
-});
+// $(window).resize(function() {
+//     starterData = { 
+//         size: {
+//             width: $wrapper.width(),
+//             height: $wrapper.height()
+//         }
+//     }
+//     doResize(null, starterData);
+// });
 
 /*
 function checkUrlExists(host,cb) {
@@ -203,12 +204,11 @@ let map = L.map('mapbox', {
 
 map.on('load', function(){
     formCoordinates.val(JSON.stringify(map.getBounds()));
-    updateDebugger();
     formZoom.val(13);
     formMarkerStyle.val(currentMarkerStyle);
     formMarkerCoordinates.val(L.latLng([defaultStartView.lat,defaultStartView.lng]));
+    // updateDebugger();
 })
-// .setView([0,0],0);
 .setView(L.latLng([defaultStartView.lat,defaultStartView.lng]),13);
 
 // var ptmBlack = L.mapboxGL({ style: defaultBlackMapStyle, accessToken: 'no-token', crossOrigin: true }),
@@ -361,7 +361,7 @@ map.on('zoomend', function(){
 });
     
 
-map.on('dragend', function(){
+map.on('moveend', function(){
     formCoordinates.val(JSON.stringify(map.getBounds()));
     updateDebugger();
 });
@@ -482,17 +482,6 @@ function updateDebugger(){
         map.getBounds().getNorth()+','+
         map.getBounds().getEast())
     );
-    leafletImage(map, function(err, canvas) {
-        var img = document.createElement('img');
-        var dimensions = map.getSize();
-        img.width = dimensions.x;
-        img.height = dimensions.y;
-        img.src = canvas.toDataURL();
-        // document.getElementById('images').innerHTML = '';
-        $('#canvasImage').parent('div').append(img);
-        // $('#canvasImage').attr("src",canvas.toDataURL('image/png'));         
-        console.log(canvas.toDataURL('image/png'));
-    });
     // html2canvas(document.querySelector("#mapbox"), { 
     //         // proxy: 'http://www.placethemoment.com/dev/editor/proxy/proxy.php',
     //         logging: true, 
@@ -785,4 +774,34 @@ $('#markerSelector .ptm-btn').click(function ( event ) {
     formMarkerStyle.val(clickedMarker);
     markerOnMap.setIcon(L.icon({ iconUrl: getMarker(clickedMarker), className: 'marker'}));
         
+});
+
+
+document.getElementById("addToCart").addEventListener("click", function(event){
+    event.preventDefault();
+
+    $('.ptm-cta').attr('disabled', true);
+    let check = false;
+
+    $('#posterCanvas').attr('style','');
+    html2canvas(document.getElementById("posterCanvas"))
+        .then(canvas => {
+            $('#canvasImage').parent('div').append(canvas);  //.appendChild(canvas)
+                //      console.log(canvas.toDataURL('image/png',1));
+            //  })
+        })
+    
+    // leafletImage(map, function(err, canvas) {
+    //     let dataURL = canvas.toDataURL('image/png');
+    //     dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    //     // ptm_thumb.val(dataURL);
+    //     $.post("https://www.placethemoment.com/dev/editor/save.php", { savedMap: dataURL }, function(data) {
+    //         ptm_thumb.val(data);
+    //         console.log(data);
+    //     }).done(function(){
+    //         // $('#addToCart').submit();
+    //     });
+        
+    // });
+
 });
