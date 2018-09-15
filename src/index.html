@@ -15,6 +15,51 @@
     <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCE1svBjPmf71zWMhdr5r0Xu9EDN2sxwHk&libraries=places"></script>
     <!-- <script type="text/javascript" src="assets/js/leaflet-search.min.js"></script> -->
+    
+    <!-- <script src="http://www.placethemoment.com/dev/L2PNG/js/jquery.plugin.html2canvas.js"></script> -->
+    <!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>	
+    <script src="http://www.placethemoment.com/dev/L2PNG/js/html2canvas.min.js"></script>
+    
+    
+    <script>
+		$(function() {
+		
+			$(document).keyup(function(e){
+				if(e.keyCode == 27){ 
+				// setTimeout(function() {
+					$('#map').html2canvas({
+						// flashcanvas: "js/flashcanvas.min.js",
+						// proxy: 'proxy.php',
+						logging: false,
+						profile: false,
+						useCORS: true
+					});
+				// }, 300);
+                };
+			});
+
+		});
+		
+		function manipulateCanvasFunction(savedMap) {
+			dataURL = savedMap.toDataURL("image/png");
+			dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+
+			var img = document.createElement('img');
+			// var dimensions = map.getSize();
+			img.width = '600';
+			img.height = '400';
+			img.src = savedMap.toDataURL("image/png");
+			
+            // document.body.appendChild(img);
+            $('#canvasImage').parent('div').append(img);
+
+			// $.post("ajax/saveMap.php", { savedMap: dataURL }, function(data) {
+			// 	alert('Image Saved to : ' + data);
+			// });
+		}
+		
+	</script> -->
+
   </head>
 
 <body>
@@ -187,7 +232,7 @@
                                                 <g>
                                                     <path class="snow" d="M326.4,163.2c0,78.9-55.9,144.7-130.3,159.9l-33.9,79.8l-33.7-80.2C55,306.8,0,241.4,0,163.2                                                        C0,73.1,73.1,0,163.2,0S326.4,73.1,326.4,163.2z M163.2,101.1c-34.3,0-62.2,27.8-62.2,62.2s27.8,62.2,62.2,62.2                                                        s62.2-27.8,62.2-62.2S197.5,101.1,163.2,101.1z"/>
                                                 </g>
-                                            </svg class="d-block">
+                                            </svg>
                                             <!-- <div class="marker snow"></div> -->
                                             <!-- <input type="radio" name="options" autocomplete="off"> -->
                                             <span class="d-block">Snow</span>
@@ -228,7 +273,7 @@
                             </div>
                         </div>
                         <div class="imgDownload d-none" style="overflow:scroll; width: 100%; height: 50%; background-color: slategrey">
-                            <img id="canvasImage"></img>
+                            <img id="canvasImage"/>
                         </div>
                 
                         <!-- <nav class="navbar navbar-light d-flex w-100"> -->

@@ -4,22 +4,13 @@ require('webpack-jquery-ui/resizable');
 import L from 'leaflet';
 import mapboxgl from 'mapbox-gl';
 import mapboxGL from 'mapbox-gl-leaflet';
-// import leafletSearch from 'leaflet-search';
 import { GeoSearchControl, GoogleProvider } from 'leaflet-geosearch';
+// import html2canvas from 'html2canvas';
+import leafletImage from 'leaflet-image';
+// import manipulateCanvasFunction from './assets/js/manipulateCanvas';
 
-//import jsPDF from 'jspdf';
-//import domtoimage from 'dom-to-image';
 import './assets/scss/app.scss';
-//import Base64 from './assets/js/base64.js';
-//import svgCanvas from './assets/js/svgcanvas.js';
 
-
-// import mapboxBlackStyle from './assets/styles/style.json';
-// import mapboxWhiteStyle from './assets/styles/mapbox-white/style.json';
-// import mapputnikStyle from './assets/styles/maputnik.json';
-
-// var maptilerBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
-// var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerVectorBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerRasterBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
@@ -29,8 +20,8 @@ var maptilerVectorWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce
 var maptilerRasterWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerRaster2xWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}@2x.png?key=T8rAFKMk9t6uFsXlx0KS';
 
-var defaultBlackMapStyle = maptilerVectorBlack;
-var defaultWhiteMapStyle = maptilerVectorWhite;
+var defaultBlackMapStyle = maptilerRasterBlack;
+var defaultWhiteMapStyle = maptilerRasterWhite;
 
 
 // var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
@@ -145,7 +136,7 @@ function checkSize(){
 
 }
 
-
+// *** Resize Poster Canvas ***
 var $el = $("#posterCanvas");
 var elHeight = $el.outerHeight();
 var elWidth = $el.outerWidth();
@@ -203,7 +194,8 @@ function checkUrlExists(host,cb) {
 let debugPanel = $('#debugger');
 
 let map = L.map('mapbox', { 
-    zoomControl: false, 
+    preferCanvas: true,
+    zoomControl: false,
     attributionControl: false
 });
 
@@ -219,21 +211,22 @@ map.on('load', function(){
 // .setView([0,0],0);
 .setView(L.latLng([defaultStartView.lat,defaultStartView.lng]),13);
 
-var ptmBlack = L.mapboxGL({ style: defaultBlackMapStyle, accessToken: 'no-token' }),
-    ptmWhite = L.mapboxGL({ style: defaultWhiteMapStyle, accessToken: 'no-token' })
+// var ptmBlack = L.mapboxGL({ style: defaultBlackMapStyle, accessToken: 'no-token', crossOrigin: true }),
+//     ptmWhite = L.mapboxGL({ style: defaultWhiteMapStyle, accessToken: 'no-token', crossOrigin: true })
 
-ptmWhite.addTo(map);
-var activeLayer = ptmWhite;
+// ptmWhite.addTo(map);
+// var activeLayer = ptmWhite;
 
-// var ptmBlack = L.tileLayer(defaultBlackMapStyle, { attribution: false, maxZoom: 21 }),
-//     ptmWhite = L.tileLayer(defaultWhiteMapStyle, { attribution: false, maxZoom: 21 });
+var ptmBlack = L.tileLayer(defaultBlackMapStyle, { attribution: false, maxZoom: 21, crossOrigin: true }),
+    ptmWhite = L.tileLayer(defaultWhiteMapStyle, { attribution: false, maxZoom: 21, crossOrigin: true });
 
-// ptmBlack.addTo(map);
+    ptmBlack.addTo(map);
+var activeLayer = ptmBlack;
 
-let markerOnMap = new L.marker(map.getCenter(), {
-    icon: L.icon({iconUrl: defaultMarkerStyleUrl, className: 'marker'}),
-    draggable: true,
-}).addTo(map);
+// let markerOnMap = new L.marker(map.getCenter(), {
+//     icon: L.icon({iconUrl: defaultMarkerStyleUrl, className: 'marker'}),
+//     draggable: true,
+// }).addTo(map);
 
 
 
@@ -375,7 +368,6 @@ map.on('dragend', function(){
 
 
 
-
 // Adding source layer after map is loaded
 // map.on('load', function(){   
 
@@ -477,7 +469,7 @@ var rand = function() {
 };
 
 var token = function() {
-    return rand() + rand() // extra rand() to make it longer
+    return rand() + rand() // eßxtra rand() to make it longer
 };
 
 function updateDebugger(){
@@ -490,7 +482,33 @@ function updateDebugger(){
         map.getBounds().getNorth()+','+
         map.getBounds().getEast())
     );
+    leafletImage(map, function(err, canvas) {
+        var img = document.createElement('img');
+        var dimensions = map.getSize();
+        img.width = dimensions.x;
+        img.height = dimensions.y;
+        img.src = canvas.toDataURL();
+        // document.getElementById('images').innerHTML = '';
+        $('#canvasImage').parent('div').append(img);
+        // $('#canvasImage').attr("src",canvas.toDataURL('image/png'));         
+        console.log(canvas.toDataURL('image/png'));
+    });
+    // html2canvas(document.querySelector("#mapbox"), { 
+    //         // proxy: 'http://www.placethemoment.com/dev/editor/proxy/proxy.php',
+    //         logging: true, 
+    //         useCORS: true 
+    //     }).then(canvas => {
+    //     $('#canvasImage').parent('div').append(canvas);  //.appendChild(canvas)
+    //      console.log(canvas.toDataURL('image/png',1));
+    //  });
 
+    // $('#mapbox').html2canvas({
+    //     profile: false,
+    //     useCORS: true
+    // });
+
+    // $('#canvasImage').parent('div').append(manipulateCanvasFunction(savedMap).toDataURL("image/png"));
+    
 }
 
 // Deze functie haalt de coordinaten van de GET header op
