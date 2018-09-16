@@ -44,11 +44,12 @@
                                     <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseOne" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
                                     <div class="card-body">
                                         <span class="d-none d-lg-block mb-3">
-                                            Choose your place from anywhere in the world. The city you grew up, the exact address you had 
-                                            your first kiss or the country where you had your best holiday ever.
+                                            <?php pll_e(' Choose your place from anywhere in the world. The city you grew up, the exact address you had your first kiss or the country where you had your best holiday ever.'); ?>
                                         </span>
-                                        <label class="sidebar-heading text-muted" for="geocoder">Find a location</label>                                    
-                                        <div id='geocoder' class='geocoder input-group'></div>
+                                        <label class="sidebar-heading text-muted" for="geocoder"><?php pll_e('Find a location'); ?></label>                                    
+                                        <div id='geocoder' class='geocoder input-group'>
+                                            <!-- <div id="searchBox"></div> -->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -56,7 +57,7 @@
                                 <div class="card-header ptm-btnLight d-none d-lg-flex align-items-center collapsed" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
                                 <i class="fa fa-map-signs"></i>                                
                                 <button class="btn btn-link collapsed" aria-expanded="false" aria-controls="collapseTwo">
-                                Name it.
+                                    <?php pll_e('Name it.'); ?>
                                 </button>
                                 <i class="fa fa-angle-down ml-auto"></i>
                                 </div>
@@ -64,16 +65,15 @@
                                     <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseTwo" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
                                     <div class="card-body">
                                     <span class="d-none d-lg-block mb-3">
-                                        Choose that special moment where your heart skipped a beat and use your
-                                        own words to describe this magical memory.
+                                        <?php pll_e('  Choose that special moment where your heart skipped a beat and use your own words to describe this magical memory.'); ?>
                                     </span>
                                     <form>
                                         <div class="form-group">
-                                            <label class="sidebar-heading text-muted" for="momentInput">Describe your moment</label>
+                                            <label class="sidebar-heading text-muted" for="momentInput"><?php pll_e('Describe your moment'); ?></label>
                                             <input type="text" class="form-control" id="momentInput" maxlength="100" placeholder="My moment">
-                                            <label class="sidebar-heading text-muted" for="sublineInput">Subline</label>
+                                            <label class="sidebar-heading text-muted" for="sublineInput"><?php pll_e('Subline'); ?></label>
                                             <input type="text" class="form-control" id="sublineInput" maxlength="40" placeholder="Subline">
-                                            <label class="sidebar-heading text-muted" for="taglineInput">Tagline</label>
+                                            <label class="sidebar-heading text-muted" for="taglineInput"><?php pll_e('Tagline'); ?></label>
                                             <input type="text" class="form-control" id="taglineInput" maxlength="40" placeholder="Tagline">
                                         </div>
                                     </form>
@@ -84,7 +84,7 @@
                                 <div class="card-header ptm-btnLight d-none d-lg-flex align-items-center collapsed" id="headingThree" data-toggle="collapse" data-target="#collapseThree">                                
                                 <i class="fa fa-heart"></i>
                                 <button class="btn btn-link collapsed" aria-expanded="false" aria-controls="collapseThree">
-                                Love it.
+                                    <?php pll_e('Love it.'); ?>
                                 </button>
                                 <i class="fa fa-angle-down ml-auto"></i>
                                 </div>
@@ -92,10 +92,10 @@
                                     <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseThree" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
                                     <div class="card-body">
                                         <span class="d-none d-lg-block mb-3 px-3">
-                                            Which color fits best in your interior? Choose from one of the four beautiful color options and love your own personalised map forever!
+                                            <?php pll_e('  Which color fits best in your interior? Choose from one of the four beautiful color options and love your own personalised map forever!'); ?>
                                         </span>
                                         <div id="styleSelector">
-                                        <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 px-lg-3 sidebar-heading text-muted"><span>Map Color</span></h6>
+                                        <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 px-lg-3 sidebar-heading text-muted"><span><?php pll_e('Map Color'); ?></span></h6>
                                         <div class="btn-group ptm-poster-styles btn-group-toggle" data-toggle="buttons">
                                             <label id="snow" class="ptm-btn btn">
                                                 <div class="ptm-map-color-btn snow">
@@ -144,7 +144,7 @@
                                             </label>                                              
                                         </div> -->
                                     </div>
-                                    <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted">Marker Color</h6>
+                                    <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted"><?php pll_e('Marker Color'); ?></h6>
                                     <div id="markerSelector" class="card-body">
                                         <div class="btn-group ptm-poster-styles" data-toggle="buttons">
                                         <label id="granite" class="ptm-btn btn pl-lg-0">
@@ -193,7 +193,7 @@
                                         </label>
                                         </div>
                                     </div>
-                                    <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted">Format</h6>
+                                    <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted"><?php pll_e('Format'); ?></h6>
                                     <div class="card-body">
                                         <button type="button" class="btn btn-lg disabled" data-toggle="button" aria-pressed="false" autocomplete="off">
                                         50x70cm
@@ -232,8 +232,8 @@
                         <!-- <nav class="navbar navbar-light d-flex w-100"> -->
                         <nav class="mt-auto navbar-light d-flex flex-column w-100">
                             <span class="ptm-cta-helper d-none d-lg-block w-100 p-2 text-center">
-                                <strong>Loving it?</strong><br />
-                                Finish your order to create a lasting memory
+                                <strong><?php pll_e('Loving it?'); ?></strong><br />
+                                <?php pll_e('Finish your order to create a lasting memory'); ?>
                             </span>
                     
                             <form id="addToCart" class="form-inline my-lg-0 p-lg-2 w-100" method="post" enctype="multipart/form-data" data-product_id="1144" action="https://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=moon">
@@ -256,7 +256,7 @@
                                         <i class="ptm-shopping-bag py-2 d-lg-none"></i>                                        
                                         <span class="d-lg-none py-2 w-75">&euro;49</span>
                                         <span class="d-none d-lg-block py-3 w-25">&euro;49</span>
-                                        <span class="d-none d-lg-block py-lg-3 w-75">Add to cart</span>
+                                        <span class="d-none d-lg-block py-lg-3 w-75"><?php pll_e('Add to cart'); ?></span>
                                     </div>
                                 </button>
                             </form>
@@ -266,10 +266,10 @@
                                     <i class="fa fa-globe" aria-hidden="true"></i>&nbsp;World shipping
                                 </span>                                 -->
                                 <span class="p-2 pr-lg-1">
-                                    <i class="fa fa-lock" aria-hidden="true"></i>&nbsp;Secure payment
+                                    <i class="fa fa-lock" aria-hidden="true"></i>&nbsp;<?php pll_e('Secure payment'); ?>
                                 </span>                                
                                 <span class="p-2 pl-lg-1">
-                                    <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;High quality print
+                                    <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;<?php pll_e('High quality print'); ?>
                                 </span>                                
                             </div>
                         </nav>  
@@ -287,7 +287,7 @@
                                 <div id="mapbox" class="card-img-top"></div>
                             </div>
                             <div id="posterText" class="card-body">
-                                <h3 class="card-title text-center">My Moment</h3>
+                                <h3 class="card-title text-center"><?php pll_e('My Moment'); ?></h3>
                                 <p class="card-text text-center">Subline</p>
                                 <p class="card-text text-center">Tagline</p>
                             </div>
@@ -300,7 +300,7 @@
                     </nav>
                      -->
                      <nav class="ptm-thanks d-none w-75 text-muted p-2 d-lg-block fixed-bottom">
-                        <small>Thanks to &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</small>
+                        <small><?php pll_e('Thanks to'); ?> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank"><?php pll_e('OpenStreetMap'); ?></a> <?php pll_e('contributors'); ?></small>
                      </nav>
                 </div>
             </main>

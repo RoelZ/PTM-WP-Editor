@@ -239,7 +239,7 @@ body {
   &.moon {
       color: #54575c;
       background-color:white;
-      .mapboxgl-map, .ptm-map-color-icon {
+      .leaflet-container, .ptm-map-color-icon {
           background-color: #54575c;
       }
       .marker {

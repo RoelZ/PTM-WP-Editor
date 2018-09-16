@@ -23,12 +23,11 @@ var maptilerRaster2xWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9
 var defaultBlackMapStyle = maptilerRasterBlack;
 var defaultWhiteMapStyle = maptilerRasterWhite;
 
-
 // var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 //var urlExists = require('url-exists');
 const provider = new GoogleProvider({
     params: {
-        key: 'AIzaSyCE1svBjPmf71zWMhdr5r0Xu9EDN2sxwHk'
+        key: 'AIzaSyDmN3d6aCXHXYo_oLjCEAdvUmO3ca38CVQ'
     }
 });
 const searchControl = new GeoSearchControl({
@@ -47,9 +46,10 @@ var cartUrl = 'https://www.placethemoment.com/dev/collectie/city-map-poster/?att
 //var styleUrl = "mapbox://styles/roelz/cjbp002fe6an22smmpzfotnk4";
 //var styleUrl = maptilerBlack;
 
-let currentStyle = "moon";
 let currentMarkerStyle = "yellow";
+let currentStyle = defaultStyle();
 let defaultStartView = defaultView();
+
 let defaultMarkerStyleUrl = getMarker(currentMarkerStyle);
 var imgData = "";
 let isMobile = false;
@@ -138,50 +138,50 @@ function checkSize(){
 }
 
 // *** Resize Poster Canvas ***
-// var $el = $("#posterCanvas");
-// var elHeight = $el.outerHeight();
-// var elWidth = $el.outerWidth();
+var $el = $("#posterCanvas");
+var elHeight = $el.outerHeight();
+var elWidth = $el.outerWidth();
 
-// var $wrapper = $("#posterWrapper");
+var $wrapper = $("#posterWrapper");
 
-// $wrapper.resizable({
-//     resize: doResize
-// });
+$wrapper.resizable({
+    resize: doResize
+});
 
-// function doResize(event, ui) {
+function doResize(event, ui) {
 
-// var scale, origin;
+var scale, origin;
     
-// scale = Math.min(
-//     ui.size.width / elWidth,    
-//     ui.size.height / elHeight
-// );
+scale = Math.min(
+    ui.size.width / elWidth,    
+    ui.size.height / elHeight
+);
 
-// scale = scale > 1 ? 1 : scale;
+scale = scale > 1 ? 1 : scale;
 
-// $el.css({
-//     transform: "translate(-50%, -50%) " + "scale(" + scale + ")"
-// });
+$el.css({
+    transform: "translate(-50%, -50%) " + "scale(" + scale + ")"
+});
 
-// }
+}
 
-// var starterData = { 
-// size: {
-//     width: $wrapper.width(),
-//     height: $wrapper.height()
-// }
-// }
-// doResize(null, starterData);
+var starterData = { 
+size: {
+    width: $wrapper.width(),
+    height: $wrapper.height()
+}
+}
+doResize(null, starterData);
 
-// $(window).resize(function() {
-//     starterData = { 
-//         size: {
-//             width: $wrapper.width(),
-//             height: $wrapper.height()
-//         }
-//     }
-//     doResize(null, starterData);
-// });
+$(window).resize(function() {
+    starterData = { 
+        size: {
+            width: $wrapper.width(),
+            height: $wrapper.height()
+        }
+    }
+    doResize(null, starterData);
+});
 
 /*
 function checkUrlExists(host,cb) {
@@ -195,12 +195,12 @@ function checkUrlExists(host,cb) {
 let debugPanel = $('#debugger');
 
 let map = L.map('mapbox', { 
+    renderer: L.canvas(),
     preferCanvas: true,
     zoomControl: false,
     attributionControl: false
 });
 
-// console.log(defaultStartView);
 
 map.on('load', function(){
     formCoordinates.val(JSON.stringify(map.getBounds()));
@@ -211,22 +211,31 @@ map.on('load', function(){
 })
 .setView(L.latLng([defaultStartView.lat,defaultStartView.lng]),13);
 
+
+
 // var ptmBlack = L.mapboxGL({ style: defaultBlackMapStyle, accessToken: 'no-token', crossOrigin: true }),
-//     ptmWhite = L.mapboxGL({ style: defaultWhiteMapStyle, accessToken: 'no-token', crossOrigin: true })
+    // ptmWhite = L.mapboxGL({ style: defaultWhiteMapStyle, accessToken: 'no-token', crossOrigin: true })
 
 // ptmWhite.addTo(map);
 // var activeLayer = ptmWhite;
 
-var ptmBlack = L.tileLayer(defaultBlackMapStyle, { attribution: false, maxZoom: 21, crossOrigin: true }),
-    ptmWhite = L.tileLayer(defaultWhiteMapStyle, { attribution: false, maxZoom: 21, crossOrigin: true });
+var ptmBlack = L.tileLayer(defaultBlackMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' }),
+    ptmWhite = L.tileLayer(defaultWhiteMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' });
 
-    ptmBlack.addTo(map);
-var activeLayer = ptmBlack;
+getStyle(currentStyle).addTo(map);
+var activeLayer = getStyle(currentStyle);
 
-// let markerOnMap = new L.marker(map.getCenter(), {
-//     icon: L.icon({iconUrl: defaultMarkerStyleUrl, className: 'marker'}),
-//     draggable: true,
-// }).addTo(map);
+    // ptmBlack.addTo(map);
+// var activeLayer = ptmBlack;
+
+let markerOnMap = new L.marker(map.getCenter(), {
+    icon: L.icon({
+    iconUrl: defaultMarkerStyleUrl,
+    iconSize: [24, 32],
+    className: 'marker'
+}),
+draggable: true,
+}).addTo(map);
 
 
 
@@ -237,15 +246,18 @@ const GooglePlacesSearchBox = L.Control.extend({
 onAdd: function() {
     var element = document.createElement("input");
     element.id = "searchBox";
+    // var element = $('#searchBox');
     return element;
 }
 });
+
 L.control.zoom({position:'topright'}).addTo(map);
 
 (new GooglePlacesSearchBox).addTo(map);
   
 var input = document.getElementById("searchBox");
-$(input).addClass('form-control py-2 border-right-0 border').attr('placeholder','Enter your place');
+$(input).addClass('form-control py-2 border-right-0 border')
+.attr('placeholder','Enter your place');
 
 var searchBox = new google.maps.places.SearchBox(input);
 
@@ -323,12 +335,19 @@ searchBox.addListener('places_changed', function() {
 
 
         markerOnMap = new L.marker(latlng, {
-          icon: L.icon({iconUrl: markerStyle, className: 'marker'}),
+            icon: L.icon({
+              iconUrl: defaultMarkerStyleUrl,
+              iconSize: [24, 32], 
+              className: 'marker'
+            }),
           draggable: true,
         })
         .addTo(map);
         
-        markerOnMap.setIcon(L.icon({ iconUrl: markerStyle, className: 'marker' }));
+        markerOnMap.setIcon(L.icon({ 
+            iconUrl: defaultMarkerStyleUrl,
+            iconSize: [24, 32], 
+            className: 'marker' }));
                 
         formMarkerCoordinates.val(markerOnMap.getLatLng());
         
@@ -550,6 +569,18 @@ function defaultView(){
     return places[randomItem];
 }
 
+function defaultStyle(){
+    
+    let style = findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "snow";
+    $('.poster').attr('class','card poster '+style);    
+    $('#addToCart').attr('action', cartUrl+style);          
+    
+    // currentMarkerStyle = $('#markerSelector').find("label.active").attr('id');
+    // markerOnMap.setIcon(L.icon({ iconUrl: getMarker(currentMarkerStyle), className: 'marker' }));        
+    
+    return style;    
+}
+
 function getStyle(name){
 
     if(name == 'mapboxStyle'){
@@ -608,22 +639,22 @@ function defaultMarkerStyle(){
 function getMarker(style, poster = false){
     if(!poster){
         if(style == "snow")
-            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-snow.svg';
+            return 'https://www.placethemoment.com/dev/build/images/ptm-marker-snow.svg';
         else if(style == "granite")
-            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-granite.svg';
+            return 'https://www.placethemoment.com/dev/build/images/ptm-marker-granite.svg';
         else if(style == "yellow")
-            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-yellow.svg';
+            return 'https://www.placethemoment.com/dev/build/images/ptm-marker-yellow.svg';
         else if(style == "mint")
-            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-mint.svg';
+            return 'https://www.placethemoment.com/dev/build/images/ptm-marker-mint.svg';
     } else {
         if(style == "snow")
-            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-mint.svg';
+            return 'https://www.placethemoment.com/dev/build/images/ptm-marker-mint.svg';
         else if(style == "granite")
-            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-yellow.svg';
+                return 'https://www.placethemoment.com/dev/build/images/ptm-marker-yellow.svg';
         else if(style == "moon")
-            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-snow.svg';
+            return 'https://www.placethemoment.com/dev/build/images/ptm-marker-snow.svg';
         else if(style == "mint")
-            return 'https://www.placethemoment.com/dev/editor/images/ptm-marker-granite.svg';        
+            return 'https://www.placethemoment.com/dev/build/images/ptm-marker-granite.svg';
     }
 }
 
@@ -747,7 +778,11 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
     map.addLayer(activeLayer);
     
     let marker = $('#markerSelector').find("label.active").attr('id');
-    markerOnMap.setIcon(L.icon({ iconUrl: getMarker(marker), className: 'marker' }));
+    markerOnMap.setIcon(L.icon({ 
+        iconUrl: getMarker(marker),
+        iconSize: [24, 32], 
+        className: 'marker' 
+    }));
     
     // Needs refactoring: update (default) text to marker
     /*
@@ -772,7 +807,11 @@ $('#markerSelector .ptm-btn').click(function ( event ) {
 
     let clickedMarker = $(this).attr('id');
     formMarkerStyle.val(clickedMarker);
-    markerOnMap.setIcon(L.icon({ iconUrl: getMarker(clickedMarker), className: 'marker'}));
+    markerOnMap.setIcon(L.icon({ 
+        iconUrl: getMarker(clickedMarker),
+        iconSize: [24, 32],
+        className: 'marker'
+    }));
         
 });
 
@@ -783,25 +822,27 @@ document.getElementById("addToCart").addEventListener("click", function(event){
     $('.ptm-cta').attr('disabled', true);
     let check = false;
 
-    $('#posterCanvas').attr('style','');
-    html2canvas(document.getElementById("posterCanvas"))
-        .then(canvas => {
-            $('#canvasImage').parent('div').append(canvas);  //.appendChild(canvas)
-                //      console.log(canvas.toDataURL('image/png',1));
-            //  })
-        })
+    // $('#posterCanvas').attr('style','');
+    // html2canvas(document.getElementById("posterCanvas"))
+    //     .then(canvas => {
+    //         $('#canvasImage').parent('div').append(canvas);  //.appendChild(canvas)
+    //             //      console.log(canvas.toDataURL('image/png',1));
+    //         //  })
+    //     })
     
-    // leafletImage(map, function(err, canvas) {
-    //     let dataURL = canvas.toDataURL('image/png');
-    //     dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-    //     // ptm_thumb.val(dataURL);
-    //     $.post("https://www.placethemoment.com/dev/editor/save.php", { savedMap: dataURL }, function(data) {
-    //         ptm_thumb.val(data);
-    //         console.log(data);
-    //     }).done(function(){
-    //         // $('#addToCart').submit();
-    //     });
+    leafletImage(map, function(err, canvas) {
+        let dataURL = canvas.toDataURL('image/png');
+        // console.log(dataURL);
+        dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+        // ptm_thumb.val(dataURL);
+        $.post("https://www.placethemoment.com/dev/build/save.php", { savedMap: dataURL }, 
+        function(data) {
+            ptm_thumb.val(data);
+        })
+        .done(function(){
+            $('#addToCart').submit();
+        });
         
-    // });
+    });
 
 });
