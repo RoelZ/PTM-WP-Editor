@@ -79,14 +79,11 @@ $("#posterText .card-text:last").html('The Netherlands');
 $(document).ready(function() {
     checkSize();    
     $(window).resize(checkSize);   
-    
+
     // Needs realtime isMobile check!
     if(isMobile){
         $('main').on('click', function(){
             $('.collapse').collapse('hide');
-        });
-        $('#posterText').on('click', function(){
-            $('#collapseTwo').collapse('toggle');
         });
 
         $('#collapseTwo').on('show.bs.collapse', function(){
@@ -118,6 +115,11 @@ $(document).ready(function() {
         $('nav.navbar').removeClass('d-flex').addClass('d-none');
         
     }
+    
+    $('#posterText').on('click', function(){
+        $('#collapseTwo').collapse('toggle');
+        $('#momentInput').focus();
+    });
 });
 
 function checkSize(){
@@ -777,9 +779,9 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
     activeLayer = getStyle(currentStyle);
     map.addLayer(activeLayer);
     
-    let marker = $('#markerSelector').find("label.active").attr('id');
+    // let marker = $('#markerSelector').find("label.active").attr('id');
     markerOnMap.setIcon(L.icon({ 
-        iconUrl: getMarker(marker),
+        iconUrl: defaultMarkerStyleUrl,
         iconSize: [24, 32], 
         className: 'marker' 
     }));
@@ -805,10 +807,11 @@ $('#markerSelector .ptm-btn').click(function ( event ) {
         $(this).removeClass('active');        
     });
 
-    let clickedMarker = $(this).attr('id');
-    formMarkerStyle.val(clickedMarker);
+    defaultBlackMapStyle = $(this).attr('id');
+    defaultMarkerStyleUrl = getMarker(defaultBlackMapStyle);
+    formMarkerStyle.val(defaultBlackMapStyle);
     markerOnMap.setIcon(L.icon({ 
-        iconUrl: getMarker(clickedMarker),
+        iconUrl: defaultMarkerStyleUrl,
         iconSize: [24, 32],
         className: 'marker'
     }));
