@@ -11,17 +11,22 @@ import leafletImage from 'leaflet-image';
 
 import './assets/scss/app.scss';
 
+var maptilerRasterSnow = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerRasterMoon = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Granite/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerRasterGranite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Granite/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerRasterMint = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Mint/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
+
 var maptilerBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerVectorBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
-var maptilerRasterBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerRaster2xBlack = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}@2x.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerVectorWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
-var maptilerRasterWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerRaster2xWhite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Whitelines/{z}/{x}/{y}@2x.png?key=T8rAFKMk9t6uFsXlx0KS';
 
-var defaultBlackMapStyle = maptilerRasterBlack;
-var defaultWhiteMapStyle = maptilerRasterWhite;
+var defaultSnowMapStyle = maptilerRasterSnow;
+var defaultMoonMapStyle = maptilerRasterMoon;
+var defaultGraniteMapStyle = maptilerRasterGranite;
+var defaultMintMapStyle = maptilerRasterMint;
 
 // var MapboxGeocoder = require('@mapbox/mapbox-gl-geocoder');
 //var urlExists = require('url-exists');
@@ -221,8 +226,10 @@ map.on('load', function(){
 // ptmWhite.addTo(map);
 // var activeLayer = ptmWhite;
 
-var ptmBlack = L.tileLayer(defaultBlackMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' }),
-    ptmWhite = L.tileLayer(defaultWhiteMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' });
+var ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' }),
+    ptmMoon = L.tileLayer(defaultMoonMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' }),
+    ptmGranite = L.tileLayer(defaultGraniteMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' }),
+    ptmMint = L.tileLayer(defaultMintMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' });
 
 getStyle(currentStyle).addTo(map);
 var activeLayer = getStyle(currentStyle);
@@ -573,7 +580,7 @@ function defaultView(){
 
 function defaultStyle(){
     
-    let style = findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "snow";
+    let style = findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "moon";
     $('.poster').attr('class','card poster '+style);    
     $('#addToCart').attr('action', cartUrl+style);          
     
@@ -596,22 +603,22 @@ function getStyle(name){
     }
     else if(name == 'snow'){
         formVariationId.val(1207);
-        return ptmBlack
+        return ptmSnow
         // return defaultBlackMapStyle; //'http://localhost:8080/styles/ptm-black-lines-final/style.json'; 
     }
     else if(name == 'moon'){
         formVariationId.val(1208);
-        return ptmWhite
+        return ptmMoon
         // return defaultWhiteMapStyle; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'granite'){
         formVariationId.val(1209);
-        return ptmWhite
+        return ptmGranite
         // return defaultWhiteMapStyle; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     else if(name == 'mint'){
         formVariationId.val(1210);
-        return ptmWhite
+        return ptmMint
         // return defaultWhiteMapStyle; //'http://localhost:8080/styles/ptm-white-lines-final/style.json'; 
     }
     
@@ -801,15 +808,16 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
 
 
 // Marker
+//WAT IS DEZE SHIT? (defaultSnowMapStyle)
 $('#markerSelector .ptm-btn').click(function ( event ) {
 
     $(this).parent().find("label").each(function(){        
         $(this).removeClass('active');        
     });
 
-    defaultBlackMapStyle = $(this).attr('id');
-    defaultMarkerStyleUrl = getMarker(defaultBlackMapStyle);
-    formMarkerStyle.val(defaultBlackMapStyle);
+    defaultSnowMapStyle = $(this).attr('id');
+    defaultMarkerStyleUrl = getMarker(defaultSnowMapStyle);
+    formMarkerStyle.val(defaultSnowMapStyle);
     markerOnMap.setIcon(L.icon({ 
         iconUrl: defaultMarkerStyleUrl,
         iconSize: [24, 32],
