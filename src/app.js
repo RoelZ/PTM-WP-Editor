@@ -12,7 +12,7 @@ import leafletImage from 'leaflet-image';
 import './assets/scss/app.scss';
 
 var maptilerRasterSnow = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
-var maptilerRasterMoon = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Granite/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
+var maptilerRasterMoon = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/test-8136c/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerRasterGranite = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Granite/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
 var maptilerRasterMint = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Mint/{z}/{x}/{y}.png?key=T8rAFKMk9t6uFsXlx0KS';
 
@@ -44,7 +44,9 @@ const searchControl = new GeoSearchControl({
 });
 
 let varId;  // WooCommerce ID
-var cartUrl = 'https://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=';
+let addToCart = $('#addToCart');
+let cartUrl = addToCart.attr('action');
+// var cartUrl = 'https://www.placethemoment.com/dev/collectie/city-map-poster/?attribute_pa_dimensions=50x70&attribute_design=';
 //var styleUrl = 'https://maps.tilehosting.com/c/44c99296-dff6-484b-9ce9-f9f9ab795632/styles/PTM-Blacklines/style.json?key=T8rAFKMk9t6uFsXlx0KS';
 //var styleUrl = 'http://localhost:8080/styles/ptm-white-lines-final/style.json';
 //var styleUrl = 'http://placethemoment.com/dev/ptm-editor/assets/styles/style.json';
@@ -60,7 +62,6 @@ var imgData = "";
 let isMobile = false;
 
 // Hidden Form values
-let addToCart = $('#addToCart');
 let formCoordinates = $('#addToCart input[name="coordinates"]');
 let formPlaceId = $('#addToCart input[name="placeid"]');
 let formZoom = $('#addToCart input[name="zoom"]');
@@ -201,11 +202,25 @@ function checkUrlExists(host,cb) {
 // var canvas = map.getCanvasContainer();
 let debugPanel = $('#debugger');
 
+// L.CRS.CustomZoom = L.extend({}, L.CRS.Simple, {
+//     scale: function (zoom) {
+//         // This method should return the tile grid size
+//         // (which is always square) for a specific zoom
+//         // We want 0 = 200px = 2 tiles @ 100x100px,
+//         // 1 = 300px = 3 tiles @ 100x100px, etc.
+//         // Ie.: (200 + zoom*100)/100 => 2 + zoom
+
+//         // return 2 + zoom;
+//         return zoom;
+//     }
+// });
+
 let map = L.map('mapbox', { 
     renderer: L.canvas(),
     preferCanvas: true,
     zoomControl: false,
-    attributionControl: false
+    attributionControl: false,
+    // crs: L.CRS.CustomZoom
 });
 
 
@@ -220,19 +235,19 @@ map.on('load', function(){
 
 
 
-// var ptmBlack = L.mapboxGL({ style: defaultBlackMapStyle, accessToken: 'no-token', crossOrigin: true }),
+var ptmMoon = L.mapboxGL({ style: defaultMoonMapStyle, accessToken: 'no-token', crossOrigin: true });
     // ptmWhite = L.mapboxGL({ style: defaultWhiteMapStyle, accessToken: 'no-token', crossOrigin: true })
 
-// ptmWhite.addTo(map);
-// var activeLayer = ptmWhite;
+ptmMoon.addTo(map);
+var activeLayer = ptmMoon;
 
-var ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' }),
-    ptmMoon = L.tileLayer(defaultMoonMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' }),
-    ptmGranite = L.tileLayer(defaultGraniteMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' }),
-    ptmMint = L.tileLayer(defaultMintMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' });
+var ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous', zoomOffset: 2 }),
+    // ptmMoon = L.tileLayer(defaultMoonMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous' }),
+    ptmGranite = L.tileLayer(defaultGraniteMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous', zoomOffset: -1, tileSize: 512 }),
+    ptmMint = L.tileLayer(defaultMintMapStyle, { attribution: false, maxZoom: 21, crossOrigin: 'anonymous', zoomOffset: 2 });
 
-getStyle(currentStyle).addTo(map);
-var activeLayer = getStyle(currentStyle);
+// getStyle(currentStyle).addTo(map);
+// var activeLayer = getStyle(currentStyle);
 
     // ptmBlack.addTo(map);
 // var activeLayer = ptmBlack;
@@ -245,6 +260,8 @@ let markerOnMap = new L.marker(map.getCenter(), {
 }),
 draggable: true,
 }).addTo(map);
+
+
 
 
 
