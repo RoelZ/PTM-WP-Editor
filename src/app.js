@@ -4,8 +4,8 @@ require('webpack-jquery-ui/resizable');
 import L from 'leaflet';
 import mapboxgl from 'mapbox-gl';
 import mapboxGL from 'mapbox-gl-leaflet';
-import { GeoSearchControl, GoogleProvider } from 'leaflet-geosearch';
-import html2canvas from 'html2canvas';
+// import { GeoSearchControl, GoogleProvider } from 'leaflet-geosearch';
+// import html2canvas from 'html2canvas';
 import leafletImage from 'leaflet-image';   // handmatige fix: https://github.com/mapbox/leaflet-image/issues/41
 import './assets/js/Control.Loading';
 
@@ -17,18 +17,29 @@ let defaultMoonMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{
 let defaultGraniteMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png';
 let defaultMintMapStyle = 'https://tiles.placethemoment.com/styles/mint/{z}/{x}/{y}.png';
 
-const provider = new GoogleProvider({
-    params: {
-        key: 'AIzaSyDmN3d6aCXHXYo_oLjCEAdvUmO3ca38CVQ'
-    }
-});
-const searchControl = new GeoSearchControl({
-  provider: provider,
-  autoCompleteDelay: 1000,
-  retainZoomLevel: false,
-  animateZoom: false,
+// const provider = new GoogleProvider({
+//     params: {
+//         fields: 'place_id',
+//         key: 'AIzaSyDmN3d6aCXHXYo_oLjCEAdvUmO3ca38CVQ'
+//     }
+// });
 
+// const searchControl = new GeoSearchControl({
+//   provider: provider,
+//   autoCompleteDelay: 1000,
+//   retainZoomLevel: false,
+//   animateZoom: false,
+// });
+
+const map = L.map('mapbox', { 
+    renderer: L.canvas(),
+    preferCanvas: true,
+    zoomControl: false,
+    attributionControl: false,
+    loadingControl: true
 });
+
+// map.addControl(searchControl);
 
 let varId;  // WooCommerce ID
 let addToCart = $('#addToCart');
@@ -55,12 +66,89 @@ let ptm_subline = $('#addToCart input[name="ptm_subline"]');
 let ptm_tagline = $('#addToCart input[name="ptm_tagline"]');
 let ptm_thumb = $('#addToCart input[name="ptm_thumb"]');
 
+
+map.on('load', function(){
+    formCoordinates.val(JSON.stringify(map.getBounds()));
+    formZoom.val(13);
+    formMarkerStyle.val(currentMarkerStyle);
+    formMarkerCoordinates.val(L.latLng([defaultStartView.lat,defaultStartView.lng]));
+})
+.setView(L.latLng([defaultStartView.lat,defaultStartView.lng]),13);
+
+let ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+    ptmMoon = L.tileLayer(defaultMoonMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous' }),
+    ptmGranite = L.tileLayer(defaultGraniteMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+    ptmMint = L.tileLayer(defaultMintMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'});
+
+ptmMoon.addTo(map);
+let activeLayer = ptmMoon;
+
+let markerOnMap = new L.marker(map.getCenter(), {
+    icon: L.icon({
+    iconUrl: defaultMarkerStyleUrl,
+    iconSize: [24, 32],
+    iconAnchor: [12, 32], 
+    className: 'marker'
+}),
+draggable: true,
+}).addTo(map);
+
+L.control.zoom({position:'topright'}).addTo(map);
+
+// let gmapi = new XMLHttpRequest();
+
+// gmapi.open('GET', 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Oculus%20Rift%20Eindhoven&inputtype=textquery&fields=photos,formatted_address,geometry/location&key=AIzaSyCE1svBjPmf71zWMhdr5r0Xu9EDN2sxwHk', true);
+// gmapi.onload = function () {
+
+let input = document.createElement("input");
+    input.id = "searchBox";
+let buttonUI = $('<span class="input-group-prepend"><button class="btn btn-outline-light border-left-0 border"><i class="fa fa-search"></i></button></span>');
+
+const geocoderInput = $('#geocoder');
+
+const GooglePlacesSearchBox = L.Control.extend({
+  onAdd: function() {
+      return input;
+  }
+});
+(new GooglePlacesSearchBox).addTo(map);
+
+$('.mapwindow').append($('.leaflet-control-container'));
+
+geocoderInput.append(input);
+geocoderInput.append(buttonUI);
+
+$(input).addClass('form-control py-2 border-right-0 border')
+.attr('placeholder','Enter your place');
+input.focus();
+
+input.addEventListener('keypress', function(e){
+  getMapData(e);
+});
+buttonUI.on("click", "button", function(e){
+  getMapData(e);
+});
+
+map.on('zoomend', function(){
+    formZoom.val(map.getZoom());
+    formCoordinates.val(JSON.stringify(map.getBounds()));
+    updateDebugger();
+});
+
+map.on('moveend', function(){
+    formCoordinates.val(JSON.stringify(map.getBounds()));
+    updateDebugger();
+});
+
+
+/* Setting defaults to UI */
 ptm_subline.val(defaultStartView.name);
 $('#sublineInput').val(defaultStartView.name);
 $("#posterText .card-text:first").html(defaultStartView.name);
 ptm_tagline.val('The Netherlands');
 $('#taglineInput').val('The Netherlands');
 $("#posterText .card-text:last").html('The Netherlands');
+
 
 /* INITIAL BREAKPOINTS CHECK */
 $(document).ready(function() {
@@ -76,16 +164,20 @@ $(document).ready(function() {
         $('#collapseTwo').on('show.bs.collapse', function(){
             $('#collapseThree').collapse('hide');
             $('#posterWrapper').css('transform', 'translateY(-27%)');
+            $('.fb_dialog').css('transform', 'translateY(-270%)');
         });
         $('#collapseTwo').on('hide.bs.collapse', function(){
             $('#posterWrapper').css('transform','');
+            $('.fb_dialog').css('transform','translateY(0%)');
         });        
         $('#collapseThree').on('show.bs.collapse', function(){
             $('#collapseTwo').collapse('hide');
-            $('#posterWrapper').css('transform', 'translateY(-44%)');
+            $('#posterWrapper').css('transform', 'translateY(-30%)');
+            $('.fb_dialog').css('transform', 'translateY(-320%)');
         });
         $('#collapseThree').on('hide.bs.collapse', function(){
             $('#posterWrapper').css('transform','');
+            $('.fb_dialog').css('transform','translateY(0%)');
         });
 
         $('#accordion .btn-group button.btn-ptmLight').on('click', function(){
@@ -100,6 +192,8 @@ $(document).ready(function() {
         });        
 
         $('nav.navbar').removeClass('d-flex').addClass('d-none');
+
+        $('.fb_dialog').css({'right':'0','position':'relative','bottom':'144pt','float':'right'});
         
     }
     
@@ -108,6 +202,7 @@ $(document).ready(function() {
         $('#momentInput').focus();
     });
 });
+
 
 function checkSize(){
     // if ($(".sidebar-sticky").css('position') != 'sticky'){
@@ -174,95 +269,38 @@ $(window).resize(function() {
 
 let debugPanel = $('#debugger');
 
-let map = L.map('mapbox', { 
-    renderer: L.canvas(),
-    preferCanvas: true,
-    zoomControl: false,
-    attributionControl: false,
-    loadingControl: true
-});
+let rand = function() {
+    return Math.random().toString(36).substr(2); // remove `0.`
+};
 
-map.on('load', function(){
-    formCoordinates.val(JSON.stringify(map.getBounds()));
-    formZoom.val(13);
-    formMarkerStyle.val(currentMarkerStyle);
-    formMarkerCoordinates.val(L.latLng([defaultStartView.lat,defaultStartView.lng]));
-})
-.setView(L.latLng([defaultStartView.lat,defaultStartView.lng]),13);
+let token = function() {
+    return rand() + rand() // extra rand() to make it longer
+};
 
-let ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
-    ptmMoon = L.tileLayer(defaultMoonMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous' }),
-    ptmGranite = L.tileLayer(defaultGraniteMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
-    ptmMint = L.tileLayer(defaultMintMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'});
+function getMapData(e){
+  let key,txtInput;
 
-ptmMoon.addTo(map);
-let activeLayer = ptmMoon;
+  if(e.type === 'keypress')
+    key = e.which || e.keyCode;
+  else if(e.type === 'click')
+    key = 13;
 
-let markerOnMap = new L.marker(map.getCenter(), {
-    icon: L.icon({
-    iconUrl: defaultMarkerStyleUrl,
-    iconSize: [24, 32],
-    className: 'marker'
-}),
-draggable: true,
-}).addTo(map);
+  if (key === 13) {    
+    txtInput = encodeURI($(input).val().toString());
 
-const geocoderInput = $('#geocoder');
+    $.getJSON('https://www.placethemoment.com/api/v2/json.php?input='+txtInput, function(data){
+      if(data.candidates.length){
+      
+        let place = data.candidates[0];
+        let address = place.formatted_address.split(', ');
+        let latlng,latlngbounds,northeast,southwest;
+        let locationCity, locationCountry, locationName;
+        let subline,tagline;
 
-const GooglePlacesSearchBox = L.Control.extend({
-onAdd: function() {
-    var element = document.createElement("input");
-    element.id = "searchBox";
-    return element;
-}
-});
-
-L.control.zoom({position:'topright'}).addTo(map);
-
-(new GooglePlacesSearchBox).addTo(map);
-  
-var input = document.getElementById("searchBox");
-$(input).addClass('form-control py-2 border-right-0 border')
-.attr('placeholder','Enter your place');
-
-var searchBox = new google.maps.places.SearchBox(input);
-let loading = {};
-let flying = false;
-let zoomFinished = false;
-
-searchBox.addListener('places_changed', function() {
-    var places = searchBox.getPlaces();
-  
-    if (places.length == 0) {
-      return;
-    }
-
-    let latlng,latlngbounds,northeast,southwest;
-    let locationCity, locationCountry, locationName;
-    let subline,tagline;
-    
-    places.forEach(function(place) {
-        // console.log(place.place_id);        
         formPlaceId.val(place.place_id);
-
-        $.getJSON('https://www.placethemoment.com/api/v1/json.php?placeid='+place.place_id, function(data){            
-        // console.log(data.result);
-
-        // Adding address fields
-        data.result.address_components.forEach(address => {
-            address.types.forEach(type => {
-                if(type == 'country')
-                    locationCountry = address.long_name;
-
-                if(locationCity == '' && type == 'administrative_area_level_2'){
-                    locationCity = address.short_name;
-                }else if(type == 'locality'){
-                    locationCity = address.long_name;
-                }
-            });
-        });
-
-        locationName = data.result.name;
+        locationName = place.name;
+        locationCountry = address[address.length-1];
+        locationCity = (address.length > 2) ? address[1].replace(/\d+? [A-Z][A-Z]/g, '') : ''; 
 
         if(locationCity == locationName)
             tagline = locationCountry;
@@ -279,91 +317,54 @@ searchBox.addListener('places_changed', function() {
         $("#posterText .card-text:first").html(locationName);
         $("#posterText .card-text:last").html(tagline);
 
-        });
-
         latlng = L.latLng(
-            place.geometry.location.lat(),
-            place.geometry.location.lng()
+          place.geometry.location.lat,
+          place.geometry.location.lng
         );
-        
-        try {
-            northeast = L.latLng(place.geometry.viewport.ma.j,place.geometry.viewport.ga.j);
-            southwest = L.latLng(place.geometry.viewport.ma.l,place.geometry.viewport.ga.l);
-            latlngbounds = L.latLngBounds(northeast,southwest);
-        }
-        catch (err) {
-            fetch('https://maker.ifttt.com/trigger/ptm-error/with/key/gmQvv5c91TZ79nNBVt0qtV8JauuPxEpwtwcj9JazQTE', {
-                credentials: 'include'  
-            });
-        }        
-            
+        northeast = L.latLng(place.geometry.viewport.northeast);
+        southwest = L.latLng(place.geometry.viewport.southwest);
+        latlngbounds = L.latLngBounds(northeast,southwest);
 
-    if(markerOnMap)
-        map.removeLayer(markerOnMap);
-        
-        let markerStyle;
-        
+        if(markerOnMap)
+          map.removeLayer(markerOnMap);
+          
+        let markerStyle;            
         $('#markerSelector').find("label").each(function(){ 
             if($(this).hasClass('active')){
                 markerStyle = getMarker($(this).attr('id'));
             }
         });
 
-
         markerOnMap = new L.marker(latlng, {
-            icon: L.icon({
-              iconUrl: defaultMarkerStyleUrl,
-              iconSize: [24, 32], 
-              className: 'marker'
-            }),
+          icon: L.icon({
+            iconUrl: defaultMarkerStyleUrl,
+            iconSize: [24, 32], 
+            iconAnchor: [12, 32], 
+            className: 'marker'
+          }),
           draggable: true,
         })
         .addTo(map);
-        
-        markerOnMap.setIcon(L.icon({ 
-            iconUrl: defaultMarkerStyleUrl,
-            iconSize: [24, 32], 
-            className: 'marker' }));
-                
+          
+        markerOnMap.setIcon(L.icon({
+          iconUrl: defaultMarkerStyleUrl,
+          iconSize: [24, 32], 
+          iconAnchor: [12, 32], 
+          className: 'marker' }));
+                  
         formMarkerCoordinates.val(markerOnMap.getLatLng());
-        
+          
         markerOnMap.on('dragend', function(){
-            formMarkerCoordinates.val(markerOnMap.getLatLng());
+          formMarkerCoordinates.val(markerOnMap.getLatLng());
         });
-       
-    }); 
+        
+        map.flyToBounds(latlngbounds, {duration: 3, maxZoom: 15});
+        formCoordinates.val(JSON.stringify(latlngbounds));
+        updateDebugger();
 
-    map.flyToBounds(latlngbounds, {duration: 3, maxZoom: 15});
-    formCoordinates.val(JSON.stringify(latlngbounds));
-    updateDebugger();
-
-  });
-
-input.focus();
-
-$('.mapwindow').append($('.leaflet-control-container'));
-geocoderInput.append(input);
-geocoderInput.append('<span class="input-group-append"><button class="btn btn-outline-light border-left-0 border" type="button"><i class="fa fa-search"></i></button></span>');
-
-map.on('zoomend', function(){
-    formZoom.val(map.getZoom());
-    formCoordinates.val(JSON.stringify(map.getBounds()));
-    updateDebugger();
-});
-
-map.on('moveend', function(){
-    formCoordinates.val(JSON.stringify(map.getBounds()));
-    updateDebugger();
-});
-
-
-
-let rand = function() {
-    return Math.random().toString(36).substr(2); // remove `0.`
-};
-
-let token = function() {
-    return rand() + rand() // extra rand() to make it longer
+      };
+    });
+  };
 };
 
 function updateDebugger(){
@@ -571,6 +572,7 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
     markerOnMap.setIcon(L.icon({ 
         iconUrl: defaultMarkerStyleUrl,
         iconSize: [24, 32], 
+        iconAnchor: [12, 32], 
         className: 'marker' 
     }));
     
@@ -600,6 +602,7 @@ $('#markerSelector .ptm-btn').click(function ( event ) {
     markerOnMap.setIcon(L.icon({ 
         iconUrl: defaultMarkerStyleUrl,
         iconSize: [24, 32],
+        iconAnchor: [12, 32], 
         className: 'marker'
     }));
         

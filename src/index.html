@@ -11,7 +11,6 @@
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
     
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCE1svBjPmf71zWMhdr5r0Xu9EDN2sxwHk&libraries=places"></script>
     
   </head>
 
@@ -19,8 +18,8 @@
     <div class="container-fluid smooth-transition">
         <div class="row">
 
-            <nav class="col-lg-3 d-lg-block bg-light sidebar">
-                <!-- <div class="sidebar-sticky"> -->
+            <nav class="col-lg-3 d-lg-block bg-light sidebar">               
+              
                 <div class="h-100">
 
                 <div id="accordion" class="accordion d-flex flex-column h-100 p-md-0">
@@ -46,9 +45,10 @@
                                         <span class="d-none d-lg-block mb-3">
                                             <?php pll_e(' Choose your place from anywhere in the world. The city you grew up, the exact address you had your first kiss or the country where you had your best holiday ever.'); ?>
                                         </span>
-                                        <label class="sidebar-heading text-muted" for="geocoder"><?php pll_e('Find a location'); ?></label>                                    
+                                        <label class="sidebar-heading text-muted" for="geocoder">
+                                          <?php pll_e('Find a location'); ?>
+                                        </label>
                                         <div id='geocoder' class='geocoder input-group'>
-                                            <!-- <div id="searchBox"></div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -104,7 +104,6 @@
                                                     </div>
                                                 </div>
                                                 <span>Snow</span>
-                                            <!-- <input class="setStyle" type="radio" name="mapstyle" autocomplete="off" checked> Snow -->
                                             </label>
                                             <label id="moon" class="ptm-btn btn pl-lg-0 active">
                                                 <div class="ptm-map-color-btn moon">
@@ -113,7 +112,6 @@
                                                     </div>
                                                 </div>
                                                 <span>Moon</span>
-                                            <!-- <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Moon -->
                                             </label>
                                             <label id="granite" class="ptm-btn pl-lg-0 btn">
                                                 <div class="ptm-map-color-btn granite">
@@ -122,7 +120,6 @@
                                                     </div>
                                                 </div>
                                                 <span>Granite</span>
-                                            <!-- <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Granite -->
                                             </label>
                                             <label id="mint" class="ptm-btn px-lg-0 btn">
                                                 <div class="ptm-map-color-btn mint">
@@ -131,18 +128,8 @@
                                                     </div>
                                                 </div>
                                                 <span>Mint</span>
-                                            <!-- <input class="setStyle" type="radio" name="mapstyle" autocomplete="off"> Mint -->
                                             </label>   
                                         </div>
-                                        <!-- <br>
-                                        <div class="btn-group btn-group-toggle card-body" data-toggle="buttons">
-                                            <label id="maputnikStyle" class="btn btn-secondary btn-sm">
-                                                <input type="radio" name="mapstyle" autocomplete="off"> Mapputnik
-                                            </label>  
-                                            <label id="mapboxStyle" class="btn btn-secondary btn-sm">
-                                                <input type="radio" name="mapstyle" autocomplete="off"> Mapbox
-                                            </label>                                              
-                                        </div> -->
                                     </div>
                                     <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted"><?php pll_e('Marker Color'); ?></h6>
                                     <div id="markerSelector" class="card-body">
@@ -153,8 +140,6 @@
                                                     <path class="granite" d="M326.4,163.2c0,78.9-55.9,144.7-130.3,159.9l-33.9,79.8l-33.7-80.2C55,306.8,0,241.4,0,163.2                                                        C0,73.1,73.1,0,163.2,0S326.4,73.1,326.4,163.2z M163.2,101.1c-34.3,0-62.2,27.8-62.2,62.2s27.8,62.2,62.2,62.2                                                        s62.2-27.8,62.2-62.2S197.5,101.1,163.2,101.1z"/>
                                                 </g>
                                             </svg>
-                                            <!-- <div class="marker granite"></div> -->
-                                            <!-- <input type="radio" name="options" autocomplete="off" checked> -->
                                             <span class="d-block">Granite</span>
                                             <span class="d-none text-muted"><small>(default)</small></span>   
                                         </label>
@@ -164,8 +149,6 @@
                                                     <path class="mint" d="M326.4,163.2c0,78.9-55.9,144.7-130.3,159.9l-33.9,79.8l-33.7-80.2C55,306.8,0,241.4,0,163.2                                                        C0,73.1,73.1,0,163.2,0S326.4,73.1,326.4,163.2z M163.2,101.1c-34.3,0-62.2,27.8-62.2,62.2s27.8,62.2,62.2,62.2                                                        s62.2-27.8,62.2-62.2S197.5,101.1,163.2,101.1z"/>
                                                 </g>
                                             </svg>
-                                            <!-- <div class="marker mint"></div> -->
-                                            <!-- <input type="radio" name="options" autocomplete="off">  -->
                                             <span class="d-block">Mint</span>   
                                             <span class="d-none text-muted"><small>(default)</small></span>                                         
                                         </label>
@@ -175,8 +158,6 @@
                                                     <path class="yellow" d="M326.4,163.2c0,78.9-55.9,144.7-130.3,159.9l-33.9,79.8l-33.7-80.2C55,306.8,0,241.4,0,163.2                                                        C0,73.1,73.1,0,163.2,0S326.4,73.1,326.4,163.2z M163.2,101.1c-34.3,0-62.2,27.8-62.2,62.2s27.8,62.2,62.2,62.2                                                        s62.2-27.8,62.2-62.2S197.5,101.1,163.2,101.1z"/>
                                                 </g>
                                             </svg>
-                                            <!-- <div class="marker yellow"></div> -->
-                                            <!-- <input type="radio" name="options" autocomplete="off"> -->
                                             <span class="d-block">Yellow</span>
                                             <span class="d-none text-muted"><small>(default)</small></span>
                                         </label>
@@ -186,8 +167,6 @@
                                                     <path class="snow" d="M326.4,163.2c0,78.9-55.9,144.7-130.3,159.9l-33.9,79.8l-33.7-80.2C55,306.8,0,241.4,0,163.2                                                        C0,73.1,73.1,0,163.2,0S326.4,73.1,326.4,163.2z M163.2,101.1c-34.3,0-62.2,27.8-62.2,62.2s27.8,62.2,62.2,62.2                                                        s62.2-27.8,62.2-62.2S197.5,101.1,163.2,101.1z"/>
                                                 </g>
                                             </svg>
-                                            <!-- <div class="marker snow"></div> -->
-                                            <!-- <input type="radio" name="options" autocomplete="off"> -->
                                             <span class="d-block">Snow</span>
                                             <span class="d-none text-muted"><small>(default)</small></span>
                                         </label>
@@ -205,21 +184,18 @@
                                 <button class="btn btn-ptmLight btn-block active" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne" aria-pressed="true">
                                     <div class="text-center py-1">
                                         <i class="fa fa-location-arrow"></i>
-                                        <!-- <i class="material-icons md-36 md-dark">location_on</i> -->
                                     </div>
                                     <span>PLACE IT.</span>
                                 </button>
                                 <button class="btn btn-ptmLight btn-block" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     <div class="text-center py-1">
                                         <i class="fa fa-map-signs"></i>
-                                        <!-- <i class="material-icons md-36 md-dark">text_format</i> -->
                                     </div>
                                     <span>NAME IT.</span>
                                 </button>
                                 <button class="btn btn-ptmLight btn-block" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                     <div class="text-center py-1">
                                         <i class="fa fa-heart"></i>
-                                        <!-- <i class="material-icons md-36 md-dark">format_paint</i> -->
                                     </div>
                                     <span>LOVE IT.</span>
                                 </button>
@@ -229,7 +205,6 @@
                             <img id="canvasImage"/>
                         </div>
                 
-                        <!-- <nav class="navbar navbar-light d-flex w-100"> -->
                         <nav class="mt-auto navbar-light d-flex flex-column w-100">
                             <span class="ptm-cta-helper d-none d-lg-block w-100 p-2 text-center">
                                 <strong><?php pll_e('Loving it?'); ?></strong><br />
@@ -261,10 +236,7 @@
                                 </button>
                             </form>
 
-                            <div class="ptm-usps d-none d-lg-flex justify-content-center w-100 mt-xl-3 text-center">
-                                <!-- <span class="p-2">
-                                    <i class="fa fa-globe" aria-hidden="true"></i>&nbsp;World shipping
-                                </span>                                 -->
+                            <div class="ptm-usps d-none d-lg-flex justify-content-center w-100 mt-xl-3 text-center">                                
                                 <span class="p-2 pr-lg-1">
                                     <i class="fa fa-lock" aria-hidden="true"></i>&nbsp;<?php pll_e('Secure payment'); ?>
                                 </span>                                
@@ -284,8 +256,7 @@
                 <div id="debugger" class="debugPanel"></div>
                 <div class="col-12">
                     <div id="posterWrapper" class="posterArea">
-                        <div id="posterCanvas" class="card poster moon">
-                            <!-- <img class="card-img-top" src="https://via.placeholder.com/500x500" alt="Poster image"> -->            
+                        <div id="posterCanvas" class="card poster moon">                            
                             <div class="mapwindow">
                                 <div id="mapbox" class="card-img-top"></div>
                             </div>
@@ -294,14 +265,15 @@
                                 <p class="card-text text-center">Subline</p>
                                 <p class="card-text text-center">Tagline</p>
                             </div>
+                        </div>                      
+                        <div class="fb-customerchat"
+                          attribution=setup_tool
+                          page_id="135754907172514"
+                          theme_color="#d7ad46"
+                          logged_in_greeting="Hoi! Hoe kunnen wij je helpen?"
+                          logged_out_greeting="Hoi! Hoe kunnen wij je helpen?">
                         </div>
                     </div>
-                    <!-- 
-                    <nav class="navbar d-none fixed-bottom navbar-light bg-light">
-                        <button type="button" id="toPDF" class="btn">PDF</button>
-                        <button type="button" id="toPNG" class="btn">PNG</button>
-                    </nav>
-                     -->
                      <nav class="ptm-thanks d-none w-75 text-muted p-2 d-lg-block fixed-bottom">
                         <small><?php pll_e('Thanks to'); ?> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank"><?php pll_e('OpenStreetMap'); ?></a> <?php pll_e('contributors'); ?></small>
                      </nav>
@@ -310,8 +282,22 @@
         </div>
     </div><!-- /.container -->
     
-    <div class="fb_dialog  fb_dialog_advanced fb_customer_chat_bubble_animated_no_badge fb_customer_chat_bubble_pop_in" style="background: none; border-radius: 50%; bottom: 18pt; display: inline; height: 45pt; padding: 0px; position: fixed; right: 18pt; top: auto; width: 45pt; z-index: 2147483646;">
-    <div tabindex="0" role="button" style="cursor: pointer; outline: none;"><svg width="60px" height="60px" viewBox="0 0 60 60"><svg x="0" y="0" width="60px" height="60px"><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><g><circle fill="#d8ae46" cx="30" cy="30" r="30"></circle><svg x="10" y="10"><g transform="translate(0.000000, -10.000000)" fill="#FFFFFF"><g id="logo" transform="translate(0.000000, 10.000000)"><path d="M20,0 C31.2666,0 40,8.2528 40,19.4 C40,30.5472 31.2666,38.8 20,38.8 C17.9763,38.8 16.0348,38.5327 14.2106,38.0311 C13.856,37.9335 13.4789,37.9612 13.1424,38.1098 L9.1727,39.8621 C8.1343,40.3205 6.9621,39.5819 6.9273,38.4474 L6.8184,34.8894 C6.805,34.4513 6.6078,34.0414 6.2811,33.7492 C2.3896,30.2691 0,25.2307 0,19.4 C0,8.2528 8.7334,0 20,0 Z M7.99009,25.07344 C7.42629,25.96794 8.52579,26.97594 9.36809,26.33674 L15.67879,21.54734 C16.10569,21.22334 16.69559,21.22164 17.12429,21.54314 L21.79709,25.04774 C23.19919,26.09944 25.20039,25.73014 26.13499,24.24744 L32.00999,14.92654 C32.57369,14.03204 31.47419,13.02404 30.63189,13.66324 L24.32119,18.45264 C23.89429,18.77664 23.30439,18.77834 22.87569,18.45674 L18.20299,14.95224 C16.80079,13.90064 14.79959,14.26984 13.86509,15.75264 L7.99009,25.07344 Z"></path></g></g></svg></g></g></svg></svg></div><b id="warning" style="display: none; color:red"> SECURITY WARNING: Please treat the URL above as you would your password and do not share it with anyone. See the <a href="https://l.facebook.com/l.php?u=https%3A%2F%2Fon.fb.me%2F1mXNHhm&amp;h=AT1URu2P3MYx301kNhG-uPGX2FU2lHTDj4EtVFXfp1pXbgT3UAjs1MOov7-8b2GQOpFqf5LDdjvmyJH75GEMU6dT0cIQxeOz7INr5RO_b8-eGaLFkNALcUp2QSXaMGnMNMekhWj6WFZVZZZo" target="_blank" rel="nofollow" data-lynx-mode="hover">Facebook Help Center</a> for more information. </b>
-    </div>
-    
+    <div id="fb-root"></div>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          xfbml            : true,
+          version          : 'v3.2'
+        });
+      };
+
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/nl_NL/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
 </body>

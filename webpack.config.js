@@ -113,9 +113,10 @@ const config = {
     port: 12000,
     compress: true,
     headers: {
-        'Access-Control-Allow-Origin': '*'
-    },
-    allowedHosts: ['192.168.1.26']
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*',
+    }
+    // allowedHosts: ['192.168.1.26']
   }
   /*,
   devtool: 'inline-source-map'  
