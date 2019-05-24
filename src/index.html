@@ -174,9 +174,14 @@
                                     </div>
                                     <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted"><?php pll_e('Format'); ?></h6>
                                     <div class="card-body">
-                                        <button type="button" class="btn btn-lg disabled" data-toggle="button" aria-pressed="false" autocomplete="off">
-                                        50x70cm
-                                        </button>
+                                      <div id="formatSelector" class="btn-group btn-group-toggle" data-toggle="buttons">
+                                          <label class="btn btn-lg btn-outline-light active">
+                                            <input type="radio" name="format" id="50x70" autocomplete="off" checked> 50x70cm
+                                          </label>
+                                          <label class="btn btn-lg">
+                                            <input type="radio" name="format" id="30x40" autocomplete="off"> 30x40cm
+                                          </label>
+                                      </div>
                                     </div>
                                 </div>
                             </div>
@@ -265,13 +270,6 @@
                                 <p class="card-text text-center">Subline</p>
                                 <p class="card-text text-center">Tagline</p>
                             </div>
-                        </div>                      
-                        <div class="fb-customerchat"
-                          attribution=setup_tool
-                          page_id="135754907172514"
-                          theme_color="#d7ad46"
-                          logged_in_greeting="Hoi! Hoe kunnen wij je helpen?"
-                          logged_out_greeting="Hoi! Hoe kunnen wij je helpen?">
                         </div>
                     </div>
                      <nav class="ptm-thanks d-none w-75 text-muted p-2 d-lg-block fixed-bottom">
@@ -281,23 +279,5 @@
             </main>
         </div>
     </div><!-- /.container -->
-    
-    <div id="fb-root"></div>
-    <script>
-      window.fbAsyncInit = function() {
-        FB.init({
-          xfbml            : true,
-          version          : 'v3.2'
-        });
-      };
-
-      (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = 'https://connect.facebook.net/nl_NL/sdk/xfbml.customerchat.js';
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));
-    </script>
 
 </body>

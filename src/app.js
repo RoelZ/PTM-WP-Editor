@@ -66,22 +66,22 @@ let ptm_subline = $('#addToCart input[name="ptm_subline"]');
 let ptm_tagline = $('#addToCart input[name="ptm_tagline"]');
 let ptm_thumb = $('#addToCart input[name="ptm_thumb"]');
 
-
 map.on('load', function(){
     formCoordinates.val(JSON.stringify(map.getBounds()));
     formZoom.val(13);
     formMarkerStyle.val(currentMarkerStyle);
-    formMarkerCoordinates.val(L.latLng([defaultStartView.lat,defaultStartView.lng]));
+    formMarkerCoordinates.val(L.latLng([defaultStartView.ne.lat,defaultStartView.ne.lng]));
 })
-.setView(L.latLng([defaultStartView.lat,defaultStartView.lng]),13);
+.fitBounds(L.latLngBounds([defaultStartView.ne.lat,defaultStartView.ne.lng],[defaultStartView.sw.lat,defaultStartView.sw.lng]));
+// map.setZoom(3);
 
 let ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
     ptmMoon = L.tileLayer(defaultMoonMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous' }),
     ptmGranite = L.tileLayer(defaultGraniteMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
     ptmMint = L.tileLayer(defaultMintMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'});
 
-ptmMoon.addTo(map);
-let activeLayer = ptmMoon;
+let activeLayer = getStyle(currentStyle);
+activeLayer.addTo(map);
 
 let markerOnMap = new L.marker(map.getCenter(), {
     icon: L.icon({
@@ -379,7 +379,7 @@ function updateDebugger(){
 }
 
 function findGetParameter(parameterName) {
-    var result = null,
+    let result = null,
         tmp = [];
     location.search
         .substr(1)
@@ -392,44 +392,87 @@ function findGetParameter(parameterName) {
 }
 
 function getCoordinates(value){
-    var cor = new Array();
-    cor= value.split(',');
+    let cor = new Array();
+    cor = value ? value.split(',') : false;
     return cor;
 }
 
 
 function defaultView(){
-    let places = {
+    // 50.795953386601,5.6225967407227,50.896103955544,5.7812118530273
+    // let place = L.LatLngBounds(50.795953386601,5.6225967407227,50.896103955544,5.7812118530273);    
+    
+    let userCoordinates = getCoordinates(findGetParameter('c'));
+    console.log(userCoordinates);
+
+    if(userCoordinates)
+    {
+      let place = {
+        name: 'User Coordinates',
+        ne: {
+          lat : userCoordinates[0],
+          lng : userCoordinates[1]
+        },
+        sw: {
+          lat : userCoordinates[2],
+          lng : userCoordinates[3]
+        }
+      }
+
+      return place;
+
+    } else {
+
+      let places = {
         0 : {
-            name: 'Eindhoven',
-            lat : '51.441767',
-            lng : '5.470247',
-            zoom : '12.1'
+          name: 'Eindhoven',
+          ne: {
+            lat : '51.49762961696847',
+            lng : '5.539512634277345'
+          },
+          sw: {
+            lat : '51.398777259985444',
+            lng : '5.380897521972656'
+          },
+          zoom : '12.1'
         },
         1 : {
-            name: 'Utrecht',
-            lat : '52.090737',
-            lng : '5.12142',
-            zoom : '12.1'
+          name: 'Utrecht',
+          ne: {
+            lat : '52.13664902426816',
+            lng : '5.193443298339845'
+          },
+          sw: {
+            lat : '52.039187769080115',
+            lng : '5.034828186035157'
+          },
+          zoom : '12.1'
         },
         2 : {
-            name: 'Amsterdam',
-            lat : '52.370216',
-            lng : '4.895168',
-            zoom : '12.1'
+          name: 'Amsterdam',
+          ne: {
+            lat : '52.39959100269025',
+            lng : '4.939727783203125'
+          },
+          sw: {
+            lat : '52.35117489482139',
+            lng : '4.860420227050782'
+          },
+          zoom : '12.1'
         },
-    }
+      }
 
-    let randomItem = Math.floor(Math.random() * Object.keys(places).length);  
-        
-    return places[randomItem];
-}
+      let randomItem = Math.floor(Math.random() * Object.keys(places).length);
+      return places[randomItem];
+
+    }
+  }
 
 function defaultStyle(){
     
     let style = findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "moon";
     $('.poster').attr('class','card poster '+style);    
-    $('#addToCart').attr('action', cartUrl+style);          
+    $('#addToCart').attr('action', cartUrl+style);
         
     return style;    
 }
@@ -448,10 +491,6 @@ function getStyle(name){
         formVariationId.val(1207);
         return ptmSnow
     }
-    else if(name == 'moon'){
-        formVariationId.val(1208);
-        return ptmMoon
-    }
     else if(name == 'granite'){
         formVariationId.val(1209);
         return ptmGranite
@@ -460,6 +499,10 @@ function getStyle(name){
         formVariationId.val(1210);
         return ptmMint
     }
+    else {      
+      formVariationId.val(1208);
+      return ptmMoon
+  }
     
 }
 function getVariation(style){
@@ -557,11 +600,9 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
     $(this).parent().find("label").each(function(){
         $(this).removeClass('active');
     });
+
     currentStyle = event.target.id;
-
-
     $('.poster').attr('class','card poster '+event.target.id);
-
     $('#addToCart').attr('action', cartUrl+event.target.id);
 
     map.removeLayer(activeLayer);
@@ -608,6 +649,11 @@ $('#markerSelector .ptm-btn').click(function ( event ) {
         
 });
 
+
+$("#formatSelector .btn").click(function ( event ) {
+  currentFormat = event.target.id;
+  $('#addToCart').attr('action', cartUrl+event.target.id);
+});
 
 document.getElementById("addToCart").addEventListener("click", function(event){
     event.preventDefault();

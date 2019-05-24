@@ -1,0 +1,73 @@
+{
+  "options": {
+    "paths": {
+      "root": "",
+      "fonts": "",
+      "sprites": "",
+      "styles": "styles",
+      "mbtiles": "mbtiles"
+    },
+    "domains": [
+      "tiles.placethemoment.com"
+    ],
+    "formatQuality": {
+      "jpeg": 80,
+      "webp": 90
+    },
+    "maxScaleFactor": 4,
+    "maxSize": 4096,
+    "pbfAlias": "pbf",
+    "serveAllFonts": false,
+    "serveStaticMaps": true
+  },
+  "styles": {
+    "snow": {
+      "style": "ptm-snow.json",
+      "tilejson": {
+        "type": "overlay",
+        "bounds": [4.44723129272461,51.87924627899365,4.526538848876954,51.92817783649211]
+      }
+    },
+    "granite": {
+      "style": "ptm-granite.json",
+      "tilejson": {
+        "type": "overlay",
+        "bounds": [4.44723129272461,51.87924627899365,4.526538848876954,51.92817783649211]
+      }
+    },
+    "mint": {
+      "style": "ptm-mint.json",
+      "tilejson": {
+        "type": "overlay",
+        "bounds": [4.44723129272461,51.87924627899365,4.526538848876954,51.92817783649211]
+      }
+    },
+"honey":{
+  "style": "ptm-honey.json",
+  "tilejson": {
+    "type": "overlay",
+    "bounds": [4.44723129272461,51.87924627899365,4.526538848876954,51.92817783649211]
+  }
+},
+    "white": {
+      "style": "print-white.json",
+      "tilejson": {
+        "type": "overlay",
+        "bounds": [4.44723129272461,51.87924627899365,4.526538848876954,51.92817783649211]
+      }
+    },
+    "black": {
+      "style": "print-black.json",
+      "tilejson": {
+        "type": "overlay",
+        "bounds": [4.44723129272461,51.87924627899365,4.526538848876954,51.92817783649211]
+      }
+    }
+  },
+  "data": {
+    "v1": {
+      "mbtiles": "ptm-planet.mbtiles"
+    }
+  }
+}
+

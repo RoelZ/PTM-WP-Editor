@@ -1,19 +1,26 @@
 .fb_dialog {
-  right:288pt !important;
+  left:18pt !important;
+  right:0pt !important;
+  bottom:28pt !important;
   z-index:90 !important;
   transition: transform 1s ease;
 }
-.fb_customer_chat_bounce_in_v2, 
+.fb_customer_chat_bounce_in_v2,
 .fb_customer_chat_bounce_out_v2 {
-  right:279pt !important;
+  left:18pt !important;
+  right:0pt !important;
+  bottom:70pt !important;
   z-index:90 !important;
+  transform-origin:bottom left !important;
 }
 
 @include media-breakpoint-down(md){
   .fb_dialog {
-    right:10pt !important;
-    position:relative !important;
-    bottom:8rem !important;
-    float:right;
+    // right:10pt !important;
+    // position:relative !important;
+    // bottom:8rem !important;
+    // float:right;
+    top:18pt !important;
+    left:18pt;
   }
 }
