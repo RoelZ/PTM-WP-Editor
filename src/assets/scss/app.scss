@@ -147,20 +147,6 @@ body {
   }
 }
   
-@include media-breakpoint-down(md){
-  .posterArea {    
-    resize: both;
-    position: relative;
-    height: calc(100vh - 200px); //76vh;
-  }
-  .poster {    
-    position: relative;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    transform-origin: center center;
-  }
-}
 
 #canvasImage {
   zoom:0.1;
@@ -190,10 +176,6 @@ body {
   &.snow {    
       color: black;
       background-color:white !important;
-      .marker {
-        // filter: none;
-          // background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-mint.svg');
-      }
   }
   &.moon {
       color: #54575c;
@@ -201,25 +183,19 @@ body {
       .leaflet-container, .ptm-map-color-icon {
           background-color: #54575c !important;
       }
-      .marker {
-        // filter: none;
-          // background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-snow.svg');
-      }
   }
   &.granite {
       color: white;
       background-color: #54575c !important;
-      .marker {
-        // filter: none;
-          // background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-yellow.svg');
+      .card-title {
+        color:white;
       }
   }
   &.mint {
       color: white;
       background-color: #6fa189 !important;
-      .marker {
-          // filter: none;
-          // background-image: url('https://www.placethemoment.com/dev/editor/images/ptm-marker-granite.svg');
+      .card-title {
+        color:white;
       }
   }
 }
@@ -250,7 +226,7 @@ body {
   transform-origin: left center;
   transform: rotateY(90deg);
 
-  animation-name: flipUp;
+  animation-name: flipRight;
   animation-delay: 1s;
   animation-duration: 300ms;
   animation-fill-mode: forwards;
@@ -267,6 +243,38 @@ body {
   }
 }
 
+@include media-breakpoint-down(md){
+  .posterArea {    
+    resize: both;
+    position: relative;
+    height: calc(100vh - 200px); //76vh;
+  }
+  .poster {    
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transform-origin: center center;
+  }
+  .leaflet-control-zoom {
+    top:-54px;
+    position: relative;
+    transform-origin: center bottom;
+    transform: rotateX(90deg);
+    animation-name: flipUp;
+
+    &.leaflet-bar a {
+      display: inline-block;
+      font-size: 2rem;
+      width: 52px;
+      height: 52px;
+      line-height: 52px;
+      border: 1px solid grey;
+      box-shadow: none;
+    }
+  }
+}
+
 @keyframes blendIn {
   from {
     opacity: 0;
@@ -277,6 +285,14 @@ body {
 }
 
 @keyframes flipUp {
+  from { 
+    transform: rotateX(90deg);
+  }
+  to {
+    transform: rotateX(0deg);
+  }
+}
+@keyframes flipRight {
   from { 
     transform: rotateY(90deg);
   }
