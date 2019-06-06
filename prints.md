@@ -25,19 +25,19 @@ Suus & Wes
 Go Live Campaign
 ------
 
-1. http://www.placethemoment.com/dev/editor/#13.7/51.41927/5.46832
+1. http://dev.placethemoment.com/editor/#13.7/51.41927/5.46832
 Snow
 When we first held hands
 10-10-2015
 Eindhoven - The Netherlands
 
-2. http://www.placethemoment.com/dev/editor/#9.99/-4.6898/55.4691
+2. http://dev.placethemoment.com/editor/#9.99/-4.6898/55.4691
 Granite
 Paradise was found here
 Mah� Island
 Seychelles
 
-3. http://www.placethemoment.com/dev/editor/#11.08/48.8592/2.2732
-london (http://www.placethemoment.com/dev/editor/#12.19/51.50031/-0.10468)
+3. http://dev.placethemoment.com/editor/#11.08/48.8592/2.2732
+london (http://dev.placethemoment.com/editor/#12.19/51.50031/-0.10468)
 mint
 The place your journey began

@@ -64,6 +64,7 @@
     .ptm-poster-styles {      
 
         .ptm-btn {
+            cursor: pointer;
             background: none;
 
             &.active {
@@ -87,6 +88,20 @@
                 pointer-events: none;
             }
         }
+    }
+
+
+    .ptm-format-btn {
+      cursor: pointer;
+      color: $ptmGrey;
+      &.active {
+        color:$ptmDark;
+        box-shadow: 0 0 3px 3px #d8ae46;
+        background-color:white;
+      }
+      &:hover{
+        color:$ptmDark;
+      }
     }
     .ptm-map-color {
 
@@ -128,18 +143,27 @@
         transition: background-color 200ms linear;     
     }
     &:not(:hover) span:last-child {
-        background-color:#d2a32f;
+      background-color:#d2a32f;
     }
     &:hover span {
-        background-color: #dfbe6a;
+      background-color: #dfbe6a;
+    }
+    
+    &-helper {                   
+      font-size: .65rem;
+      line-height: 1rem;
+      color: $ptmGrey;
+    }
+    small {
+      top: -8px;
+      font-size: 0.8em;
+      font-weight: 300;
+      text-decoration: line-through;
     }
 
-    &-helper {                   
-        font-size: .65rem;
-        line-height: 1rem;
-        color: $ptmGrey;
-    }
 }
+
+
 
 .ptm-usps {
     font-size: 0.85rem;

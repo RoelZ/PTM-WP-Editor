@@ -174,12 +174,13 @@
                                     </div>
                                     <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted"><?php pll_e('Format'); ?></h6>
                                     <div class="card-body">
-                                      <div id="formatSelector" class="btn-group btn-group-toggle" data-toggle="buttons">
-                                          <label class="btn btn-lg btn-outline-light active">
-                                            <input type="radio" name="format" id="50x70" autocomplete="off" checked> 50x70cm
+                                      <div id="formatSelector" class="btn-group-toggle" data-toggle="buttons">
+                                          <label id="50x70" class="btn btn-lg ptm-format-btn active">
+                                            <input type="radio" name="format" autocomplete="off" checked> 50x70cm
                                           </label>
-                                          <label class="btn btn-lg">
-                                            <input type="radio" name="format" id="30x40" autocomplete="off"> 30x40cm
+                                          <label id="30x40" class="btn btn-lg ptm-format-btn">
+                                            <input type="radio" name="format" autocomplete="off"> 30x40cm
+                                            <span class="badge badge-dark badge-pill ml-1 py-1">Nieuw</span>
                                           </label>
                                       </div>
                                     </div>
@@ -209,14 +210,14 @@
                         <div class="imgDownload d-none" style="overflow:scroll; width: 100%; height: 50%; background-color: slategrey">
                             <img id="canvasImage"/>
                         </div>
-                
+
                         <nav class="mt-auto navbar-light d-flex flex-column w-100">
                             <span class="ptm-cta-helper d-none d-lg-block w-100 p-2 text-center">
                                 <strong><?php pll_e('Loving it?'); ?></strong><br />
                                 <?php pll_e('Finish your order to create a lasting memory'); ?>
                             </span>
                     
-                            <form id="addToCart" class="form-inline my-lg-0 p-lg-2 w-100" method="post" enctype="multipart/form-data" data-product_id="1144" action="https://www.placethemoment.com/dev/nl/shop/map-poster/?attribute_pa_dimensions=50x70&attribute_design=">
+                            <form id="addToCart" class="form-inline my-lg-0 p-lg-2 w-100" method="post" enctype="multipart/form-data" data-product_id="1144" action="http://dev.placethemoment.com/nl/shop/map-poster/">
                                 <input type="hidden" name="add-to-cart" value="1144">
                                 <input type="hidden" name="product_id" value="1144">
                                 <input type="hidden" name="quantity" value="1">
@@ -231,11 +232,14 @@
                                 <input type="hidden" name="ptm_subline" value="Subline">
                                 <input type="hidden" name="ptm_tagline" value="Tagline">
                                 <input type="hidden" name="ptm_thumb" value="">
-                                <button class="ptm-cta btn btn-primary rounded-top w-100 mx-auto px-lg-0 py-lg-0 btn-block" type="submit">
+                                <button class="ptm-cta btn btn-primary rounded-top w-100 mx-auto px-lg-0 py-lg-0 btn-block animated" type="submit">
                                     <div class="d-flex align-items-stretch text-center">
-                                        <i class="ptm-shopping-bag py-2 d-lg-none"></i>                                        
+                                        <i class="ptm-shopping-bag py-2 d-lg-none align-self-end"></i>                                        
                                         <span class="d-lg-none py-2 w-75">&euro;49</span>
-                                        <span class="d-none d-lg-block py-3 w-25">&euro;49</span>
+                                        <span class="d-lg-block d-none py-3 w-25 position-relative">
+                                          <small class="position-absolute fade py-3 text-white">€45</small>
+                                          €49
+                                        </span>
                                         <span class="d-none d-lg-block py-lg-3 w-75"><?php pll_e('Add to cart'); ?></span>
                                     </div>
                                 </button>
@@ -261,7 +265,7 @@
                 <div id="debugger" class="debugPanel"></div>
                 <div class="col-12">
                     <div id="posterWrapper" class="posterArea">
-                        <div id="posterCanvas" class="card poster moon">                            
+                        <div id="posterCanvas" class="card poster">                          
                             <div class="mapwindow">
                                 <div id="mapbox" class="card-img-top"></div>
                             </div>

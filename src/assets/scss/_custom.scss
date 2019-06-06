@@ -24,6 +24,9 @@ $theme-colors: (
     &.disabled:focus {
         box-shadow: none;     
     }
+    &-outline-light {
+      color:$ptmDark //#212529;
+    }
 }
 .btn-primary { 
     color: #fff;

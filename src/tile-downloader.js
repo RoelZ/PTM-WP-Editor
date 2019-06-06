@@ -10,7 +10,7 @@ import L from 'leaflet';
 // }).addTo(map);
 
 // var ptmIcon = L.icon({
-//     iconUrl: 'http://www.placethemoment.com/dev/wp-content/uploads/2017/11/ptm-marker-dark.png',
+//     iconUrl: 'http://dev.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-dark.png',
 //     shadowUrl: ''
 // });
 

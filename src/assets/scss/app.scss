@@ -49,18 +49,26 @@ body {
 
 .poster {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  // transform-origin: top left;
-  
+  top:50%;
+  left:50%;
   width:588px;    // 5  (aspect ratio)
   height:820px;   // 7
+  opacity:0;
+  
+  animation-name: blendIn;
+  animation-delay: 1s;
+  animation-duration: 300ms;
+  animation-fill-mode: forwards;
 
+  transform: translateX(-50%) translateY(-50%);
+  transform-origin: center center;
+  transition:all 300ms ease;
+  box-shadow: 0px 0px 12px -3px rgba(0,0,0,0.4);
+  
   .card-body {    
-
+    
     padding:10px 60px;
-
+    
     .card-title {
       font-family: 'Open Sans Condensed';
       font-size: 26px;
@@ -79,77 +87,78 @@ body {
       }
     }    
   }
-}
 
-
-.mapwindow {
-  width:466px;
-  height:466px;
-  margin:85px auto;
-  overflow: hidden;
-
-  .preloader {
-    display: none;
-    height: 466px;
-    width: 466px;
-    position: absolute;
-    background-color: rgba(108, 117, 125, 0.5);
-    z-index: 1;
-    border-radius: 233px;
-
-    &.active {
-      display: inline;
+  
+  
+  .mapwindow {
+    width:466px;
+    height:466px;
+    margin:85px auto;
+    overflow: hidden;
+    transform-origin: center center;
+    transition: all 300ms ease-in-out;
+    
+    .preloader {
+      display: none;
+      height: 466px;
+      width: 466px;
+      position: absolute;
+      background-color: rgba(108, 117, 125, 0.5);
+      z-index: 1;
+      border-radius: 233px;
+      
+      &.active {
+        display: inline;
+      }
+    }    
+    #mapbox 
+    { 
+      width: 466px;
+      height: 466px;
+      -webkit-border-radius: 233px;
+      -moz-border-radius: 233px;
+      border-radius: 233px;
+      border: 2px solid;
+      background-color:rgba(0,0,0,0);
+      z-index: 0;
+      transform-origin: center center;
+      transition: all 300ms ease-in-out;
     }
   }
+  
+  &.large {  
+    width:588px;    // 5  (aspect ratio)
+    height:820px;   // 7
+  }
+  &.small {
+    width:570px;    // 4  (aspect ratio)
+    height:760px;   // 3
 
-}
-#mapbox 
-{ 
-    height: 466px;
-    width: 466px;
-    //transform:scale(0.1);
-    //height:calc(466px * 2); //466,4746
-    //width: calc(466px * 2);  //466,4746
-    //transform: scale(0.5) translate(-50%,-50%);
-/* 
-    .mapboxgl-canvas {
-      top:-25%;
-      left:-25%;
+    .mapwindow {
+      width:446px;
+      height:446px;
+      margin:65px auto;
     }
-*/
-    -webkit-border-radius: 233px;
-    -moz-border-radius: 233px;
-    border-radius: 233px;
-    border: 2px solid;
-    background-color:rgba(0,0,0,0);
-    z-index: 0;
-}
+    #mapbox {
+      width: 446px;
+      height: 446px;
+    }
 
+  }
+}
+  
 @include media-breakpoint-down(md){
-  // .navbar { 
-  //   position: fixed;
-  //   width: 100%;
-  //   top:0;
-  // }
   .posterArea {    
     resize: both;
     position: relative;
     height: calc(100vh - 200px); //76vh;
   }
-  .poster {
-
-    // width:400px;    // 5  (aspect ratio)
-    // height:558px;   // 7    
-    // transform: translateX(-50%) translateY(-70%);
-    
+  .poster {    
     position: relative;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     transform-origin: center center;
-    
-    // transform: translate(-50%, -60%) scale(0.7);
-    // transform-origin: 50% 50% 0px;
   }
 }
 
@@ -157,46 +166,8 @@ body {
   zoom:0.1;
 }
 
-
-/*
-.card.poster:before, .card.poster:after
-{
-  z-index: -1;
-  position: absolute;
-  content: "";
-  bottom: 15px;
-  left: 10px;
-  width: 50%;
-  top: 80%;
-  max-width:300px;
-  background: #777;
-  -webkit-box-shadow: 0 15px 10px #777;
-  -moz-box-shadow: 0 15px 10px #777;
-  box-shadow: 0 15px 10px #777;
-  -webkit-transform: rotate(-3deg);
-  -moz-transform: rotate(-3deg);
-  -o-transform: rotate(-3deg);
-  -ms-transform: rotate(-3deg);
-  transform: rotate(-3deg);
-}
-.card.poster:after
-{
-  -webkit-transform: rotate(3deg);
-  -moz-transform: rotate(3deg);
-  -o-transform: rotate(3deg);
-  -ms-transform: rotate(3deg);
-  transform: rotate(3deg);
-  right: 10px;
-  left: auto;
-}
-*/
-
-//.geocoder {}
 .mapboxgl-ctrl-geocoder { min-width:100%; }
 .marker {
-    // background-image: url('http://www.placethemoment.com/dev/editor/images/ptm-marker.svg');
-    // background-size: contain;
-    // background-repeat: no-repeat;
     width: 22px; //28
     height: 27px; //34
     cursor: pointer;
@@ -214,29 +185,7 @@ body {
     .snow {
       fill: white;
     }
-/*
-    position: absolute;
-    left: 10%;
-    top: 10%;
-    -webkit-animation-name: bounce;
-    -moz-animation-name: bounce;
-    -o-animation-name: bounce;
-    -ms-animation-name: bounce;
-    animation-name: bounce;
-    -webkit-animation-fill-mode: both;
-    -moz-animation-fill-mode: both;
-    -o-animation-fill-mode: both;
-    -ms-animation-fill-mode: both;
-    animation-fill-mode: both;
-    -webkit-animation-duration:   .7s;
-    -moz-animation-duration:      .7s;
-    -o-animation-duration:        .7s;
-    -ms-animation-duration:       .7s;
-    animation-duration:           .7s;
-    z-index: 4;
-*/
 }
-
 .poster, .ptm-map-color-btn {
   &.snow {    
       color: black;
@@ -290,147 +239,84 @@ body {
     }
 }
 
+.leaflet-control-zoom {
+  position: absolute;
+  margin:0 !important;
+  border:1px solid #dadad8;
+  box-shadow: none;
+  
+  transition: transform 300ms ease-in;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  transform: rotateY(90deg);
+
+  animation-name: flipUp;
+  animation-delay: 1s;
+  animation-duration: 300ms;
+  animation-fill-mode: forwards;
+
+  &.leaflet-bar a {
+    color:$ptmDark;
+    box-shadow: inset 4px 0px 4px -4px rgba(0,0,0,0.35);
+    &:first-child{
+      border-top-left-radius: 0;
+    }
+    &:last-child {
+      border-bottom-left-radius: 0;
+    }
+  }
+}
+
+@keyframes blendIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes flipUp {
+  from { 
+    transform: rotateY(90deg);
+  }
+  to {
+    transform: rotateY(0deg);
+  }
+}
+
 @keyframes bounce {
-  0% {
-    opacity: 0;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    filter: alpha(opacity=0);
-    -webkit-transform: translateY(-2000px)  ;
-    -moz-transform: translateY(-2000px)  ;
-    -o-transform: translateY(-2000px)  ;
-    -ms-transform: translateY(-2000px)  ;
-    transform: translateY(-2000px)  ;
+  from,
+  20%,
+  53%,
+  80%,
+  to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    transform: translate3d(0, 0, 0);
   }
-  60% {
-    opacity: 1;
-    -ms-filter: none;
-    filter: none;
-    -webkit-transform: translateY(30px)  ;
-    -moz-transform: translateY(30px)  ;
-    -o-transform: translateY(30px)  ;
-    -ms-transform: translateY(30px)  ;
-    transform: translateY(30px)  ;
+
+  40%,
+  43% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(0, -30px, 0);
   }
-  80% {
-    -webkit-transform: translateY(-10px)  ;
-    -moz-transform: translateY(-10px)  ;
-    -o-transform: translateY(-10px)  ;
-    -ms-transform: translateY(-10px)  ;
-    transform: translateY(-10px)  ;
+
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+    transform: translate3d(0, -15px, 0);
   }
-  100% {
-    -webkit-transform: translateY(0)  ;
-    -moz-transform: translateY(0)  ;
-    -o-transform: translateY(0)  ;
-    -ms-transform: translateY(0)  ;
-    transform: translateY(0)  ;
+
+  90% {
+    transform: translate3d(0, -4px, 0);
   }
 }
-@-moz-keyframes bounce {
-    0% {
-      opacity: 0;
-      -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-      filter: alpha(opacity=0);
-      -webkit-transform: translateY(-2000px);
-      -moz-transform: translateY(-2000px) ;
-      -o-transform: translateY(-2000px);
-      -ms-transform: translateY(-2000px) ;
-      transform: translateY(-2000px) ;
-    }
-    60% {
-      opacity: 1;
-      -ms-filter: none;
-      filter: none;
-      -webkit-transform: translateY(30px)  ;
-      -moz-transform: translateY(30px)  ;
-      -o-transform: translateY(30px)  ;
-      -ms-transform: translateY(30px)  ;
-      transform: translateY(30px)  ;
-    }
-    80% {
-      -webkit-transform: translateY(-10px)  ;
-      -moz-transform: translateY(-10px)  ;
-      -o-transform: translateY(-10px)  ;
-      -ms-transform: translateY(-10px)  ;
-      transform: translateY(-10px)  ;
-    }
-    100% {
-      -webkit-transform: translateY(0)  ;
-      -moz-transform: translateY(0)  ;
-      -o-transform: translateY(0)  ;
-      -ms-transform: translateY(0)  ;
-      transform: translateY(0)  ;
-    }
+
+.bounce {
+  animation-name: bounce;
+  transform-origin: center bottom;
 }
-@-webkit-keyframes bounce {
-  0% {
-    opacity: 0;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    filter: alpha(opacity=0);
-    -webkit-transform: translateY(-2000px)  ;
-    -moz-transform: translateY(-2000px)  ;
-    -o-transform: translateY(-2000px)  ;
-    -ms-transform: translateY(-2000px)  ;
-    transform: translateY(-2000px)  ;
-  }
-  60% {
-    opacity: 1;
-    -ms-filter: none;
-    filter: none;
-    -webkit-transform: translateY(30px)  ;
-    -moz-transform: translateY(30px)  ;
-    -o-transform: translateY(30px)  ;
-    -ms-transform: translateY(30px)  ;
-    transform: translateY(30px)  ;
-  }
-  80% {
-    -webkit-transform: translateY(-10px)  ;
-    -moz-transform: translateY(-10px)  ;
-    -o-transform: translateY(-10px)  ;
-    -ms-transform: translateY(-10px)  ;
-    transform: translateY(-10px)  ;
-  }
-  100% {
-    -webkit-transform: translateY(0)  ;
-    -moz-transform: translateY(0)  ;
-    -o-transform: translateY(0)  ;
-    -ms-transform: translateY(0)  ;
-    transform: translateY(0)  ;
-  }
-}
-@-o-keyframes bounce {
-  0% {
-    opacity: 0;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    filter: alpha(opacity=0);
-    -webkit-transform: translateY(-2000px)  ;
-    -moz-transform: translateY(-2000px)  ;
-    -o-transform: translateY(-2000px)  ;
-    -ms-transform: translateY(-2000px)  ;
-    transform: translateY(-2000px)  ;
-  }
-  60% {
-    opacity: 1;
-    -ms-filter: none;
-    filter: none;
-    -webkit-transform: translateY(30px)  ;
-    -moz-transform: translateY(30px)  ;
-    -o-transform: translateY(30px)  ;
-    -ms-transform: translateY(30px)  ;
-    transform: translateY(30px)  ;
-  }
-  80% {
-    -webkit-transform: translateY(-10px)  ;
-    -moz-transform: translateY(-10px)  ;
-    -o-transform: translateY(-10px)  ;
-    -ms-transform: translateY(-10px)  ;
-    transform: translateY(-10px)  ;
-  }
-  100% {
-    -webkit-transform: translateY(0)  ;
-    -moz-transform: translateY(0)  ;
-    -o-transform: translateY(0)  ;
-    -ms-transform: translateY(0)  ;
-    transform: translateY(0)  ;
-  }
+
+.animated {  
+  animation-duration: 1s;
+  animation-fill-mode: both;
 }
