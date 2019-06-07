@@ -218,7 +218,8 @@ body {
 .leaflet-control-zoom {
   position: absolute;
   margin:0 !important;
-  border:1px solid #dadad8;
+  left:1px;
+  border:1px solid $ptmLightGrey;
   box-shadow: none;
   
   transition: transform 300ms ease-in;
@@ -227,7 +228,7 @@ body {
   transform: rotateY(90deg);
 
   animation-name: flipRight;
-  animation-delay: 1s;
+  animation-delay: 2s;
   animation-duration: 300ms;
   animation-fill-mode: forwards;
 
@@ -269,7 +270,7 @@ body {
       width: 52px;
       height: 52px;
       line-height: 52px;
-      border: 1px solid grey;
+      border: 1px solid $ptmLightGrey;
       box-shadow: none;
     }
   }

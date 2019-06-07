@@ -145,12 +145,15 @@ map.on('moveend', function(){
 
 
 /* Setting defaults to UI */
-ptm_subline.val(defaultStartView.name);
-$('#sublineInput').val(defaultStartView.name);
-$("#posterText .card-text:first").html(defaultStartView.name);
-ptm_tagline.val('The Netherlands');
-$('#taglineInput').val('The Netherlands');
-$("#posterText .card-text:last").html('The Netherlands');
+ptm_moment.val(defaultStartView.moment);
+$('#momentInput').val(defaultStartView.moment);
+$("#posterText .card-title").html(defaultStartView.moment);
+ptm_subline.val(defaultStartView.subline);
+$('#sublineInput').val(defaultStartView.moment);
+$("#posterText .card-text:first").html(defaultStartView.ptm_moment);
+ptm_tagline.val(defaultStartView.tagline);
+$('#taglineInput').val(defaultStartView.tagline);
+$("#posterText .card-text:last").html(defaultStartView.tagline);
 
 
 /* INITIAL BREAKPOINTS CHECK */
@@ -270,7 +273,7 @@ $(window).resize(function() {
     doResize(null, starterData);
 });
 
-let debugPanel = $('#debugger');
+let $debugPanel = $('#debugger');
 
 let rand = function() {
     return Math.random().toString(36).substr(2); // remove `0.`
@@ -372,7 +375,7 @@ function getMapData(e){
 
 function updateDebugger(){
     // console.log(map.getZoom());
-    debugPanel.html('sw='+btoa(
+    $debugPanel.html('sw='+btoa(
         map.getBounds().getSouth()+','+
         map.getBounds().getWest())
         +'&ne='+btoa(
@@ -401,17 +404,29 @@ function getCoordinates(value){
 }
 
 
-function defaultView(){
-    // 50.795953386601,5.6225967407227,50.896103955544,5.7812118530273
-    // let place = L.LatLngBounds(50.795953386601,5.6225967407227,50.896103955544,5.7812118530273);    
-    
-    let userCoordinates = getCoordinates(findGetParameter('c'));
-    console.log(userCoordinates);
+function defaultView(){  
 
+    let userCoordinates, 
+        userMoment = 'User Coordinates', 
+        userSubline = '', 
+        userTagline = '';
+
+    if($.trim($('#debugger').html())){
+      let $data = JSON.parse($('#debugger').html());
+      userMoment = $data.text_moment;
+      userSubline = $data.text_subline;
+      userTagline = $data.text_tagline;
+      userCoordinates = [$data.cor_ne_lat,$data.cor_ne_lng,$data.cor_sw_lat,$data.cor_sw_lng];
+    } else {
+      userCoordinates = getCoordinates(findGetParameter('c'));
+    }
+    console.log(userCoordinates);
     if(userCoordinates)
     {
       let place = {
-        name: 'User Coordinates',
+        moment: userMoment,
+        subline: userSubline,
+        tagline: userTagline,
         ne: {
           lat : userCoordinates[0],
           lng : userCoordinates[1]
@@ -428,7 +443,9 @@ function defaultView(){
 
       let places = {
         0 : {
-          name: 'Eindhoven',
+          moment: 'My Moment',
+          subline: 'Eindhoven',
+          tagline: 'The Netherlands',
           ne: {
             lat : '51.49762961696847',
             lng : '5.539512634277345'
@@ -440,7 +457,9 @@ function defaultView(){
           zoom : '12.1'
         },
         1 : {
-          name: 'Utrecht',
+          moment: 'My Moment',
+          subline: 'Utrecht',
+          tagline: 'The Netherlands',
           ne: {
             lat : '52.13664902426816',
             lng : '5.193443298339845'
@@ -452,7 +471,9 @@ function defaultView(){
           zoom : '12.1'
         },
         2 : {
-          name: 'Amsterdam',
+          moment: 'My Moment',
+          subline: 'Amsterdam',
+          tagline: 'The Netherlands',
           ne: {
             lat : '52.39959100269025',
             lng : '4.939727783203125'
@@ -472,9 +493,18 @@ function defaultView(){
   }
 
 function defaultStyle(){
-    
-    let style = findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "moon";
-    currentFormat = findGetParameter('attribute_pa_dimensions') ? findGetParameter('attribute_pa_dimensions') : "50x70";
+    let style = '';
+
+    if($.trim($('#debugger').html())){
+      let $data = JSON.parse($('#debugger').html());
+      console.log($data);
+      style = $data.map_style;
+      currentFormat = $data.map_format;
+    } else {
+      style = findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "moon";
+      currentFormat = findGetParameter('attribute_pa_dimensions') ? findGetParameter('attribute_pa_dimensions') : "50x70";
+    }
+
     $('.poster').addClass(style);
     $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+style);
         
@@ -593,16 +623,11 @@ function getMarker(style, poster = false){
     }
 }
 
-function KeyPress(e) {
-    var evtobj = window.event? event : e
-    if (evtobj.keyCode == 112 && evtobj.ctrlKey){
-
-        debugPanel.toggleClass('d-block');
-
-    };
-}
-
-document.onkeydown = KeyPress;
+document.addEventListener('keyup', (e) => {
+  if (e.key == 'F2'){
+      $debugPanel.toggleClass('d-block');
+  };
+});
 
 let activeTab;
 

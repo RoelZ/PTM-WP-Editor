@@ -207,9 +207,6 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="imgDownload d-none" style="overflow:scroll; width: 100%; height: 50%; background-color: slategrey">
-                            <img id="canvasImage"/>
-                        </div>
 
                         <nav class="mt-auto navbar-light d-flex flex-column w-100">
                             <span class="ptm-cta-helper d-none d-lg-block w-100 p-2 text-center">
@@ -262,8 +259,14 @@
                 <div id="progress" class="linear-activity">
                     <div class="indeterminate d-none"></div>
                 </div>
-                <div id="debugger" class="debugPanel"></div>
+                <div id="debugger" class="debugPanel d-block">{"ID":"1","order_id":"1234","hashurl":"abc123","cor_ne_lat":"51.45131922157823","cor_ne_lng":"5.465161800384522","cor_sw_lat":"51.44514094970541","cor_sw_lng":"5.4552483558654785","map_style":"mint","map_format":"50x70","mark_ne_lat":"51.49763","mark_ne_lng":"5.539513","mark_style":"granite","text_moment":"nogmaals","text_subline":"Ergens","text_tagline":"Nederland"}</div>
                 <div class="col-12">
+                    <div class="d-lg-none position-fixed text-center" style="left:0;right:0;z-index:1;bottom:14vh;">
+                        <a href="https://wa.me/31850470420" style="background-color: #25D366;" class="badge badge-pill badge-success badge-whatsapp font-weight-normal px-3 py-2"><?php pll_e('Need help? Chat with us!'); ?><i class="fa-lg  fa-whatsapp fab ml-2 py-1"></i></a>
+                      </div> 
+                      <div id="customer-chat" class="d-md-block d-none position-fixed text-center fade" style="left: 30px;bottom: 70px;z-index: 1;">
+                        <a href="https://wa.me/31850470420" target="_blank" class="badge badge-success font-weight-normal p-2 rounded-circle shadow" style="background-color: #25D366; width: 60px;"><i class="fa-3x fa-whatsapp fab py-1"></i></a>
+                    </div> 
                     <div id="posterWrapper" class="posterArea">
                         <div id="posterCanvas" class="card poster">                          
                             <div class="mapwindow">
