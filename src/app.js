@@ -16,6 +16,7 @@ let defaultSnowMapStyle = 'https://tiles.placethemoment.com/styles/snow/{z}/{x}/
 let defaultMoonMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png';
 let defaultGraniteMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png';
 let defaultMintMapStyle = 'https://tiles.placethemoment.com/styles/mint/{z}/{x}/{y}.png';
+let defaultHoneyMapStyle = 'https://tiles.placethemoment.com/styles/honey/{z}/{x}/{y}.png';
 
 // const provider = new GoogleProvider({
 //     params: {
@@ -46,7 +47,7 @@ let addToCart = $('#addToCart');
 let cartUrl = addToCart.attr('action');
 
 let currentPrice = 49;
-let currentMarkerStyle = "yellow";
+let currentMarkerStyle = "honey";
 let currentFormat = "50x70";
 let currentStyle = defaultStyle();
 let defaultStartView = defaultView();
@@ -81,7 +82,8 @@ map.on('load', function(){
 let ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
     ptmMoon = L.tileLayer(defaultMoonMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous' }),
     ptmGranite = L.tileLayer(defaultGraniteMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
-    ptmMint = L.tileLayer(defaultMintMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'});
+    ptmMint = L.tileLayer(defaultMintMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+    ptmHoney = L.tileLayer(defaultHoneyMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'});
 
 let activeLayer = getStyle(currentStyle);
 activeLayer.addTo(map);
@@ -158,32 +160,35 @@ $("#posterText .card-text:last").html(defaultStartView.tagline);
 
 /* INITIAL BREAKPOINTS CHECK */
 $(document).ready(function() {
-    checkSize();    
+    checkSize();
+
     $(window).resize(checkSize);   
 
     // Needs realtime isMobile check!
     if(isMobile){
+
+        if(!$('#collapseOne').hasClass('show')){
+          $('#collapseOne').addClass('show');
+        }
         $('main').on('click', function(){
             $('.collapse').collapse('hide');
         });
 
         $('#collapseTwo').on('show.bs.collapse', function(){
-            $('#collapseThree').collapse('hide');
-            $('#posterWrapper').css('transform', 'translateY(-27%)');
-            $('.fb_dialog').css('transform', 'translateY(-270%)');
+            // $('#collapseThree').collapse('hide');
+            $('#posterWrapper').css('transform', 'translateY(-30vh)');
         });
         $('#collapseTwo').on('hide.bs.collapse', function(){
             $('#posterWrapper').css('transform','');
-            $('.fb_dialog').css('transform','translateY(0%)');
         });        
         $('#collapseThree').on('show.bs.collapse', function(){
-            $('#collapseTwo').collapse('hide');
-            $('#posterWrapper').css('transform', 'translateY(-30%)');
-            $('.fb_dialog').css('transform', 'translateY(-320%)');
+            // $('#collapseTwo').collapse('hide');
+            // $('#posterWrapper').css('transform', 'translateY(-30%)');
+            $('#posterWrapper').css('transform', 'scale(.6)');
+            
         });
         $('#collapseThree').on('hide.bs.collapse', function(){
             $('#posterWrapper').css('transform','');
-            $('.fb_dialog').css('transform','translateY(0%)');
         });
 
         $('#accordion .btn-group button.btn-ptmLight').on('click', function(){
@@ -198,15 +203,13 @@ $(document).ready(function() {
         });        
 
         $('nav.navbar').removeClass('d-flex').addClass('d-none');
-
-        $('.fb_dialog').css({'right':'0','position':'relative','bottom':'144pt','float':'right'});
         
     }
     
-    $('#posterText').on('click', function(){
-        $('#collapseTwo').collapse('toggle');
-        $('#momentInput').focus();
-    });
+    // $('#posterText').on('click', function(){
+    //     $('#collapseTwo').collapse('toggle');
+    //     $('#momentInput').focus();
+    // });
 });
 
 
@@ -214,13 +217,7 @@ function checkSize(){
     // if ($(".sidebar-sticky").css('position') != 'sticky'){
     if ($("#accordion > div").css('display') == 'none'){
         isMobile = true;
-
-        if(!$('#collapseOne').hasClass('show')){
-            $('#collapseOne').addClass('show');
-        }        
-        
         addToCart.appendTo('#btnGroup');
-
     } else {
         // $('#accordion .navbar span').next().prepend(addToCart);
     }
@@ -410,17 +407,15 @@ function defaultView(){
         userMoment = 'User Coordinates', 
         userSubline = '', 
         userTagline = '';
-
-    if($.trim($('#debugger').html())){
-      let $data = JSON.parse($('#debugger').html());
+    
+    if($.trim($('#debugger').html()).length){
+      let $data = JSON.parse($.trim($('#debugger').html()));
       userMoment = $data.text_moment;
       userSubline = $data.text_subline;
       userTagline = $data.text_tagline;
       userCoordinates = [$data.cor_ne_lat,$data.cor_ne_lng,$data.cor_sw_lat,$data.cor_sw_lng];
-    } else {
-      userCoordinates = getCoordinates(findGetParameter('c'));
     }
-    console.log(userCoordinates);
+    
     if(userCoordinates)
     {
       let place = {
@@ -495,9 +490,8 @@ function defaultView(){
 function defaultStyle(){
     let style = '';
 
-    if($.trim($('#debugger').html())){
-      let $data = JSON.parse($('#debugger').html());
-      console.log($data);
+    if($.trim($('#debugger').html()).length){
+      let $data = JSON.parse($.trim($('#debugger').html()));
       style = $data.map_style;
       currentFormat = $data.map_format;
     } else {
@@ -525,56 +519,70 @@ function getStyle(name){
         formVariationId.val(2129);
         $('.ptm-cta').addClass('bounce');
         currentPrice = 39;
-        formPrice.each(function(){ $(this).removeClass('py-3').addClass('py-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
+        formPrice.each(function(){ $(this).removeClass('py-2 py-md-3').addClass('py-0 py-md-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
         return ptmSnow
     }
     else if(name == 'moon' && currentFormat == '30x40'){
         formVariationId.val(2130);
         $('.ptm-cta').addClass('bounce');
         currentPrice = 39;
-        formPrice.each(function(){ $(this).removeClass('py-3').addClass('py-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
+        formPrice.each(function(){ $(this).removeClass('py-2 py-md-3').addClass('py-0 py-md-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
         return ptmMoon
     }
     else if(name == 'granite' && currentFormat == '30x40'){
         formVariationId.val(2131);
         $('.ptm-cta').addClass('bounce');
         currentPrice = 39;
-        formPrice.each(function(){ $(this).removeClass('py-3').addClass('py-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
+        formPrice.each(function(){ $(this).removeClass('py-2 py-md-3').addClass('py-0 py-md-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
         return ptmGranite
     }
     else if(name == 'mint' && currentFormat == '30x40'){
         formVariationId.val(2132);
         $('.ptm-cta').addClass('bounce');
         currentPrice = 39;
-        formPrice.each(function(){ $(this).removeClass('py-3').addClass('py-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
+        formPrice.each(function(){ $(this).removeClass('py-2 py-md-3').addClass('py-0 py-md-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
         return ptmMint
+    }
+    else if(name == 'honey' && currentFormat == '30x40'){
+        formVariationId.val(2198);
+        $('.ptm-cta').addClass('bounce');
+        currentPrice = 39;
+        formPrice.each(function(){ $(this).removeClass('py-2 py-md-3').addClass('py-0 py-md-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
+        return ptmHoney
     }
     else if(name == 'snow' && currentFormat == '50x70'){
         formVariationId.val(1207);
         $('.ptm-cta').removeClass('bounce');
         currentPrice = 49;
-        formPrice.each(function(){ $(this).removeClass('py-2').addClass('py-3').html('&euro;'+currentPrice) })
+        formPrice.each(function(){ $(this).removeClass('py-0 py-md-2').addClass('py-2 py-md-3').html('&euro;'+currentPrice) })
         return ptmSnow
     }
     else if(name == 'granite' && currentFormat == '50x70'){
         formVariationId.val(1209);
         $('.ptm-cta').removeClass('bounce');
         currentPrice = 49;
-        formPrice.each(function(){ $(this).removeClass('py-2').addClass('py-3').html('&euro;'+currentPrice) })
+        formPrice.each(function(){ $(this).removeClass('py-0 py-md-2').addClass('py-2 py-md-3').html('&euro;'+currentPrice) })
         return ptmGranite
     }
     else if(name == 'mint' && currentFormat == '50x70'){
         formVariationId.val(1210);
         $('.ptm-cta').removeClass('bounce');
         currentPrice = 49;
-        formPrice.each(function(){ $(this).removeClass('py-2').addClass('py-3').html('&euro;'+currentPrice) })
+        formPrice.each(function(){ $(this).removeClass('py-0 py-md-2').addClass('py-2 py-md-3').html('&euro;'+currentPrice) })
         return ptmMint
+    }
+    else if(name == 'honey' && currentFormat == '50x70'){
+        formVariationId.val(2197);
+        $('.ptm-cta').removeClass('bounce');
+        currentPrice = 49;
+        formPrice.each(function(){ $(this).removeClass('py-0 py-md-2').addClass('py-2 py-md-3').html('&euro;'+currentPrice) })
+        return ptmHoney
     }
     else {      
       formVariationId.val(1208);
       $('.ptm-cta').removeClass('bounce');
       currentPrice = 49;
-      formPrice.each(function(){ $(this).removeClass('py-2').addClass('py-3').html('&euro;'+currentPrice) })
+      formPrice.each(function(){ $(this).removeClass('py-0 py-md-2').addClass('py-2 py-md-3').html('&euro;'+currentPrice) })
       return ptmMoon
   }
     
@@ -588,6 +596,8 @@ function getVariation(style){
         return 1209;
     else if(style == 'mint')
         return 1210;
+    else if(style == 'honey')
+        return 2197;
 }
 
 function defaultMarkerStyle(){
@@ -596,8 +606,10 @@ function defaultMarkerStyle(){
     else if(currentStyle == "moon")
         return 'snow';
     else if(currentStyle == "granite")
-        return 'yellow';
+        return 'honey';
     else if(currentStyle == "mint")
+        return 'granite';
+    else if(currentStyle == "honey")
         return 'granite';
 }
 
@@ -607,19 +619,23 @@ function getMarker(style, poster = false){
             return 'http://dev.placethemoment.com/build/images/ptm-marker-snow.svg';
         else if(style == "granite")
             return 'http://dev.placethemoment.com/build/images/ptm-marker-granite.svg';
-        else if(style == "yellow")
-            return 'http://dev.placethemoment.com/build/images/ptm-marker-yellow.svg';
+        else if(style == "honey")
+            return 'http://dev.placethemoment.com/build/images/ptm-marker-honey.svg';
         else if(style == "mint")
             return 'http://dev.placethemoment.com/build/images/ptm-marker-mint.svg';
+        else if(style == "black")
+            return 'http://dev.placethemoment.com/build/images/ptm-marker-black.svg';
     } else {
         if(style == "snow")
             return 'http://dev.placethemoment.com/build/images/ptm-marker-mint.svg';
         else if(style == "granite")
-                return 'http://dev.placethemoment.com/build/images/ptm-marker-yellow.svg';
+                return 'http://dev.placethemoment.com/build/images/ptm-marker-honey.svg';
         else if(style == "moon")
             return 'http://dev.placethemoment.com/build/images/ptm-marker-snow.svg';
         else if(style == "mint")
             return 'http://dev.placethemoment.com/build/images/ptm-marker-granite.svg';
+        else if(style == "honey")
+            return 'http://dev.placethemoment.com/build/images/ptm-marker-black.svg';
     }
 }
 

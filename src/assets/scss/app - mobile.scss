@@ -120,7 +120,7 @@ main.moment {
     color: white;
     background-color: #54575c;
     .marker {
-        background-image: url('http://dev.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-yellow.png');
+        background-image: url('http://dev.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-honey.png');
     }
 }
 .mint {
@@ -128,6 +128,13 @@ main.moment {
     background-color: #6fa189;
     .marker {
         background-image: url('http://dev.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-dark.png');
+    }
+}
+.honey {
+    color: black;
+    background-color: $ptmYellow;
+    .marker {
+        background-image: url('http://dev.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-black.png');
     }
 }
 

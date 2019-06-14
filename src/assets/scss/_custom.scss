@@ -37,8 +37,7 @@ $theme-colors: (
 .btn-ptmLight {
     background-color:$ptmLightGrey;  
     
-    &:active, 
-    &:focus,
+    &:active,
     &.active {
         background-color: $ptmLight;
         box-shadow: none;

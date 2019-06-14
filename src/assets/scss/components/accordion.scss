@@ -6,19 +6,10 @@
     > div:first-child {
         border-bottom:$ptmLightGrey 1px solid;
     }
-    .card {
-        .collapse {
-            overflow-y: scroll;
-        }
-    }
     
     .card-header {
 
         cursor: pointer;
-
-        &.collapsed {
-            
-        }
         &:not(.collapsed){
             .fa-angle-down {
                 transform: rotate(180deg);

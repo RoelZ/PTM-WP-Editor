@@ -30,6 +30,10 @@ body {
 }
 
 
+.btn-block:focus {
+ box-shadow: none;
+}
+
 .btn-block + .btn-block {
   margin-top:0;
 }
@@ -44,6 +48,7 @@ body {
   // display: flex;
   // align-items: center;
   // justify-content: center;
+  transform-origin: center top;
   transition: transform 1s ease;
 }
 
@@ -165,11 +170,14 @@ body {
     .mint {
       fill: $ptmGreen;
     }
-    .yellow {
+    .honey {
       fill: $ptmYellow;
     }
     .snow {
       fill: white;
+    }
+    .black {
+      fill: black;
     }
 }
 .poster, .ptm-map-color-btn {
@@ -196,6 +204,13 @@ body {
       background-color: #6fa189 !important;
       .card-title {
         color:white;
+      }
+  }
+  &.honey {
+      color: black;
+      background-color: $ptmYellow !important;
+      .card-title {
+        color:black;
       }
   }
 }
@@ -273,6 +288,12 @@ body {
       border: 1px solid $ptmLightGrey;
       box-shadow: none;
     }
+  }
+}
+@media screen and ( max-height: 699px ) {
+  .leaflet-control-zoom {
+    top:0;
+    transform-origin: center top;
   }
 }
 
