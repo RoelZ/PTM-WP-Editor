@@ -291,7 +291,7 @@ function getMapData(e){
   if (key === 13) {    
     txtInput = encodeURI($(input).val().toString());
 
-    $.getJSON('https://www.placethemoment.com/api/v2/json.php?input='+txtInput, function(data){
+    $.getJSON('http://dev.placethemoment.com/api/v2/json.php?input='+txtInput, function(data){
       if(data.candidates.length){
       
         let place = data.candidates[0];
@@ -517,72 +517,72 @@ function getStyle(name){
     }
     else if(name == 'snow' && currentFormat == '30x40'){
         formVariationId.val(2129);
-        $('.ptm-cta').addClass('bounce');
-        currentPrice = 39;
-        formPrice.each(function(){ $(this).removeClass('py-2 py-md-3').addClass('py-0 py-md-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
+        // $('.ptm-cta').addClass('bounce');
+        currentPrice = 45;
+        formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
         return ptmSnow
     }
     else if(name == 'moon' && currentFormat == '30x40'){
         formVariationId.val(2130);
-        $('.ptm-cta').addClass('bounce');
-        currentPrice = 39;
-        formPrice.each(function(){ $(this).removeClass('py-2 py-md-3').addClass('py-0 py-md-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
+        // $('.ptm-cta').addClass('bounce');
+        currentPrice = 45;
+        formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
         return ptmMoon
     }
     else if(name == 'granite' && currentFormat == '30x40'){
         formVariationId.val(2131);
-        $('.ptm-cta').addClass('bounce');
-        currentPrice = 39;
-        formPrice.each(function(){ $(this).removeClass('py-2 py-md-3').addClass('py-0 py-md-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
+        // $('.ptm-cta').addClass('bounce');
+        currentPrice = 45;
+        formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
         return ptmGranite
     }
     else if(name == 'mint' && currentFormat == '30x40'){
         formVariationId.val(2132);
-        $('.ptm-cta').addClass('bounce');
-        currentPrice = 39;
-        formPrice.each(function(){ $(this).removeClass('py-2 py-md-3').addClass('py-0 py-md-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
+        // $('.ptm-cta').addClass('bounce');
+        currentPrice = 45;
+        formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
         return ptmMint
     }
     else if(name == 'honey' && currentFormat == '30x40'){
         formVariationId.val(2198);
-        $('.ptm-cta').addClass('bounce');
-        currentPrice = 39;
-        formPrice.each(function(){ $(this).removeClass('py-2 py-md-3').addClass('py-0 py-md-2').html('&euro;'+currentPrice).prepend('<small class="d-block text-white">&euro;45</small>') })
+        // $('.ptm-cta').addClass('bounce');
+        currentPrice = 45;
+        formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
         return ptmHoney
     }
     else if(name == 'snow' && currentFormat == '50x70'){
         formVariationId.val(1207);
-        $('.ptm-cta').removeClass('bounce');
+        // $('.ptm-cta').removeClass('bounce');
         currentPrice = 49;
-        formPrice.each(function(){ $(this).removeClass('py-0 py-md-2').addClass('py-2 py-md-3').html('&euro;'+currentPrice) })
+        formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
         return ptmSnow
     }
     else if(name == 'granite' && currentFormat == '50x70'){
         formVariationId.val(1209);
-        $('.ptm-cta').removeClass('bounce');
+        // $('.ptm-cta').removeClass('bounce');
         currentPrice = 49;
-        formPrice.each(function(){ $(this).removeClass('py-0 py-md-2').addClass('py-2 py-md-3').html('&euro;'+currentPrice) })
+        formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
         return ptmGranite
     }
     else if(name == 'mint' && currentFormat == '50x70'){
         formVariationId.val(1210);
-        $('.ptm-cta').removeClass('bounce');
+        // $('.ptm-cta').removeClass('bounce');
         currentPrice = 49;
-        formPrice.each(function(){ $(this).removeClass('py-0 py-md-2').addClass('py-2 py-md-3').html('&euro;'+currentPrice) })
+        formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
         return ptmMint
     }
     else if(name == 'honey' && currentFormat == '50x70'){
         formVariationId.val(2197);
-        $('.ptm-cta').removeClass('bounce');
+        // $('.ptm-cta').removeClass('bounce');
         currentPrice = 49;
-        formPrice.each(function(){ $(this).removeClass('py-0 py-md-2').addClass('py-2 py-md-3').html('&euro;'+currentPrice) })
+        formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
         return ptmHoney
     }
     else {      
       formVariationId.val(1208);
-      $('.ptm-cta').removeClass('bounce');
+      // $('.ptm-cta').removeClass('bounce');
       currentPrice = 49;
-      formPrice.each(function(){ $(this).removeClass('py-0 py-md-2').addClass('py-2 py-md-3').html('&euro;'+currentPrice) })
+      formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
       return ptmMoon
   }
     
@@ -637,6 +637,23 @@ function getMarker(style, poster = false){
         else if(style == "honey")
             return 'http://dev.placethemoment.com/build/images/ptm-marker-black.svg';
     }
+}
+
+function isIE() {
+  var sAgent = window.navigator.userAgent;
+  var Idx = sAgent.indexOf("MSIE");
+
+  // If IE, return version number.
+  if (Idx > 0) 
+    return true;
+  //   return parseInt(sAgent.substring(Idx+ 5, sAgent.indexOf(".", Idx)));
+
+  // If IE 11 then look for Updated user agent string.
+  else if (!!navigator.userAgent.match(/Trident\/7\./)) 
+    return true;
+
+  else
+    return false; //It is not IE
 }
 
 document.addEventListener('keyup', (e) => {
@@ -744,6 +761,7 @@ $("#formatSelector .btn").click(function ( event ) {
   $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
 });
 
+
 document.getElementById("addToCart").addEventListener("click", function(event){
     event.preventDefault();
 
@@ -752,19 +770,24 @@ document.getElementById("addToCart").addEventListener("click", function(event){
     $('body').prepend('<div class="generate align-items-center justify-content-center d-flex position-fixed w-100"><progress class="circular-activity" /></div>');
     let check = false;
 
-    leafletImage(map, function(err, canvas) {
-        let dataURL = canvas.toDataURL('image/png');
-        // console.log(dataURL);
-        dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-        // ptm_thumb.val(dataURL);
-        $.post("http://dev.placethemoment.com/build/save.php", { savedMap: dataURL }, 
-        function(data) {
+
+    if(!isIE()){
+      leafletImage(map, function(err, canvas) {
+
+          let dataURL = canvas.toDataURL('image/png');
+          // console.log(dataURL);
+          dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+          // ptm_thumb.val(dataURL);
+          $.post("http://dev.placethemoment.com/build/save.php", { savedMap: dataURL }, 
+          function(data) {
             ptm_thumb.val(data);
-        })
-        .done(function(){
+          })
+          .done(function(){
             $('#addToCart').submit();
+          });
         });
-        
-    });
+    } else {
+          $('#addToCart').submit();
+        }
 
 });
