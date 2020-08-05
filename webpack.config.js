@@ -1,13 +1,17 @@
 //import { request } from 'https';
 
-const path = require('path'),
-webpack = require('webpack'),
-CleanWebpackPlugin = require('clean-webpack-plugin'),
-HtmlWebpackPlugin = require('html-webpack-plugin'),
-ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// const WebpackMd5Hash = require('webpack-md5-hash');
 
 const extractPlugin = new ExtractTextPlugin({ filename: './assets/css/app.css' });
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+// const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 /*
 mapboxgl.accessToken = 'pk.eyJ1Ijoicm9lbHoiLCJhIjoiY2phczkwc25mNXJieTJxbnduYTNtaDNneiJ9.7eTxRRsp0GbqkZOJMxRw8g';
 const map = new mapboxgl.Map({
@@ -17,18 +21,18 @@ const map = new mapboxgl.Map({
 */
 
 const config = {
-    // abosulte path for project root
-    context: path.resolve(__dirname, 'src'),
+  // abosulte path for project root
+  context: path.resolve(__dirname, 'src'),
     
-    entry: {
+  entry: {
     // removing 'src' directory from entry point, since 'context' is taking care of that
     app: './app.js'
   },
-
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: './assets/js/[name].bundle.js'
   },
+  mode: 'development',
 //   optimization: {
 //     minimize: false
 //   },
@@ -37,12 +41,12 @@ const config = {
         //babel-loader
         {
             test: /\.js$/,
-            include: /src/,
+            // include: /src/,
             exclude: /node_modules/,
             use: {
                 loader: "babel-loader",
                 options: {
-                    presets: ['env']
+                  presets: ['@babel/preset-env']
                 }
             }
         },
@@ -53,24 +57,41 @@ const config = {
         },
         //sass-loader
         {
-            test: /\.scss$/,
-            include: [path.resolve(__dirname, 'src', 'assets', 'scss')],
-            use: extractPlugin.extract({
-                // missing postcss-loader (for Bootstrap)
-                use: ['css-loader', 'sass-loader'],
-                fallback: 'style-loader'
-            })
+          test: /\.scss$/,
+          use:  [
+            // { loader: 'style-loader' }, 
+            { loader: MiniCssExtractPlugin.loader }, 
+            { loader: 'css-loader' }, 
+            { loader: 'sass-loader', 
+              // options: {
+              //   implementation: require("sass")
+              // } 
+            }
+          ]
         },
         {
-        test: /\.css$/,
-        loaders: ["style-loader","css-loader"]
+          test: /\.css$/,
+          use:  [  MiniCssExtractPlugin.loader, 'css-loader']
         },
+        // {
+        //     test: /\.scss$/,
+        //     include: [path.resolve(__dirname, 'src', 'assets', 'scss')],
+        //     use: extractPlugin.extract({
+        //         // missing postcss-loader (for Bootstrap)
+        //         use: ['css-loader', 'sass-loader'],
+        //         fallback: 'style-loader'
+        //     })
+        // },
+        // {
+        // test: /\.css$/,
+        // loaders: ["style-loader","css-loader"]
+        // },
         {
         test: /\.(jpg|png)$/,
         use: {
             loader: "file-loader",
             options: {
-            name: "[path][name].[hash].[ext]",
+              name: "[path][name].[hash].[ext]",
             },
         },
         }
@@ -93,9 +114,13 @@ const config = {
         "window.jQuery": "jquery'",
         "window.$": "jquery"
     }),
+    new MiniCssExtractPlugin({
+      filename: 'style.css',
+      }),
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
-        template: 'index.html'
+      template: 'index.html',
+      // filename: 'index.html'
     }),
     extractPlugin
   ],
