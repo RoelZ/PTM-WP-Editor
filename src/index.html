@@ -11,7 +11,7 @@
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
     
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-    
+     
   </head>
 
 <body>
@@ -25,8 +25,8 @@
                 <div id="accordion" class="accordion d-flex flex-column h-100 p-md-0">
 
                     <div class="px-5 py-3 d-none d-lg-block text-center bg-ptmlight">
-                        <a class="d-block" href="http://dev.placethemoment.com/">
-                            <img class="w-75 pt-2 px-3" src="http://dev.placethemoment.com/wp-content/uploads/2018/06/logo-original-vector.svg" alt="Place The Moment" id="logo" data-height-percentage="100" data-actual-width="300" data-actual-height="110">
+                        <a class="d-block" href="http://placethemoment.dev.nextup.nu/">
+                            <img class="w-75 pt-2 px-3" src="http://placethemoment.dev.nextup.nu/wp-content/uploads/2018/06/logo-original-vector.svg" alt="Place The Moment" id="logo" data-height-percentage="100" data-actual-width="300" data-actual-height="110">
                         </a>
                     </div>
 
@@ -34,7 +34,7 @@
                                 <div class="card-header ptm-btnLight d-none d-lg-flex align-items-center" id="headingOne" data-toggle="collapse" data-target="#collapseOne">
                                 <i class="fa fa-location-arrow"></i>
                                 <button class="btn btn-link" aria-expanded="true" aria-controls="collapseOne">
-                                  <?php pll_e('Place it.'); ?>
+                                  Place it.
                                 </button>
                                 <i class="fa fa-angle-down ml-auto"></i>
                                 </div>
@@ -43,14 +43,14 @@
                                     <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseOne" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
                                     <div class="card-body">
                                         <span class="d-none d-lg-block mb-3">
-                                            <?php pll_e(' Choose your place from anywhere in the world. The city you grew up, the exact address you had your first kiss or the country where you had your best holiday ever.'); ?>
+                                             Choose your place from anywhere in the world. The city you grew up, the exact address you had your first kiss or the country where you had your best holiday ever.
                                         </span>
                                         <label class="sidebar-heading text-muted" for="geocoder">
-                                          <?php pll_e('Find a location'); ?>
+                                          Find a location
                                         </label>
                                         <div id='geocoder' class='geocoder input-group'></div>
                                         <a href="https://wa.me/31850470420" class="btn font-weight-normal pl-1 d-lg-none" style="text-decoration: underline">
-                                          <?php pll_e('Need help? Chat with us!'); ?><i class="fa-lg fa-whatsapp fab ml-2 py-1"></i>
+                                          Need help? Chat with us!<i class="fa-lg fa-whatsapp fab ml-2 py-1"></i>
                                         </a> 
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
                                 <div class="card-header ptm-btnLight d-none d-lg-flex align-items-center collapsed" id="headingTwo" data-toggle="collapse" data-target="#collapseTwo">
                                 <i class="fa fa-map-signs"></i>                                
                                 <button class="btn btn-link collapsed" aria-expanded="false" aria-controls="collapseTwo">
-                                    <?php pll_e('Name it.'); ?>
+                                    Name it.
                                 </button>
                                 <i class="fa fa-angle-down ml-auto"></i>
                                 </div>
@@ -67,15 +67,15 @@
                                     <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseTwo" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
                                     <div class="card-body">
                                     <span class="d-none d-lg-block mb-3">
-                                        <?php pll_e('  Choose that special moment where your heart skipped a beat and use your own words to describe this magical memory.'); ?>
+                                          Choose that special moment where your heart skipped a beat and use your own words to describe this magical memory.
                                     </span>
                                     <form>
                                         <div class="form-group">
-                                            <label class="sidebar-heading text-muted" for="momentInput"><?php pll_e('Describe your moment'); ?></label>
+                                            <label class="sidebar-heading text-muted" for="momentInput">Describe your moment</label>
                                             <input type="text" class="form-control" id="momentInput" maxlength="100" placeholder="My moment">
-                                            <label class="sidebar-heading text-muted" for="sublineInput"><?php pll_e('Subline'); ?></label>
+                                            <label class="sidebar-heading text-muted" for="sublineInput">Subline</label>
                                             <input type="text" class="form-control" id="sublineInput" maxlength="40" placeholder="Subline">
-                                            <label class="sidebar-heading text-muted" for="taglineInput"><?php pll_e('Tagline'); ?></label>
+                                            <label class="sidebar-heading text-muted" for="taglineInput">Tagline</label>
                                             <input type="text" class="form-control" id="taglineInput" maxlength="40" placeholder="Tagline">
                                         </div>
                                     </form>
@@ -86,7 +86,7 @@
                                 <div class="card-header ptm-btnLight d-none d-lg-flex align-items-center collapsed" id="headingThree" data-toggle="collapse" data-target="#collapseThree">                                
                                 <i class="fa fa-heart"></i>
                                 <button class="btn btn-link collapsed" aria-expanded="false" aria-controls="collapseThree">
-                                    <?php pll_e('Love it.'); ?>
+                                    Love it.
                                 </button>
                                 <i class="fa fa-angle-down ml-auto"></i>
                                 </div>
@@ -94,15 +94,15 @@
                                     <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseThree" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
                                     <div class="card-body">
                                         <span class="d-none d-lg-block mb-3 px-3">
-                                            <?php pll_e('  Which color fits best in your interior? Choose from one of the four beautiful color options and love your own personalised map forever!'); ?>
+                                              Which color fits best in your interior? Choose from one of the four beautiful color options and love your own personalised map forever!
                                         </span>
                                         <div id="styleSelector">
-                                        <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 px-lg-3 sidebar-heading text-muted"><span><?php pll_e('Map Color'); ?></span></h6>
+                                        <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 px-lg-3 sidebar-heading text-muted"><span>Map Color</span></h6>
                                         <div class="btn-group ptm-poster-styles btn-group-toggle" data-toggle="buttons">
                                             <label id="snow" class="ptm-btn btn">
                                                 <div class="ptm-map-color-btn snow">
                                                     <div class="ptm-map-color-icon">
-                                                        <img src="http://dev.placethemoment.com/wp-content/uploads/2018/07/map-icon-black-lines.svg" />
+                                                        <img src="http://placethemoment.dev.nextup.nu/wp-content/uploads/2018/07/map-icon-black-lines.svg" />
                                                     </div>
                                                 </div>
                                                 <span>Snow</span>
@@ -110,7 +110,7 @@
                                             <label id="moon" class="ptm-btn btn pl-lg-0 active">
                                                 <div class="ptm-map-color-btn moon">
                                                     <div class="ptm-map-color-icon">
-                                                        <img src="http://dev.placethemoment.com/wp-content/uploads/2018/07/map-icon-white-lines.svg" />
+                                                        <img src="http://placethemoment.dev.nextup.nu/wp-content/uploads/2018/07/map-icon-white-lines.svg" />
                                                     </div>
                                                 </div>
                                                 <span>Moon</span>
@@ -118,7 +118,7 @@
                                             <label id="granite" class="ptm-btn pl-lg-0 btn">
                                                 <div class="ptm-map-color-btn granite">
                                                     <div class="ptm-map-color-icon">
-                                                        <img src="http://dev.placethemoment.com/wp-content/uploads/2018/07/map-icon-white-lines.svg"/>
+                                                        <img src="http://placethemoment.dev.nextup.nu/wp-content/uploads/2018/07/map-icon-white-lines.svg"/>
                                                     </div>
                                                 </div>
                                                 <span>Granite</span>
@@ -126,7 +126,7 @@
                                             <label id="mint" class="ptm-btn pl-lg-0 btn">
                                                 <div class="ptm-map-color-btn mint">
                                                     <div class="ptm-map-color-icon">
-                                                        <img src="http://dev.placethemoment.com/wp-content/uploads/2018/07/map-icon-white-lines.svg" />
+                                                        <img src="http://placethemoment.dev.nextup.nu/wp-content/uploads/2018/07/map-icon-white-lines.svg" />
                                                     </div>
                                                 </div>
                                                 <span>Mint</span>
@@ -134,14 +134,14 @@
                                             <label id="honey" class="ptm-btn px-lg-0 btn">
                                                 <div class="ptm-map-color-btn honey">
                                                     <div class="ptm-map-color-icon">
-                                                        <img src="http://dev.placethemoment.com/wp-content/uploads/2018/07/map-icon-black-lines.svg" />
+                                                        <img src="http://placethemoment.dev.nextup.nu/wp-content/uploads/2018/07/map-icon-black-lines.svg" />
                                                     </div>
                                                 </div>
                                                 <span>Honey</span>
                                             </label> 
                                         </div>
                                     </div>
-                                    <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted"><?php pll_e('Marker Color'); ?></h6>
+                                    <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted">Marker Color</h6>
                                     <div id="markerSelector" class="card-body">
                                         <div class="btn-group ptm-poster-styles" data-toggle="buttons">
                                         <label id="granite" class="ptm-btn btn pl-lg-0">
@@ -191,7 +191,7 @@
                                         </label>
                                         </div>
                                     </div>
-                                    <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted"><?php pll_e('Format'); ?></h6>
+                                    <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted">Format</h6>
                                     <div class="card-body">
                                       <div id="formatSelector" class="btn-group-toggle" data-toggle="buttons">
                                           <label id="50x70" class="btn btn-lg ptm-format-btn active">
@@ -229,11 +229,11 @@
 
                         <nav class="mt-auto navbar-light d-flex flex-column w-100">
                             <span class="ptm-cta-helper d-none d-lg-block w-100 p-2 text-center">
-                                <strong><?php pll_e('Loving it?'); ?></strong><br />
-                                <?php pll_e('Finish your order to create a lasting memory'); ?>
+                                <strong>Loving it?</strong><br />
+                                Finish your order to create a lasting memory
                             </span>
                     
-                            <form id="addToCart" class="form-inline my-lg-0 p-lg-2 w-100" method="post" enctype="multipart/form-data" data-product_id="1144" action="http://dev.placethemoment.com/nl/shop/map-poster/">
+                            <form id="addToCart" class="form-inline my-lg-0 p-lg-2 w-100" method="post" enctype="multipart/form-data" data-product_id="1144" action="http://placethemoment.dev.nextup.nu/nl/shop/map-poster/">
                                 <input type="hidden" name="add-to-cart" value="1144">
                                 <input type="hidden" name="product_id" value="1144">
                                 <input type="hidden" name="quantity" value="1">
@@ -250,23 +250,23 @@
                                 <input type="hidden" name="ptm_thumb" value="">
                                 <button class="ptm-cta btn btn-primary rounded-top w-100 mx-auto px-lg-0 py-lg-0 btn-block animated" type="submit">
                                     <div class="d-flex align-items-stretch text-center">
-                                        <i class="ptm-shopping-bag py-2 d-lg-none align-self-end"></i>                                        
+                                        <!-- <i class="ptm-shopping-bag py-2 d-lg-none align-self-end"></i>                                         -->
                                         <span class="d-lg-none py-2 py-md-3 w-75">&euro;49</span>
                                         <span class="d-lg-block d-none py-md-3 w-25 position-relative">
                                           <small class="position-absolute fade py-3 text-white">€45</small>
                                           €49
                                         </span>
-                                        <span class="d-none d-lg-block py-lg-3 w-75"><?php pll_e('Add to cart'); ?></span>
+                                        <span class="d-none d-lg-block py-lg-3 w-75">Add to cart</span>
                                     </div>
                                 </button>
                             </form>
 
                             <div class="ptm-usps d-none d-lg-flex justify-content-center w-100 mt-xl-3 text-center">                                
                                 <span class="p-2 pr-lg-1">
-                                    <i class="fa fa-lock" aria-hidden="true"></i>&nbsp;<?php pll_e('Secure payment'); ?>
+                                    <i class="fa fa-lock" aria-hidden="true"></i>&nbsp;Secure payment
                                 </span>                                
                                 <span class="p-2 pl-lg-1">
-                                    <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;<?php pll_e('High quality print'); ?>
+                                    <i class="fa fa-trophy" aria-hidden="true"></i>&nbsp;High quality print
                                 </span>                                
                             </div>
                         </nav>  
@@ -278,10 +278,12 @@
                 <div id="progress" class="linear-activity">
                     <div class="indeterminate d-none"></div>
                 </div>
-                <div id="debugger" class="debugPanel d-block"></div>
+                <div id="debugger" class="debugPanel d-none">
+                  {"ID":"0","order_id":"8763","hashurl":"5f0817d5a84e8","cor_ne_lat":"51.514244449368","cor_ne_lng":"-0.086860656738281","cor_sw_lat":"51.501904107618","cor_sw_lng":"-0.10668754577637","map_style":"1144","map_format":"1209","mark_ne_lat":"51.508076","mark_ne_lng":" -0.097194","mark_style":"honey","text_moment":"WHERE WE SAID YES TO A LIFETIME TOGETHER","text_subline":"Shakespeare's Globe","text_tagline":"London SE1 9DT - Verenigd Koninkrijk"}
+                </div>
                 <div class="col-12">
                       <div class="d-none position-fixed text-center" style="left:0;right:0;z-index:1;bottom:14vh;">
-                        <a href="https://wa.me/31850470420" style="background-color: #25D366;" class="badge badge-pill badge-success badge-whatsapp font-weight-normal px-3 py-2"><?php pll_e('Need help? Chat with us!'); ?><i class="fa-lg  fa-whatsapp fab ml-2 py-1"></i></a>
+                        <a href="https://wa.me/31850470420" style="background-color: #25D366;" class="badge badge-pill badge-success badge-whatsapp font-weight-normal px-3 py-2">Need help? Chat with us!<i class="fa-lg  fa-whatsapp fab ml-2 py-1"></i></a>
                       </div> 
                       <div id="customer-chat" class="d-md-block d-none position-fixed text-center fade" style="left: 30px;bottom: 70px;z-index: 1;">
                         <a href="https://wa.me/31850470420" target="_blank" class="badge badge-success font-weight-normal p-2 rounded-circle shadow" style="background-color: #25D366; width: 60px;"><i class="fa-3x fa-whatsapp fab py-1"></i></a>
@@ -292,14 +294,14 @@
                                 <div id="mapbox" class="card-img-top"></div>
                             </div>
                             <div id="posterText" class="card-body">
-                                <h3 class="card-title text-center"><?php pll_e('My Moment'); ?></h3>
+                                <h3 class="card-title text-center">My Moment</h3>
                                 <p class="card-text text-center">Subline</p>
                                 <p class="card-text text-center">Tagline</p>
                             </div>
                         </div>
                     </div>
                      <nav class="ptm-thanks d-none w-75 text-muted p-2 d-lg-block fixed-bottom">
-                        <small><?php pll_e('Thanks to'); ?> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank"><?php pll_e('OpenStreetMap'); ?></a> <?php pll_e('contributors'); ?></small>
+                        <small>Thanks to &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors</small>
                      </nav>
                 </div>
             </main>
