@@ -98,7 +98,7 @@
                                         </span>
                                         <div id="styleSelector">
                                         <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 px-lg-3 sidebar-heading text-muted"><span>Map Color</span></h6>
-                                        <div class="btn-group ptm-poster-styles btn-group-toggle" data-toggle="buttons">
+                                        <div class="btn-group ptm-poster-styles" data-toggle="buttons">
                                             <label id="snow" class="ptm-btn btn">
                                                 <div class="ptm-map-color-btn snow">
                                                     <div class="ptm-map-color-icon">
@@ -180,7 +180,7 @@
                                             <span class="d-block">Snow</span>
                                             <span class="d-none text-muted"><small>(default)</small></span>
                                         </label>
-                                        <label id="black" class="ptm-btn btn px-lg-0">
+                                        <label id="black" class="ptm-btn btn pl-lg-0">
                                             <svg class="marker" x="0px" y="0px" viewBox="0 0 326.4 402.9" style="enable-background:new 0 0 326.4 402.9;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
                                                 <g>
                                                     <path class="black" d="M326.4,163.2c0,78.9-55.9,144.7-130.3,159.9l-33.9,79.8l-33.7-80.2C55,306.8,0,241.4,0,163.2                                                        C0,73.1,73.1,0,163.2,0S326.4,73.1,326.4,163.2z M163.2,101.1c-34.3,0-62.2,27.8-62.2,62.2s27.8,62.2,62.2,62.2                                                        s62.2-27.8,62.2-62.2S197.5,101.1,163.2,101.1z"/>
@@ -189,18 +189,20 @@
                                             <span class="d-block">Black</span>
                                             <span class="d-none text-muted"><small>(default)</small></span>
                                         </label>
+                                        <label id="heart" class="ptm-btn btn px-lg-0">
+                                            <svg class="marker" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="22" height="24" viewBox="0 0 22 24">
+                                                <image data-name="heart" width="22" height="24" xlink:href="data:img/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAABLCAYAAADNsPFaAAAFd0lEQVR4nOWca6wdUxTHfz3q0SLeGtqUetej+ECReAeJiLcE8WqFiwQRr2j1Er03pAQhN0G8Uh8qVBMpqdIS70fSBglBRYsEbV0ll2o9WlnXOkzvmpkzZ2bvPXPO+SXnw10zZ2af/92z1t5rrz3Dls1+jCbZFDgMOBc4GBgLjAQ2AUYAq4G/gKXAe8CDwCfN3qRshjd5/0nA1SpIEiPVfqB+JgNTgbsTzm9pYSYCdwHHmCON2RiYob3oPpeN90ktw7W7gFdzihLlXmBvY60ojYSRR+ChyONRlKmtIkzaozQF6DHWYpwK7Ax85+sH6aN7AHAoMFqDxQCwRHv+CvONGJKEuQToNdbibAWcAjzi4doTgHOAC4FRwGbmDFgFvKBPwTvmaIS4R2lP4AFjdcdEx9cbBzwMfATcCuySIIqwjQr3tn5nB3OGEifMo8CWxuqO/bR7u0ACw7vA5TmuJd95HTjCHIkR5iLgKHOWW/ZRP1MECQZP6CMxqsB1xgNzgIPShJH/4i3mq+4RP7N9gavKSPs19YMuEGFf0uvGCnOW/jdDsH/Om0i0WagRxyUizkxgWJww5wcSRdjNWBqzOzAP2MNTm45WnzVIXRhp6PHmVH9MaPLKOwJzdVzik5s1cv0nzHEpIc4HzUwNxPc9o47SN7sCJ9SFEUFODCiKsJN+stCn3TwUp8voWYTZtkEawQdbZOwBkuK41Fj9Ip1kXE3DVNFxRbPU1Jmmsa+mK0KzneSRatqAESU04BBj+Z+NdPAW0u9FGS/CjInG74CMSbnVDcCRxhqOQR+TNMP2zdiEniqTwm5jDcvfIsy6km4+eugwXLnHYWIsN3Gz61BsrSmCKOJ3zixbFPFxZQpDTI8JMYnNwkBN14PKYq/IfWUsdUYFRJHVjCUizPIS/UxUmCvN0XL4rS7MVxUQZnPgbHO0HD4Dvq8LM1BSI+rph676rLYCSJK8f7guJ3zZYCTqC1nqWAAcXhFR0CWWwXD9oy6+l0FN80Clj1uUlcAitGHrgbfMKZ3Jm+JfiAzwPgTWdroqmiUcpC6M+JgPzGmdxUrNKW8gzLqosUOZq2O6DYQRngd+72Bh+qJ/RIX5tMToVDYvAoujbRg6ieyrTFPDYn73UGHkOfuiDX94GhKR5w89PlSYPzTX2knMiJsrxuVjZmWtOmoDZPj/dNzPiBPmB+BxY21PpunI3xAnjCB512+Ntb2YlVZuliRMPzDdWNuHX7QsLZEkYYSngI+NtT24Q/NQiaQJswa40Vhbn/e1GDuVNGGEl7UEo53IVMiYZfnk2hJTn67pzuoesggj4fsaY209FjYTULIuuD2plY2tyirdHpSZZlYiuzTMtSLnAd/4EkYufJ2xVp/uuEmiS2HQauw5xlpdZucdqOZZ1JeauK+NtXos1q2KucgjzM8VWmdOYoVWuv+acLwhectA5umwuor8pDU2y4q0rUh9zG26vFo1rtD9SIUoWjh0mS7xVgXxf8+6aEtRYaS7XmCs5TDFZYLNRanZ/Ar4G7n/ncZaAFc1eLcDrxhrGHrV3znFlTDrddhdKBLkoKdRJi4vLqs2JR16cdxShCd6NJntBdflrG8A1xure7yKgqcC6PtdhcwEpvsWBY+V4TJl+NxYizM51D4DX8L06x7uP82R/EzS2X0QfJbMS4XWTcbaPLJacbJmEYPhey+B+JvnjDU7S7WqM3i1V4hNFlc1m1ZU5CUWx6Yto/okhDArdHIXu3iegLyi4KQyE2KhtuUs0EKBLMzUd8wsz3i+F0LuV5pWr7pOoVdHz6uTTwlDSGHW6hLMGnPk37De5Wvek4fQO9wWxbzyTQqPT/P0eqbclLH1Tx4pSVFIL5HII/6kWsXXwD+Nydk0iNSOAQAAAABJRU5ErkJggg=="/>
+                                              </svg>                                              
+                                            <span class="d-block">Heart</span>
+                                            <span class="d-none text-muted"><small>(default)</small></span>
+                                        </label>
                                         </div>
                                     </div>
                                     <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted">Format</h6>
-                                    <div class="card-body">
-                                      <div id="formatSelector" class="btn-group-toggle" data-toggle="buttons">
-                                          <label id="50x70" class="btn btn-lg ptm-format-btn active">
-                                            <input type="radio" name="format" autocomplete="off" checked> 50x70cm
-                                          </label>
-                                          <label id="30x40" class="btn btn-lg ptm-format-btn">
-                                            <input type="radio" name="format" autocomplete="off"> 30x40cm
-                                            <span class="badge badge-dark badge-pill ml-1 py-1">Nieuw</span>
-                                          </label>
+                                    <div id="formatSelector" class="card-body">
+                                      <div class="btn-group btn-group-toggle ptm-poster-styles" role="group" data-toggle="buttons" aria-label="Format options">                                        
+                                        <button class="ptm-btn btn btn-lg ptm-format-btn active" id="50x70">50x70cm</button>
+                                        <button class="ptm-btn btn btn-lg ptm-format-btn" id="30x40">30x40cm <span class="badge badge-dark badge-pill ml-1 py-1">Nieuw</span></button>
                                       </div>
                                     </div>
                                 </div>
@@ -279,7 +281,7 @@
                     <div class="indeterminate d-none"></div>
                 </div>
                 <div id="debugger" class="debugPanel d-none">
-                  {"ID":"0","order_id":"8763","hashurl":"5f0817d5a84e8","cor_ne_lat":"51.514244449368","cor_ne_lng":"-0.086860656738281","cor_sw_lat":"51.501904107618","cor_sw_lng":"-0.10668754577637","map_style":"1144","map_format":"1209","mark_ne_lat":"51.508076","mark_ne_lng":" -0.097194","mark_style":"honey","text_moment":"WHERE WE SAID YES TO A LIFETIME TOGETHER","text_subline":"Shakespeare's Globe","text_tagline":"London SE1 9DT - Verenigd Koninkrijk"}
+                    {"ID":"0","order_id":"8763","hashurl":"5f0817d5a84e8","cor_ne_lat":"51.514244449368","cor_ne_lng":"-0.086860656738281","cor_sw_lat":"51.501904107618","cor_sw_lng":"-0.10668754577637","map_style":"1209","map_format":"2415","mark_ne_lat":"51.508076","mark_ne_lng":" -0.097194","mark_style":"honey","text_moment":"WHERE WE SAID YES TO A LIFETIME TOGETHER","text_subline":"Shakespeare's Globe","text_tagline":"London SE1 9DT - Verenigd Koninkrijk"}
                 </div>
                 <div class="col-12">
                       <div class="d-none position-fixed text-center" style="left:0;right:0;z-index:1;bottom:14vh;">
@@ -309,3 +311,4 @@
     </div><!-- /.container -->
 
 </body>
+</html>

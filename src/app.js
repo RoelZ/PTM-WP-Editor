@@ -1,5 +1,5 @@
 import 'bootstrap';
-import $ from 'jquery';
+// import $ from 'jquery';
 require('webpack-jquery-ui/resizable');
 import L from 'leaflet';
 import mapboxgl from 'mapbox-gl';
@@ -192,7 +192,7 @@ $(document).ready(function() {
         });
 
         $('#accordion .btn-group button.btn-ptmLight').on('click', function(){
-            $('#accordion .btn-group button').removeClass('active');
+            $('#accordion .btn-group.btn-block button').removeClass('active');
         });
 
         $('.collapse').on('show.bs.collapse', function (){
@@ -492,7 +492,7 @@ function defaultStyle(){
 
     if($.trim($('#debugger').html()).length){
       let $data = JSON.parse($.trim($('#debugger').html()));
-      style = getVariationByID($data.map_format);
+      style = getVariationByID($data.map_style);
       currentFormat = getVariationByID($data.map_format, true);
     } else {
       style = findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "moon";
@@ -661,6 +661,8 @@ function getMarker(style, poster = false){
             return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-mint.svg';
         else if(style == "black")
             return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-black.svg';
+        else if(style == "heart")
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-heart.svg';
     } else {
         if(style == "snow")
             return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-mint.svg';
@@ -672,6 +674,8 @@ function getMarker(style, poster = false){
             return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-granite.svg';
         else if(style == "honey")
             return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-black.svg';
+        else if(style == "heart")
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-heart.svg';
     }
 }
 
@@ -789,7 +793,12 @@ $('#markerSelector .ptm-btn').click(function ( event ) {
 });
 
 
-$("#formatSelector .btn").click(function ( event ) {  
+$("#formatSelector .ptm-format-btn").click(function ( event ) {
+
+  $(this).parent().find("button").each(function(){
+    $(this).removeClass('active');
+  });
+
   currentFormat = event.target.id;
   activeLayer = getStyle(currentStyle);
   let posterSize = (currentFormat == '30x40') ? "small" : '';
