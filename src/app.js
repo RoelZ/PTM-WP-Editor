@@ -40,6 +40,8 @@ const map = L.map('mapbox', {
     loadingControl: true
 });
 
+const $data = ($.trim($('#debugger').html()).length) ? Object.create([JSON.parse($.trim($('#debugger').html()))]) : [];
+// console.log($.trim($('#debugger').html()).length, Object.keys($data).length, {});
 // map.addControl(searchControl);
 
 let varId;  // WooCommerce ID
@@ -47,10 +49,12 @@ let addToCart = $('#addToCart');
 let cartUrl = addToCart.attr('action');
 
 let currentPrice = 49;
-let currentMarkerStyle = "honey";
-let currentFormat = "50x70";
-let currentStyle = defaultStyle();
+let currentMarkerStyle = defaultMarker($data);
+let currentFormat = defaultFormat($data);
+let currentStyle = defaultStyle($data);
 let defaultStartView = defaultView();
+
+addCartParameters(currentStyle, currentFormat);
 
 let defaultMarkerStyleUrl = getMarker(currentMarkerStyle);
 var imgData = "";
@@ -87,6 +91,8 @@ let ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 18
 
 let activeLayer = getStyle(currentStyle);
 activeLayer.addTo(map);
+
+setUserControls($data);
 
 let markerOnMap = new L.marker(map.getCenter(), {
     icon: L.icon({
@@ -400,6 +406,24 @@ function getCoordinates(value){
     return cor;
 }
 
+function setUserControls(data){
+  //variation_id (style icm format)
+  //marker_style 
+  if(data){
+    $("#styleSelector").find("button.ptm-btn").each(function(){
+      $(this).removeClass('active');
+      if($(this).attr('id') == getVariationByID(data[0].map_style)) $(this).addClass('active');
+    });    
+    $("#markerSelector").find("label.ptm-btn").each(function(){
+      $(this).removeClass('active');
+      if($(this).attr('id') == data[0].mark_style) $(this).addClass('active');
+    });    
+    $("#formatSelector").find("button.ptm-btn").each(function(){
+      $(this).removeClass('active');
+      if($(this).attr('id') == getVariationByID(data[0].map_format, true)) $(this).addClass('active');
+    });    
+  }
+}
 
 function defaultView(){  
 
@@ -487,22 +511,31 @@ function defaultView(){
     }
   }
 
-function defaultStyle(){
-    let style = '';
+function defaultStyle(data){
+  if(data.length){
+    return getVariationByID(data[0].map_style);
+  } else {
+    return findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "moon";
+  }
+}
+function defaultFormat(data){
+  if(data.length){
+    return getVariationByID(data[0].map_format, true);
+  } else {
+    return findGetParameter('attribute_pa_dimensions') ? findGetParameter('attribute_pa_dimensions') : "50x70";
+  }  
+}
+function defaultMarker(data){
+  if(data.length){
+    return data[0].mark_style;    
+  } else {
+    return "honey"
+  }
+}
 
-    if($.trim($('#debugger').html()).length){
-      let $data = JSON.parse($.trim($('#debugger').html()));
-      style = getVariationByID($data.map_style);
-      currentFormat = getVariationByID($data.map_format, true);
-    } else {
-      style = findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "moon";
-      currentFormat = findGetParameter('attribute_pa_dimensions') ? findGetParameter('attribute_pa_dimensions') : "50x70";
-    }
-
-    $('.poster').addClass(style);
-    $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+style);
-        
-    return style;    
+function addCartParameters(style = 'moon', format = '50x70'){
+  $('.poster').addClass([style, (format != '50x70') ? 'small' : '']);
+  $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+format+'&attribute_design='+style);   
 }
 
 function getStyle(name){
@@ -739,7 +772,7 @@ $("#taglineInput").on("input", function(){
 
 $("#styleSelector .ptm-btn").click(function ( event ) {
     
-    $(this).parent().find("label").each(function(){
+    $(this).parent().find("button").each(function(){
         $(this).removeClass('active');
     });
 

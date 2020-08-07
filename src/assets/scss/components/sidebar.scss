@@ -67,13 +67,16 @@
             cursor: pointer;
             background: none;
 
-            &.active {
+            &.active:not(.ptm-format-btn) {
                 .ptm-map-color-btn, .marker {
                     box-shadow: 0 0 3px 3px #d8ae46
                 }
                 span {
                     color:$ptmDark;
                 }
+            }
+            &.ptm-format-btn span {
+                color: white;
             }
 
             .marker {

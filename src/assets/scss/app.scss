@@ -30,7 +30,10 @@ body {
 }
 
 
-.btn-block:focus {
+.btn-block:focus,
+.btn-block.focus,
+.btn.ptm-btn:not(.ptm-format-btn):focus,
+.btn.ptm-btn:not(.ptm-format-btn).focus {
  box-shadow: none;
 }
 
