@@ -418,7 +418,7 @@ function setUserControls(data){
       $(this).removeClass('active');
       if($(this).attr('id') == data[0].mark_style) $(this).addClass('active');
     });    
-    $("#formatSelector").find("button.ptm-btn").each(function(){
+    $("#formatSelector").find("button.ptm-format-btn").each(function(){
       $(this).removeClass('active');
       if($(this).attr('id') == getVariationByID(data[0].map_format, true)) $(this).addClass('active');
     });    
