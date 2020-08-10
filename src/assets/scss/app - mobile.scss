@@ -72,7 +72,7 @@ main.moment {
 //.geocoder {}
 .mapboxgl-ctrl-geocoder { min-width:100%; }
 .marker {
-    background-image: url('http://dev.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-dark.png');
+    background-image: url('https://www.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-dark.png');
     background-size: contain;
     background-repeat: no-repeat;
     width: 28px;
@@ -104,7 +104,7 @@ main.moment {
     color: black;
     background-color: white;
     .marker {
-        background-image: url('http://dev.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-mint.png');
+        background-image: url('https://www.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-mint.png');
     }
 }
 .moon {
@@ -113,28 +113,28 @@ main.moment {
         background-color: #54575c;
     }
     .marker {
-        background-image: url('http://dev.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-light.png');
+        background-image: url('https://www.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-light.png');
     }
 }
 .granite {
     color: white;
     background-color: #54575c;
     .marker {
-        background-image: url('http://dev.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-honey.png');
+        background-image: url('https://www.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-honey.png');
     }
 }
 .mint {
     color: white;
     background-color: #6fa189;
     .marker {
-        background-image: url('http://dev.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-dark.png');
+        background-image: url('https://www.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-dark.png');
     }
 }
 .honey {
     color: black;
     background-color: $ptmYellow;
     .marker {
-        background-image: url('http://dev.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-black.png');
+        background-image: url('https://www.placethemoment.com/wp-content/uploads/2017/11/ptm-marker-black.png');
     }
 }
 

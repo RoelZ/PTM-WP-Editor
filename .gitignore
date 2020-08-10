@@ -3,4 +3,4 @@ wordpress
 dist
 package-lock.json
 src/assets/styles/mapbox-white/icons/
-debug
+debugger.json

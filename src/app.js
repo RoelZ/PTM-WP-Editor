@@ -1,5 +1,5 @@
 import 'bootstrap';
-import $ from 'jquery';
+// import $ from 'jquery';
 require('webpack-jquery-ui/resizable');
 import L from 'leaflet';
 import mapboxgl from 'mapbox-gl';
@@ -151,8 +151,8 @@ ptm_moment.val(defaultStartView.moment);
 $('#momentInput').val(defaultStartView.moment);
 $("#posterText .card-title").html(defaultStartView.moment);
 ptm_subline.val(defaultStartView.subline);
-$('#sublineInput').val(defaultStartView.moment);
-$("#posterText .card-text:first").html(defaultStartView.ptm_moment);
+$('#sublineInput').val(defaultStartView.subline);
+$("#posterText .card-text:first").html(defaultStartView.subline);
 ptm_tagline.val(defaultStartView.tagline);
 $('#taglineInput').val(defaultStartView.tagline);
 $("#posterText .card-text:last").html(defaultStartView.tagline);
@@ -192,7 +192,7 @@ $(document).ready(function() {
         });
 
         $('#accordion .btn-group button.btn-ptmLight').on('click', function(){
-            $('#accordion .btn-group button').removeClass('active');
+            $('#accordion .btn-group.btn-block button').removeClass('active');
         });
 
         $('.collapse').on('show.bs.collapse', function (){
@@ -291,7 +291,7 @@ function getMapData(e){
   if (key === 13) {    
     txtInput = encodeURI($(input).val().toString());
 
-    $.getJSON('http://dev.placethemoment.com/api/v2/json.php?input='+txtInput, function(data){
+    $.getJSON('http://placethemoment.dev.nextup.nu/api/v2/json.php?input='+txtInput, function(data){
       if(data.candidates.length){
       
         let place = data.candidates[0];
@@ -492,8 +492,8 @@ function defaultStyle(){
 
     if($.trim($('#debugger').html()).length){
       let $data = JSON.parse($.trim($('#debugger').html()));
-      style = $data.map_style;
-      currentFormat = $data.map_format;
+      style = getVariationByID($data.map_style);
+      currentFormat = getVariationByID($data.map_format, true);
     } else {
       style = findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "moon";
       currentFormat = findGetParameter('attribute_pa_dimensions') ? findGetParameter('attribute_pa_dimensions') : "50x70";
@@ -587,7 +587,7 @@ function getStyle(name){
   }
     
 }
-function getVariation(style){
+function getVariationByStyle(style){
     if(style == 'snow')
         return 1207;
     else if(style == 'moon')
@@ -598,6 +598,42 @@ function getVariation(style){
         return 1210;
     else if(style == 'honey')
         return 2197;
+}
+function getVariationByID(variant_id, format){
+  switch(parseInt(variant_id, 10)){
+    case 1207:
+      return (!format) ? 'snow' : '50x70';
+      break;
+    case 1208:
+      return (!format) ? 'moon' : '50x70';
+      break;
+    case 1209:
+      return (!format) ? 'granite' : '50x70';
+      break;
+    case 1210:
+      return (!format) ? 'mint' : '50x70';
+      break;
+    case 2749:
+      return (!format) ? 'honey' : '50x70';
+      break;
+    case 2413:
+      return (!format) ? 'snow' : '30x40';
+      break;
+    case 2414:
+      return (!format) ? 'moon' : '30x40';
+      break;
+    case 2415:
+      return (!format) ? 'granite' : '30x40';
+      break;
+    case 2416:
+      return (!format) ? 'mint' : '30x40';
+      break;
+    case 2749:
+      return (!format) ? 'honey' : '30x40';
+      break;
+    default:
+      console.log(`no variation found with ID ${variant_id}`);
+  }
 }
 
 function defaultMarkerStyle(){
@@ -616,26 +652,30 @@ function defaultMarkerStyle(){
 function getMarker(style, poster = false){
     if(!poster){
         if(style == "snow")
-            return 'http://dev.placethemoment.com/build/images/ptm-marker-snow.svg';
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-snow.svg';
         else if(style == "granite")
-            return 'http://dev.placethemoment.com/build/images/ptm-marker-granite.svg';
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-granite.svg';
         else if(style == "honey")
-            return 'http://dev.placethemoment.com/build/images/ptm-marker-honey.svg';
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-honey.svg';
         else if(style == "mint")
-            return 'http://dev.placethemoment.com/build/images/ptm-marker-mint.svg';
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-mint.svg';
         else if(style == "black")
-            return 'http://dev.placethemoment.com/build/images/ptm-marker-black.svg';
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-black.svg';
+        else if(style == "heart")
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-heart.svg';
     } else {
         if(style == "snow")
-            return 'http://dev.placethemoment.com/build/images/ptm-marker-mint.svg';
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-mint.svg';
         else if(style == "granite")
-                return 'http://dev.placethemoment.com/build/images/ptm-marker-honey.svg';
+                return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-honey.svg';
         else if(style == "moon")
-            return 'http://dev.placethemoment.com/build/images/ptm-marker-snow.svg';
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-snow.svg';
         else if(style == "mint")
-            return 'http://dev.placethemoment.com/build/images/ptm-marker-granite.svg';
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-granite.svg';
         else if(style == "honey")
-            return 'http://dev.placethemoment.com/build/images/ptm-marker-black.svg';
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-black.svg';
+        else if(style == "heart")
+            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-heart.svg';
     }
 }
 
@@ -676,7 +716,7 @@ $(".nav-item").click(function(e){
         $('main').animate({scrollTop: 0}, 'slow');
     }
 
-    activeTab = e.target.id;
+    activeTab = e.target.id; 
 });
 
 // Dynamic text on poster
@@ -753,7 +793,12 @@ $('#markerSelector .ptm-btn').click(function ( event ) {
 });
 
 
-$("#formatSelector .btn").click(function ( event ) {  
+$("#formatSelector .ptm-format-btn").click(function ( event ) {
+
+  $(this).parent().find("button").each(function(){
+    $(this).removeClass('active');
+  });
+
   currentFormat = event.target.id;
   activeLayer = getStyle(currentStyle);
   let posterSize = (currentFormat == '30x40') ? "small" : '';
@@ -767,7 +812,7 @@ document.getElementById("addToCart").addEventListener("click", function(event){
 
     $('.ptm-cta').attr('disabled', true);
     $('.smooth-transition').css('opacity','0.5');
-    $('body').prepend('<div class="generate align-items-center justify-content-center d-flex position-fixed w-100"><progress class="circular-activity" /></div>');
+    $('body').prepend('<div class="generate align-items-center justify-content-center d-flex position-fixed w-100"><progress class="circular-activity" /></div>');    
     let check = false;
 
 
@@ -778,7 +823,7 @@ document.getElementById("addToCart").addEventListener("click", function(event){
           // console.log(dataURL);
           dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
           // ptm_thumb.val(dataURL);
-          $.post("http://dev.placethemoment.com/build/save.php", { savedMap: dataURL }, 
+          $.post("http://placethemoment.dev.nextup.nu/build/save.php", { savedMap: dataURL }, 
           function(data) {
             ptm_thumb.val(data);
           })
