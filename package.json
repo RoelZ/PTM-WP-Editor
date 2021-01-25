@@ -33,6 +33,8 @@
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^2.3.0",
     "dom-to-image": "^2.6.0",
+    "dotenv": "^8.2.0",
+    "file-system": "^2.2.2",
     "geojson2svg": "^1.2.3",
     "html2canvas": "^1.0.0-rc.5",
     "jquery": "^3.5.1",
