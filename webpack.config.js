@@ -108,6 +108,9 @@ const config = {
         },
     }),
     */
+    new webpack.DefinePlugin({
+      "process.env.WP_URL": JSON.stringify("https://www.placethemoment.com")
+    }),
     new webpack.ProvidePlugin({
         $: "jquery",
         jQuery: "jquery",

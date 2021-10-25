@@ -30,7 +30,10 @@ body {
 }
 
 
-.btn-block:focus {
+.btn-block:focus,
+.btn-block.focus,
+.btn.ptm-btn:not(.ptm-format-btn):focus,
+.btn.ptm-btn:not(.ptm-format-btn).focus {
  box-shadow: none;
 }
 
@@ -83,6 +86,7 @@ body {
       margin-bottom: 1.35rem;
     }
     .card-text {
+      font-family: 'Open Sans Condensed';
       font-size: 12px;
       font-weight: 300;
       line-height: 15px;
@@ -90,11 +94,9 @@ body {
       &:last-child {
         font-size: 10px;
       }
-    }    
+    }   
   }
-
-  
-  
+    
   .mapwindow {
     width:466px;
     height:466px;
@@ -150,6 +152,52 @@ body {
     }
 
   }
+
+  &.snow {
+    background-color:white;
+    .mapwindow #mapbox {
+      border-color:black;
+    }
+    h3, p {
+      color:black !important;
+    }
+  }
+  &.moon {
+    background-color:white;
+    .mapwindow #mapbox {
+      border-color:#54575c;
+    }
+    h3, p {
+      color: #54575c !important;
+    }
+  }
+  &.granite {
+    background-color: #54575c !important;  
+    .mapwindow #mapbox {
+      border-color:white;
+    }
+    h3, p {
+      color:white !important;
+    }
+  }
+  &.mint {
+    background-color: #6fa189 !important;
+    .mapwindow #mapbox {
+      border-color:white;
+    }
+    h3, p {
+      color:white !important;
+    }
+  }
+  &.honey {
+    background-color: $ptmYellow !important;
+    .mapwindow #mapbox {
+      border-color:black;
+    }
+    h3, p {
+      color:black !important;
+    }
+  }
 }
   
 
@@ -180,38 +228,38 @@ body {
       fill: black;
     }
 }
-.poster, .ptm-map-color-btn {
+
+.ptm-map-color-btn {
   &.snow {    
-      color: black;
       background-color:white !important;
+    .ptm-map-color-icon {
+      border-color:black;
+    }
   }
   &.moon {
-      color: #54575c;
       background-color:white;
-      .leaflet-container, .ptm-map-color-icon {
-          background-color: #54575c !important;
+      .ptm-map-color-icon {
+        border-color:#54575c;
+        background-color: #54575c !important;
       }
   }
   &.granite {
-      color: white;
-      background-color: #54575c !important;
-      .card-title {
-        color:white;
-      }
+    background-color: #54575c !important;  
+    .ptm-map-color-icon {
+      border-color:white;
+    }
   }
   &.mint {
-      color: white;
-      background-color: #6fa189 !important;
-      .card-title {
-        color:white;
-      }
+    background-color: #6fa189 !important;
+    .ptm-map-color-icon {
+      border-color:white;
+    }
   }
   &.honey {
-      color: black;
-      background-color: $ptmYellow !important;
-      .card-title {
-        color:black;
-      }
+    background-color: $ptmYellow !important;
+    .ptm-map-color-icon {
+      border-color:black;
+    }
   }
 }
 

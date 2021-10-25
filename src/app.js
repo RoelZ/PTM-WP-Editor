@@ -1,3 +1,5 @@
+// import fs from 'file-system';
+// import dotenv from 'dotenv';
 import 'bootstrap';
 // import $ from 'jquery';
 require('webpack-jquery-ui/resizable');
@@ -40,6 +42,8 @@ const map = L.map('mapbox', {
     loadingControl: true
 });
 
+const $data = ($.trim($('#debugger').html()).length) ? Object.create([JSON.parse($.trim($('#debugger').html()))]) : [];
+// console.log($.trim($('#debugger').html()).length, Object.keys($data).length, {});
 // map.addControl(searchControl);
 
 let varId;  // WooCommerce ID
@@ -47,10 +51,12 @@ let addToCart = $('#addToCart');
 let cartUrl = addToCart.attr('action');
 
 let currentPrice = 49;
-let currentMarkerStyle = "honey";
-let currentFormat = "50x70";
-let currentStyle = defaultStyle();
-let defaultStartView = defaultView();
+let currentMarkerStyle = defaultMarker($data);
+let currentFormat = defaultFormat($data);
+let currentStyle = defaultStyle($data);
+let defaultStartView = defaultView($data);
+
+addCartParameters(currentStyle, currentFormat);
 
 let defaultMarkerStyleUrl = getMarker(currentMarkerStyle);
 var imgData = "";
@@ -74,7 +80,7 @@ map.on('load', function(){
     formCoordinates.val(JSON.stringify(map.getBounds()));
     formZoom.val(13);
     formMarkerStyle.val(currentMarkerStyle);
-    formMarkerCoordinates.val(L.latLng([defaultStartView.ne.lat,defaultStartView.ne.lng]));
+    formMarkerCoordinates.val(L.latLng(defaultStartView.marker));
 })
 .fitBounds(L.latLngBounds([defaultStartView.ne.lat,defaultStartView.ne.lng],[defaultStartView.sw.lat,defaultStartView.sw.lng]));
 // map.setZoom(3);
@@ -88,7 +94,9 @@ let ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 18
 let activeLayer = getStyle(currentStyle);
 activeLayer.addTo(map);
 
-let markerOnMap = new L.marker(map.getCenter(), {
+setUserControls($data);
+
+let markerOnMap = new L.marker([defaultStartView.marker.lat,defaultStartView.marker.lng], {
     icon: L.icon({
     iconUrl: defaultMarkerStyleUrl,
     iconSize: [24, 32],
@@ -145,6 +153,9 @@ map.on('moveend', function(){
     updateDebugger();
 });
 
+markerOnMap.on('dragend', function(){
+  formMarkerCoordinates.val(markerOnMap.getLatLng());
+});
 
 /* Setting defaults to UI */
 ptm_moment.val(defaultStartView.moment);
@@ -291,7 +302,7 @@ function getMapData(e){
   if (key === 13) {    
     txtInput = encodeURI($(input).val().toString());
 
-    $.getJSON('http://placethemoment.dev.nextup.nu/api/v2/json.php?input='+txtInput, function(data){
+    $.getJSON(process.env.WP_URL+'/api/v2/json.php?input='+txtInput, function(data){
       if(data.candidates.length){
       
         let place = data.candidates[0];
@@ -354,9 +365,9 @@ function getMapData(e){
           iconSize: [24, 32], 
           iconAnchor: [12, 32], 
           className: 'marker' }));
-                  
-        formMarkerCoordinates.val(markerOnMap.getLatLng());
           
+        formMarkerCoordinates.val(markerOnMap.getLatLng());   
+
         markerOnMap.on('dragend', function(){
           formMarkerCoordinates.val(markerOnMap.getLatLng());
         });
@@ -400,20 +411,39 @@ function getCoordinates(value){
     return cor;
 }
 
+function setUserControls(data){
+  //variation_id (style icm format)
+  //marker_style 
+  if(data.length){
+    $("#styleSelector").find("button.ptm-btn").each(function(){
+      $(this).removeClass('active');
+      if($(this).attr('id') == getVariationByID(data[0].map_format)) $(this).addClass('active');
+    });    
+    $("#markerSelector").find("label.ptm-btn").each(function(){
+      $(this).removeClass('active');
+      if($(this).attr('id') == data[0].mark_style) $(this).addClass('active');
+    });    
+    $("#formatSelector").find("button.ptm-format-btn").each(function(){
+      $(this).removeClass('active');
+      if($(this).attr('id') == getVariationByID(data[0].map_format, true)) $(this).addClass('active');
+    });    
+  }
+}
 
-function defaultView(){  
+function defaultView(data){  
 
-    let userCoordinates, 
+    let userCoordinates,
+        userMarkerCoordinates,
         userMoment = 'User Coordinates', 
         userSubline = '', 
         userTagline = '';
     
-    if($.trim($('#debugger').html()).length){
-      let $data = JSON.parse($.trim($('#debugger').html()));
-      userMoment = $data.text_moment;
-      userSubline = $data.text_subline;
-      userTagline = $data.text_tagline;
-      userCoordinates = [$data.cor_ne_lat,$data.cor_ne_lng,$data.cor_sw_lat,$data.cor_sw_lng];
+    if(data.length){
+      userMoment = data[0].text_moment;
+      userSubline = data[0].text_subline;
+      userTagline = data[0].text_tagline;
+      userCoordinates = [data[0].cor_ne_lat,data[0].cor_ne_lng,data[0].cor_sw_lat,data[0].cor_sw_lng];
+      userMarkerCoordinates = L.latLng([data[0].mark_ne_lat,data[0].mark_ne_lng]);
     }
     
     if(userCoordinates)
@@ -429,15 +459,15 @@ function defaultView(){
         sw: {
           lat : userCoordinates[2],
           lng : userCoordinates[3]
-        }
+        },
+        marker: userMarkerCoordinates
       }
-
       return place;
 
     } else {
 
-      let places = {
-        0 : {
+      let places = [
+        {
           moment: 'My Moment',
           subline: 'Eindhoven',
           tagline: 'The Netherlands',
@@ -449,9 +479,10 @@ function defaultView(){
             lat : '51.398777259985444',
             lng : '5.380897521972656'
           },
-          zoom : '12.1'
+          zoom : '12.1',
+          get marker() { return L.latLngBounds([this.ne.lat,this.ne.lng],[this.sw.lat,this.sw.lng]).getCenter() }
         },
-        1 : {
+        {
           moment: 'My Moment',
           subline: 'Utrecht',
           tagline: 'The Netherlands',
@@ -463,9 +494,10 @@ function defaultView(){
             lat : '52.039187769080115',
             lng : '5.034828186035157'
           },
-          zoom : '12.1'
+          zoom : '12.1',
+          get marker() { return L.latLngBounds([this.ne.lat,this.ne.lng],[this.sw.lat,this.sw.lng]).getCenter() }
         },
-        2 : {
+        {
           moment: 'My Moment',
           subline: 'Amsterdam',
           tagline: 'The Netherlands',
@@ -477,32 +509,42 @@ function defaultView(){
             lat : '52.35117489482139',
             lng : '4.860420227050782'
           },
-          zoom : '12.1'
+          zoom : '12.1',
+          get marker() { return L.latLngBounds([this.ne.lat,this.ne.lng],[this.sw.lat,this.sw.lng]).getCenter() }
         },
-      }
+      ]
 
-      let randomItem = Math.floor(Math.random() * Object.keys(places).length);
+      let randomItem = Math.floor(Math.random() * places.length);
       return places[randomItem];
 
     }
   }
 
-function defaultStyle(){
-    let style = '';
+function defaultStyle(data){
+  if(data.length){
+    return getVariationByID(data[0].map_format);
+  } else {
+    return findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "moon";
+  }
+}
+function defaultFormat(data){
+  if(data.length){
+    return getVariationByID(data[0].map_format, true);
+  } else {
+    return findGetParameter('attribute_pa_dimensions') ? findGetParameter('attribute_pa_dimensions') : "50x70";
+  }  
+}
+function defaultMarker(data){
+  if(data.length){
+    return data[0].mark_style;    
+  } else {
+    return "honey"
+  }
+}
 
-    if($.trim($('#debugger').html()).length){
-      let $data = JSON.parse($.trim($('#debugger').html()));
-      style = getVariationByID($data.map_style);
-      currentFormat = getVariationByID($data.map_format, true);
-    } else {
-      style = findGetParameter('attribute_design') ? findGetParameter('attribute_design') : "moon";
-      currentFormat = findGetParameter('attribute_pa_dimensions') ? findGetParameter('attribute_pa_dimensions') : "50x70";
-    }
-
-    $('.poster').addClass(style);
-    $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+style);
-        
-    return style;    
+function addCartParameters(style = 'moon', format = '50x70'){
+  $('.poster').addClass([style, (format != '50x70') ? 'small' : '']);
+  $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+format+'&attribute_design='+style);   
 }
 
 function getStyle(name){
@@ -516,35 +558,35 @@ function getStyle(name){
         return maputnikStyle;
     }
     else if(name == 'snow' && currentFormat == '30x40'){
-        formVariationId.val(2129);
+        formVariationId.val(2413);
         // $('.ptm-cta').addClass('bounce');
         currentPrice = 45;
         formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
         return ptmSnow
     }
     else if(name == 'moon' && currentFormat == '30x40'){
-        formVariationId.val(2130);
+        formVariationId.val(2414);
         // $('.ptm-cta').addClass('bounce');
         currentPrice = 45;
         formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
         return ptmMoon
     }
     else if(name == 'granite' && currentFormat == '30x40'){
-        formVariationId.val(2131);
+        formVariationId.val(2415);
         // $('.ptm-cta').addClass('bounce');
         currentPrice = 45;
         formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
         return ptmGranite
     }
     else if(name == 'mint' && currentFormat == '30x40'){
-        formVariationId.val(2132);
+        formVariationId.val(2416);
         // $('.ptm-cta').addClass('bounce');
         currentPrice = 45;
         formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
         return ptmMint
     }
     else if(name == 'honey' && currentFormat == '30x40'){
-        formVariationId.val(2198);
+        formVariationId.val(2749);
         // $('.ptm-cta').addClass('bounce');
         currentPrice = 45;
         formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
@@ -572,7 +614,7 @@ function getStyle(name){
         return ptmMint
     }
     else if(name == 'honey' && currentFormat == '50x70'){
-        formVariationId.val(2197);
+        formVariationId.val(2748);
         // $('.ptm-cta').removeClass('bounce');
         currentPrice = 49;
         formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
@@ -597,7 +639,7 @@ function getVariationByStyle(style){
     else if(style == 'mint')
         return 1210;
     else if(style == 'honey')
-        return 2197;
+        return 2748;
 }
 function getVariationByID(variant_id, format){
   switch(parseInt(variant_id, 10)){
@@ -613,7 +655,7 @@ function getVariationByID(variant_id, format){
     case 1210:
       return (!format) ? 'mint' : '50x70';
       break;
-    case 2749:
+    case 2748:
       return (!format) ? 'honey' : '50x70';
       break;
     case 2413:
@@ -652,30 +694,30 @@ function defaultMarkerStyle(){
 function getMarker(style, poster = false){
     if(!poster){
         if(style == "snow")
-            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-snow.svg';
+            return process.env.WP_URL+'/build/images/ptm-marker-snow.svg';
         else if(style == "granite")
-            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-granite.svg';
+            return process.env.WP_URL+'/build/images/ptm-marker-granite.svg';
         else if(style == "honey")
-            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-honey.svg';
+            return process.env.WP_URL+'/build/images/ptm-marker-honey.svg';
         else if(style == "mint")
-            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-mint.svg';
+            return process.env.WP_URL+'/build/images/ptm-marker-mint.svg';
         else if(style == "black")
-            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-black.svg';
+            return process.env.WP_URL+'/build/images/ptm-marker-black.svg';
         else if(style == "heart")
-            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-heart.svg';
+            return process.env.WP_URL+'/build/images/ptm-marker-heart.svg';
     } else {
         if(style == "snow")
-            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-mint.svg';
+            return process.env.WP_URL+'/build/images/ptm-marker-mint.svg';
         else if(style == "granite")
-                return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-honey.svg';
+                return process.env.WP_URL+'/build/images/ptm-marker-honey.svg';
         else if(style == "moon")
-            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-snow.svg';
+            return process.env.WP_URL+'/build/images/ptm-marker-snow.svg';
         else if(style == "mint")
-            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-granite.svg';
+            return process.env.WP_URL+'/build/images/ptm-marker-granite.svg';
         else if(style == "honey")
-            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-black.svg';
+            return process.env.WP_URL+'/build/images/ptm-marker-black.svg';
         else if(style == "heart")
-            return 'http://placethemoment.dev.nextup.nu/build/images/ptm-marker-heart.svg';
+            return process.env.WP_URL+'/build/images/ptm-marker-heart.svg';
     }
 }
 
@@ -739,7 +781,7 @@ $("#taglineInput").on("input", function(){
 
 $("#styleSelector .ptm-btn").click(function ( event ) {
     
-    $(this).parent().find("label").each(function(){
+    $(this).parent().find("button").each(function(){
         $(this).removeClass('active');
     });
 
@@ -823,7 +865,7 @@ document.getElementById("addToCart").addEventListener("click", function(event){
           // console.log(dataURL);
           dataURL = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
           // ptm_thumb.val(dataURL);
-          $.post("http://placethemoment.dev.nextup.nu/build/save.php", { savedMap: dataURL }, 
+          $.post("https://www.placethemoment.com/build/save.php", { savedMap: dataURL }, 
           function(data) {
             ptm_thumb.val(data);
           })

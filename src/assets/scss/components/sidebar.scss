@@ -61,19 +61,32 @@
         padding: 0.65rem;
     }
 
-    .ptm-poster-styles {      
+    .ptm-poster-styles {
+
+        display: flex;
 
         .ptm-btn {
             cursor: pointer;
             background: none;
+            padding:.3rem .3rem;
 
-            &.active {
+            &:first-child{
+                padding-left:0;
+            }
+            &:last-child{
+                padding-right:0;
+            }
+
+            &.active:not(.ptm-format-btn) {
                 .ptm-map-color-btn, .marker {
                     box-shadow: 0 0 3px 3px #d8ae46
                 }
                 span {
                     color:$ptmDark;
                 }
+            }
+            &.ptm-format-btn span {
+                color: white;
             }
 
             .marker {
@@ -196,6 +209,7 @@
     }
     .ptm-cta {
         background-color: $ptmYellow;
+        padding-right:6px;
 
         div > span {
             font-size: 1.75rem;
