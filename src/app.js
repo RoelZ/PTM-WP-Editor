@@ -1,6 +1,7 @@
 // import fs from 'file-system';
 // import dotenv from 'dotenv';
 import 'bootstrap';
+// import 'moment';
 // import $ from 'jquery';
 require('webpack-jquery-ui/resizable');
 import L from 'leaflet';
@@ -10,6 +11,65 @@ import mapboxGL from 'mapbox-gl-leaflet';
 // import html2canvas from 'html2canvas';
 import leafletImage from 'leaflet-image';   // handmatige fix: https://github.com/mapbox/leaflet-image/issues/41
 import './assets/js/Control.Loading';
+
+// import './assets/js/celestial';
+import 'd3-celestial'
+// import { Celestial } from 'd3-celestial';
+
+// import 'tempusdominus-bootstrap-4'
+
+const config = {
+  width: 446,
+  container: "celestial-map",
+  projection: "airy",   // airy, azimuthal, berghaus star, orthographic, wiechel, 
+  datapath: 'https://ofrohn.github.io/data/',
+  interactive: false,
+  controls: false,     // Display zoom controls
+  form: false,        // Display settings form
+  formFields: {
+    "location": true,  // Set visiblity for each group of fields with the respective id
+    "general": true,  
+    "stars": false,  
+    "dsos": false,  
+    "constellations": false,  
+    "lines": true,  
+    "other": true,  
+    "download": false
+  },
+  advanced: false,     // Display fewer form fields if false
+  background: {        // Background style
+    fill: "#54575c",   // Area fill
+    opacity: 1, 
+    stroke: "#54575c", // Outline
+    width: 1
+  }, 
+  stars: {
+    show: true,    // Show stars
+    limit: 6,      // Show only stars brighter than limit magnitude
+    size: 6,
+    colors: false,  // Show stars in spectral colors, if not use "color"
+    // style: { fill: "#ffffff", opacity: 1 }, // Default style for stars
+    names: false, 
+    designation: false,
+  },
+  constellations: {
+    names: false,  // Show constellation names
+    lines: false,
+  },
+  mw: {
+    show: false,
+  },
+  planets:  { show: false, names: false },
+  dsos: { show: false, names: false },
+  lines: {
+    graticule: { show: false },
+    equatorial: { show: false },
+    ecliptic: { show: false },
+    galactic: { show: false },
+    supergalactic: { show: false }
+  }
+}
+// console.log(Celestial)
 
 import './assets/scss/app.scss';
 import './assets/css/Control.Loading.css';
@@ -50,11 +110,15 @@ let varId;  // WooCommerce ID
 let addToCart = $('#addToCart');
 let cartUrl = addToCart.attr('action');
 
+let defaultStartView = defaultView($data);
+let defaultPoster = 'stadsposter'
+
 let currentPrice = 49;
 let currentMarkerStyle = defaultMarker($data);
 let currentFormat = defaultFormat($data);
 let currentStyle = defaultStyle($data);
-let defaultStartView = defaultView($data);
+let currentDateTime = Date.now();
+let currentLatLng = [defaultStartView.ne.lat, defaultStartView.ne.lng]
 
 addCartParameters(currentStyle, currentFormat);
 
@@ -167,6 +231,10 @@ $("#posterText .card-text:first").html(defaultStartView.subline);
 ptm_tagline.val(defaultStartView.tagline);
 $('#taglineInput').val(defaultStartView.tagline);
 $("#posterText .card-text:last").html(defaultStartView.tagline);
+
+
+Celestial.display(config)
+Celestial.skyview({"location": currentLatLng });
 
 
 /* INITIAL BREAKPOINTS CHECK */
@@ -311,6 +379,8 @@ function getMapData(e){
         let locationCity, locationCountry, locationName;
         let subline,tagline;
 
+        currentLatLng = [place.geometry.location.lat, place.geometry.location.lng]
+
         formPlaceId.val(place.place_id);
         locationName = place.name;
         locationCountry = address[address.length-1];
@@ -323,58 +393,70 @@ function getMapData(e){
         else
             tagline = locationCity ? locationCity+" - "+locationCountry : locationCountry;
 
-        $('#sublineInput').val(locationName);
-        ptm_subline.val(locationName);
-        $('#taglineInput').val(tagline);
-        ptm_tagline.val(tagline);
+        // Star map
+        if(defaultPoster === 'sterrenposter'){
+          Celestial.skyview({
+            "date": currentDateTime,
+            "location": currentLatLng
+          })
+          console.log({ "date": currentDateTime, "location": currentLatLng })
 
-        $("#posterText .card-text:first").html(locationName);
-        $("#posterText .card-text:last").html(tagline);
+        } else {
 
-        latlng = L.latLng(
-          place.geometry.location.lat,
-          place.geometry.location.lng
-        );
-        northeast = L.latLng(place.geometry.viewport.northeast);
-        southwest = L.latLng(place.geometry.viewport.southwest);
-        latlngbounds = L.latLngBounds(northeast,southwest);
+          // Map poster
+          $('#sublineInput').val(locationName);
+          ptm_subline.val(locationName);
+          $('#taglineInput').val(tagline);
+          ptm_tagline.val(tagline);
 
-        if(markerOnMap)
-          map.removeLayer(markerOnMap);
-          
-        let markerStyle;            
-        $('#markerSelector').find("label").each(function(){ 
-            if($(this).hasClass('active')){
-                markerStyle = getMarker($(this).attr('id'));
-            }
-        });
+          $("#posterText .card-text:first").html(locationName);
+          $("#posterText .card-text:last").html(tagline);
 
-        markerOnMap = new L.marker(latlng, {
-          icon: L.icon({
+          latlng = L.latLng(
+            place.geometry.location.lat,
+            place.geometry.location.lng
+          );
+          northeast = L.latLng(place.geometry.viewport.northeast);
+          southwest = L.latLng(place.geometry.viewport.southwest);
+          latlngbounds = L.latLngBounds(northeast,southwest);
+
+          if(markerOnMap)
+            map.removeLayer(markerOnMap);
+            
+          let markerStyle;            
+          $('#markerSelector').find("label").each(function(){ 
+              if($(this).hasClass('active')){
+                  markerStyle = getMarker($(this).attr('id'));
+              }
+          });
+
+          markerOnMap = new L.marker(latlng, {
+            icon: L.icon({
+              iconUrl: defaultMarkerStyleUrl,
+              iconSize: [24, 32], 
+              iconAnchor: [12, 32], 
+              className: 'marker'
+            }),
+            draggable: true,
+          })
+          .addTo(map);
+            
+          markerOnMap.setIcon(L.icon({
             iconUrl: defaultMarkerStyleUrl,
             iconSize: [24, 32], 
             iconAnchor: [12, 32], 
-            className: 'marker'
-          }),
-          draggable: true,
-        })
-        .addTo(map);
-          
-        markerOnMap.setIcon(L.icon({
-          iconUrl: defaultMarkerStyleUrl,
-          iconSize: [24, 32], 
-          iconAnchor: [12, 32], 
-          className: 'marker' }));
-          
-        formMarkerCoordinates.val(markerOnMap.getLatLng());   
+            className: 'marker' }));
+            
+          formMarkerCoordinates.val(markerOnMap.getLatLng());   
 
-        markerOnMap.on('dragend', function(){
-          formMarkerCoordinates.val(markerOnMap.getLatLng());
-        });
-        
-        map.flyToBounds(latlngbounds, {duration: 3, maxZoom: 15});
-        formCoordinates.val(JSON.stringify(latlngbounds));
-        updateDebugger();
+          markerOnMap.on('dragend', function(){
+            formMarkerCoordinates.val(markerOnMap.getLatLng());
+          });
+          
+          map.flyToBounds(latlngbounds, {duration: 3, maxZoom: 15});
+          formCoordinates.val(JSON.stringify(latlngbounds));
+          updateDebugger();
+        }
 
       };
     });
@@ -721,6 +803,42 @@ function getMarker(style, poster = false){
     }
 }
 
+function getCelestialPoster(){
+  let lines = "";
+  let background = ""
+
+  switch(currentStyle){
+    case 'snow':
+      lines = "#000"
+      background = "#fff"
+      break;
+    case 'moon':
+    case 'granite':   // '#54575c'
+      lines = "#fff"
+      background = "#54575c"
+      break;
+    case 'mint':    // #6fa189'
+      lines = "#fff"
+      background = "#6fa189"
+      break;
+    case 'honey':   // #d8ae46'
+      lines = "#000"
+      background = "#d8ae46"
+      break;
+    default:
+      lines = "#000"
+      background = "#fff"
+      break;
+  }
+
+  return {
+    stars: { colors: false, style: { fill: lines } }, 
+    dsos: { colors: false, style: { fill: lines, stroke: lines } }, 
+    constellations: { lineStyle: { stroke: lines } },
+    background: { fill: background, stroke: lines },
+  }
+}
+
 function isIE() {
   var sAgent = window.navigator.userAgent;
   var Idx = sAgent.indexOf("MSIE");
@@ -743,6 +861,37 @@ document.addEventListener('keyup', (e) => {
       $debugPanel.toggleClass('d-block');
   };
 });
+
+$("#posterviewer .btn").click(function ( event ) {
+  defaultPoster = event.target.value
+
+  if(defaultPoster === 'sterrenposter'){
+    $('#placedatetime').removeClass('d-none');
+    $('#markerSelector').addClass('d-none').prev('h6').addClass('d-none')
+  } else {
+    $('#placedatetime').addClass('d-none');
+    $('#markerSelector').removeClass('d-none').prev('h6').removeClass('d-none')
+  }
+  // $([".light [class*='-light']", ".dark [class*='-dark']"]).each((i,ele)=>{
+  //   $(ele).toggleClass('bg-light bg-dark')
+  //   $(ele).toggleClass('text-light text-dark')
+  //   $(ele).toggleClass('navbar-light navbar-dark')
+  // })
+  // // toggle body class selector
+  // $('body').toggleClass('light dark')
+});
+
+$("#placedatetime").on("change", function( event ){
+  // console.log('change', currentLatLng)
+  currentDateTime = new Date(event.target.value)
+
+  Celestial.skyview({
+    "date": currentDateTime,
+    "location": currentLatLng
+  })
+
+  console.log('change', { "date": currentDateTime, "location": currentLatLng });
+})
 
 let activeTab;
 
@@ -790,18 +939,27 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
     $('.poster').attr('class','card poster '+posterSize+' '+event.target.id);
     $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
 
-    map.removeLayer(activeLayer);
-    activeLayer = getStyle(currentStyle);
-    map.addLayer(activeLayer);    
+    // Starmap
+    if(defaultPoster === 'sterrenposter'){
 
-    // let marker = $('#markerSelector').find("label.active").attr('id');
-    markerOnMap.setIcon(L.icon({ 
+      console.log(currentStyle,getCelestialPoster())
+      Celestial.display(getCelestialPoster())
+
+    } else {      
+      // Citymap
+      map.removeLayer(activeLayer);
+      activeLayer = getStyle(currentStyle);
+      map.addLayer(activeLayer);    
+      
+      // let marker = $('#markerSelector').find("label.active").attr('id');
+      markerOnMap.setIcon(L.icon({ 
         iconUrl: defaultMarkerStyleUrl,
         iconSize: [24, 32], 
         iconAnchor: [12, 32], 
         className: 'marker' 
-    }));
-    
+      }));
+    }
+      
     // Needs refactoring: update (default) text to marker
     /*
     $(this).parent().find("label").each(function(){

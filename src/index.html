@@ -8,8 +8,8 @@
 
     <title>Place the Moment</title>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
     
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.css' rel='stylesheet' />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
      
   </head>
@@ -24,34 +24,43 @@
 
                 <div id="accordion" class="accordion d-flex flex-column h-100 p-md-0">
 
-                    <div class="px-5 py-3 d-none d-lg-block text-center bg-ptmlight">
+                    <div class="d-none d-lg-block text-center bg-ptmlight">
                         <a class="d-block" href="https://www.placethemoment.com/">
-                            <img class="w-75 pt-2 px-3" src="https://www.placethemoment.com/wp-content/uploads/2018/06/logo-original-vector.svg" alt="Place The Moment" id="logo" data-height-percentage="100" data-actual-width="300" data-actual-height="110">
+                            <img class="w-75 mx-5 my-3" src="https://www.placethemoment.com/wp-content/uploads/2018/06/logo-original-vector.svg" alt="Place The Moment" id="logo" data-height-percentage="100" data-actual-width="300" data-actual-height="110">
                         </a>
+                        <div id="posterviewer" class="btn-group w-100" role="group" aria-label="Basic example">
+                            <button type="button" value="stadsposter" class="btn btn-light">Stad poster</button>
+                            <button type="button" value="sterrenposter" class="btn btn-dark">Sterren poster</button>
+                        </div>
                     </div>
 
                             <div class="card bg-lighter">
-                                <div class="card-header ptm-btnLight d-none d-lg-flex align-items-center" id="headingOne" data-toggle="collapse" data-target="#collapseOne">
-                                <i class="fa fa-location-arrow"></i>
-                                <button class="btn btn-link" aria-expanded="true" aria-controls="collapseOne">
-                                  Place it.
-                                </button>
-                                <i class="fa fa-angle-down ml-auto"></i>
+                                <div class="card-header ptm-btnLight d-none d-lg-flex align-items-center" id="headingOne" data-toggle="collapse" data-target="#collapseOne">                                    
+                                    <i class="fa fa-location-arrow"></i>
+                                    <button class="btn btn-link" aria-expanded="true" aria-controls="collapseOne">
+                                        Place it.
+                                    </button>
+                                    <i class="fa fa-angle-down ml-auto"></i>
                                 </div>
                             
                                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                     <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseOne" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
                                     <div class="card-body">
                                         <span class="d-none d-lg-block mb-3">
-                                             Choose your place from anywhere in the world. The city you grew up, the exact address you had your first kiss or the country where you had your best holiday ever.
+                                            Choose your place from anywhere in the world. The city you grew up, the exact address you had your first kiss or the country where you had your best holiday ever.
                                         </span>
                                         <label class="sidebar-heading text-muted" for="geocoder">
-                                          Find a location
+                                            Find a location
                                         </label>
                                         <div id='geocoder' class='geocoder input-group'></div>
+
+                                        <label class="sidebar-heading text-muted" for="geocoder">
+                                            Date and time
+                                        </label>
+                                        <input type="datetime-local" class="form-control d-none" id="placedatetime" />
                                         <a href="https://wa.me/31850470420" class="btn font-weight-normal pl-1 d-lg-none" style="text-decoration: underline">
-                                          Need help? Chat with us!<i class="fa-lg fa-whatsapp fab ml-2 py-1"></i>
-                                        </a> 
+                                            Need help? Chat with us!<i class="fa-lg fa-whatsapp fab ml-2 py-1"></i>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -141,7 +150,7 @@
                                             </button> 
                                         </div>
                                     </div>
-                                    <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 sidebar-heading text-muted">Marker Color</h6>
+                                    <h6 class="mt-2 px-3 sidebar-heading text-muted">Marker Color</h6>
                                     <div id="markerSelector" class="card-body">
                                         <div class="btn-group ptm-poster-styles" data-toggle="buttons">
                                         <label id="granite" class="ptm-btn btn pl-lg-0">
@@ -291,9 +300,10 @@
                         <a href="https://wa.me/31850470420" target="_blank" class="badge badge-success font-weight-normal p-2 rounded-circle shadow" style="background-color: #25D366; width: 60px;"><i class="fa-3x fa-whatsapp fab py-1"></i></a>
                     </div> 
                     <div id="posterWrapper" class="posterArea">
-                        <div id="posterCanvas" class="card poster">                          
+                        <div id="posterCanvas" class="card poster">
                             <div class="mapwindow">
-                                <div id="mapbox" class="card-img-top"></div>
+                                <div id="celestial-map"></div>
+                                <div id="mapbox" class="card-img-top d-none"></div>
                             </div>
                             <div id="posterText" class="card-body">
                                 <h3 class="card-title text-center">My Moment</h3>
@@ -309,6 +319,5 @@
             </main>
         </div>
     </div><!-- /.container -->
-
 </body>
 </html>
