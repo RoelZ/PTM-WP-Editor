@@ -111,7 +111,7 @@ let addToCart = $('#addToCart');
 let cartUrl = addToCart.attr('action');
 
 let defaultStartView = defaultView($data);
-let defaultPoster = 'stadsposter'
+let starMap = false
 
 let currentPrice = 49;
 let currentMarkerStyle = defaultMarker($data);
@@ -394,7 +394,7 @@ function getMapData(e){
             tagline = locationCity ? locationCity+" - "+locationCountry : locationCountry;
 
         // Star map
-        if(defaultPoster === 'sterrenposter'){
+        if(starMap){
           Celestial.skyview({
             "date": currentDateTime,
             "location": currentLatLng
@@ -863,12 +863,16 @@ document.addEventListener('keyup', (e) => {
 });
 
 $("#posterviewer .btn").click(function ( event ) {
-  defaultPoster = event.target.value
+  starMap = (event.target.value === 'sterrenposter') ? true : false
 
-  if(defaultPoster === 'sterrenposter'){
+  if(starMap){
+    $('#celestial-map').removeClass('d-none');
+    $('#mapbox').addClass('d-none');
     $('#placedatetime').removeClass('d-none');
     $('#markerSelector').addClass('d-none').prev('h6').addClass('d-none')
   } else {
+    $('#mapbox').removeClass('d-none');
+    $('#celestial-map').addClass('d-none');
     $('#placedatetime').addClass('d-none');
     $('#markerSelector').removeClass('d-none').prev('h6').removeClass('d-none')
   }
@@ -940,7 +944,7 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
     $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
 
     // Starmap
-    if(defaultPoster === 'sterrenposter'){
+    if(starMap){
 
       console.log(currentStyle,getCelestialPoster())
       Celestial.display(getCelestialPoster())
