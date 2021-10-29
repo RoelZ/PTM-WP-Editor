@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@mapbox/mapbox-gl-geocoder": "^2.3.0",
+    "d3-celestial": "^0.7.35",
     "dom-to-image": "^2.6.0",
     "dotenv": "^8.2.0",
     "file-system": "^2.2.2",
