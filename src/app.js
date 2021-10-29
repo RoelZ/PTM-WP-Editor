@@ -54,7 +54,7 @@ const config = {
   },
   constellations: {
     names: false,  // Show constellation names
-    lines: false,
+    lines: true,
   },
   mw: {
     show: false,
@@ -106,12 +106,11 @@ const $data = ($.trim($('#debugger').html()).length) ? Object.create([JSON.parse
 // console.log($.trim($('#debugger').html()).length, Object.keys($data).length, {});
 // map.addControl(searchControl);
 
-let varId;  // WooCommerce ID
 let addToCart = $('#addToCart');
 let cartUrl = addToCart.attr('action');
+let productId = $('#addToCart input[name="product_id"]').first().value;
 
 let defaultStartView = defaultView($data);
-let starMap = false
 
 let currentPrice = 49;
 let currentMarkerStyle = defaultMarker($data);
@@ -132,6 +131,8 @@ let formPlaceId = $('#addToCart input[name="placeid"]');
 let formZoom = $('#addToCart input[name="zoom"]');
 let formMarkerCoordinates = $('#addToCart input[name="marker_coordinates"]');
 let formMarkerStyle = $('#addToCart input[name="marker_style"]');
+let formLocation = $('#addToCart input[name="location"]');
+let formDateTime = $('#addToCart input[name="datetime"]');
 let formVariationId = $('#addToCart input[name="variation_id"]');
 let formPrice = $('#addToCart button[type="submit"]').find('span').not(":last-child");
 
@@ -139,6 +140,10 @@ let ptm_moment = $('#addToCart input[name="ptm_moment"]');
 let ptm_subline = $('#addToCart input[name="ptm_subline"]');
 let ptm_tagline = $('#addToCart input[name="ptm_tagline"]');
 let ptm_thumb = $('#addToCart input[name="ptm_thumb"]');
+
+console.log($('#addToCart input[name="product_id"]').first().value, productId, productId === "12316")
+let isStarMap = (productId === "12316") ? true : false
+console.log(isStarMap)
 
 map.on('load', function(){
     formCoordinates.val(JSON.stringify(map.getBounds()));
@@ -234,7 +239,10 @@ $("#posterText .card-text:last").html(defaultStartView.tagline);
 
 
 Celestial.display(config)
-Celestial.skyview({"location": currentLatLng });
+Celestial.skyview({
+  "date": currentDateTime,
+  "location": currentLatLng
+})
 
 
 /* INITIAL BREAKPOINTS CHECK */
@@ -394,7 +402,10 @@ function getMapData(e){
             tagline = locationCity ? locationCity+" - "+locationCountry : locationCountry;
 
         // Star map
-        if(starMap){
+        if(isStarMap){
+          formLocation = currentLatLng
+          formDateTime = currentDateTime
+
           Celestial.skyview({
             "date": currentDateTime,
             "location": currentLatLng
@@ -863,9 +874,9 @@ document.addEventListener('keyup', (e) => {
 });
 
 $("#posterviewer .btn").click(function ( event ) {
-  starMap = (event.target.value === 'sterrenposter') ? true : false
+  isStarMap = (event.target.value === 'sterrenposter') ? true : false
 
-  if(starMap){
+  if(isStarMap){
     $('#celestial-map').removeClass('d-none');
     $('#mapbox').addClass('d-none');
     $('#placedatetime').removeClass('d-none');
@@ -888,6 +899,7 @@ $("#posterviewer .btn").click(function ( event ) {
 $("#placedatetime").on("change", function( event ){
   // console.log('change', currentLatLng)
   currentDateTime = new Date(event.target.value)
+  formDateTime = currentDateTime
 
   Celestial.skyview({
     "date": currentDateTime,
@@ -943,10 +955,11 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
     $('.poster').attr('class','card poster '+posterSize+' '+event.target.id);
     $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
 
-    // Starmap
-    if(starMap){
+    // isStarMap
+    if(isStarMap){
 
       console.log(currentStyle,getCelestialPoster())
+
       Celestial.display(getCelestialPoster())
 
     } else {      
