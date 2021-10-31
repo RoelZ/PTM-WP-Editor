@@ -836,6 +836,18 @@ function getCelestialPoster(){
       lines = "#000"
       background = "#d8ae46"
       break;
+    case 'hay':   // #d8ae46'
+      lines = "#000"
+      background = "#d5ba77"
+      break;
+    case 'olive':   // #d8ae46'
+      lines = "#fff"
+      background = "#b9b594"
+      break;
+    case 'redwood':   // #d8ae46'
+      lines = "#fff"
+      background = "#a5543f"
+      break;
     default:
       lines = "#000"
       background = "#fff"

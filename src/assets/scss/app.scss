@@ -198,6 +198,33 @@ body {
       color:black !important;
     }
   }
+  &.hay {
+    background-color: $ptmHay !important;
+    .mapwindow #mapbox {
+      border-color:black;
+    }
+    h3, p {
+      color:black !important;
+    }
+  }
+  &.olive {
+    background-color: $ptmOlive !important;
+    .mapwindow #mapbox {
+      border-color:white;
+    }
+    h3, p {
+      color:white !important;
+    }
+  }
+  &.redwood {
+    background-color: $ptmRedwood !important;
+    .mapwindow #mapbox {
+      border-color:white;
+    }
+    h3, p {
+      color:white !important;
+    }
+  }
 }
   
 
@@ -259,6 +286,24 @@ body {
     background-color: $ptmYellow !important;
     .ptm-map-color-icon {
       border-color:black;
+    }
+  }
+  &.hay {
+    background-color: $ptmHay !important;
+    .ptm-map-color-icon {
+      border-color:black;
+    }
+  }
+  &.olive {
+    background-color: $ptmOlive !important;
+    .ptm-map-color-icon {
+      border-color:white;
+    }
+  }
+  &.redwood {
+    background-color: $ptmRedwood !important;
+    .ptm-map-color-icon {
+      border-color:white;
     }
   }
 }
