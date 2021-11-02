@@ -109,6 +109,7 @@ const $data = ($.trim($('#debugger').html()).length) ? Object.create([JSON.parse
 let addToCart = $('#addToCart');
 let cartUrl = addToCart.attr('action');
 let productId = $('#addToCart input[name="product_id"]').first().value;
+let isStarMap = (productId === "12316") ? true : false
 
 let defaultStartView = defaultView($data);
 
@@ -142,7 +143,6 @@ let ptm_tagline = $('#addToCart input[name="ptm_tagline"]');
 let ptm_thumb = $('#addToCart input[name="ptm_thumb"]');
 
 console.log($('#addToCart input[name="product_id"]').first().value, productId, productId === "12316")
-let isStarMap = (productId === "12316") ? true : false
 console.log(isStarMap)
 
 map.on('load', function(){
@@ -403,8 +403,8 @@ function getMapData(e){
 
         // Star map
         if(isStarMap){
-          formLocation = currentLatLng
-          formDateTime = currentDateTime
+          formLocation.val(currentLatLng)
+          formDateTime.val(currentDateTime)
 
           Celestial.skyview({
             "date": currentDateTime,
@@ -642,6 +642,31 @@ function addCartParameters(style = 'moon', format = '50x70'){
 
 function getStyle(name){
 
+  if(isStarMap){
+    switch(name) {
+      case 'moon':
+        currentFormat === '30x40' ? formVariationId.val(12317) : formVariationId.val(12322)
+        break
+      case 'granite':
+        currentFormat === '30x40' ? formVariationId.val(12318) : formVariationId.val(12323)
+        break
+      case 'olive':
+        currentFormat === '30x40' ? formVariationId.val(12319) : formVariationId.val(12324)
+        break
+      case 'hay':
+        currentFormat === '30x40' ? formVariationId.val(12320) : formVariationId.val(12325)
+        break
+      case 'redwood':
+        currentFormat === '30x40' ? formVariationId.val(12321) : formVariationId.val(12326)
+        break      
+      default:
+        return
+    }
+    
+    currentPrice = (currentFormat === '30x40') ? 45 : 49
+    formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
+
+  } else {
     if(name == 'mapboxStyle'){
         varId = 1207
         return mapboxStyle;
@@ -719,6 +744,7 @@ function getStyle(name){
       currentPrice = 49;
       formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
       return ptmMoon
+    }
   }
     
 }
@@ -911,7 +937,7 @@ $("#posterviewer .btn").click(function ( event ) {
 $("#placedatetime").on("change", function( event ){
   // console.log('change', currentLatLng)
   currentDateTime = new Date(event.target.value)
-  formDateTime = currentDateTime
+  formDateTime.val(currentDateTime)
 
   Celestial.skyview({
     "date": currentDateTime,
@@ -969,11 +995,8 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
 
     // isStarMap
     if(isStarMap){
-
-      console.log(currentStyle,getCelestialPoster())
-
+      activeLayer = getStyle(currentStyle);
       Celestial.display(getCelestialPoster())
-
     } else {      
       // Citymap
       map.removeLayer(activeLayer);
