@@ -18,23 +18,23 @@ import 'd3-celestial'
 
 // import 'tempusdominus-bootstrap-4'
 
-const config = {
-  width: 446,
+let config = {
+  width: 446,   // 446, 2910, 4749
   container: "celestial-map",
   projection: "airy",   // airy, azimuthal, berghaus star, orthographic, wiechel, 
   datapath: 'https://ofrohn.github.io/data/',
   interactive: false,
   controls: false,     // Display zoom controls
-  form: false,        // Display settings form
+  form: true,        // Display settings form
   formFields: {
-    "location": true,  // Set visiblity for each group of fields with the respective id
-    "general": true,  
+    "location": false,  // Set visiblity for each group of fields with the respective id
+    "general": false,  
     "stars": false,  
     "dsos": false,  
     "constellations": false,  
-    "lines": true,  
-    "other": true,  
-    "download": false
+    "lines": false,  
+    "other": false,  
+    "download": true
   },
   advanced: false,     // Display fewer form fields if false
   background: {        // Background style
@@ -74,11 +74,14 @@ const config = {
 import './assets/scss/app.scss';
 import './assets/css/Control.Loading.css';
 
-let defaultSnowMapStyle = 'https://tiles.placethemoment.com/styles/snow/{z}/{x}/{y}.png';
-let defaultMoonMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png';
-let defaultGraniteMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png';
-let defaultMintMapStyle = 'https://tiles.placethemoment.com/styles/mint/{z}/{x}/{y}.png';
-let defaultHoneyMapStyle = 'https://tiles.placethemoment.com/styles/honey/{z}/{x}/{y}.png';
+let defaultSnowMapStyle = 'https://tiles.placethemoment.com/styles/snow/{z}/{x}/{y}.png',
+    defaultMoonMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png',
+    defaultGraniteMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png',
+    defaultMintMapStyle = 'https://tiles.placethemoment.com/styles/mint/{z}/{x}/{y}.png',
+    defaultHoneyMapStyle = 'https://tiles.placethemoment.com/styles/honey/{z}/{x}/{y}.png',
+    defaultHayMapStyle = 'https://tiles.placethemoment.com/styles/hay/{z}/{x}/{y}.png',
+    defaultOliveMapStyle = 'https://tiles.placethemoment.com/styles/olive/{z}/{x}/{y}.png',
+    defaultRedwoodMapStyle = 'https://tiles.placethemoment.com/styles/redwood/{z}/{x}/{y}.png';
 
 // const provider = new GoogleProvider({
 //     params: {
@@ -158,7 +161,10 @@ let ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 18
     ptmMoon = L.tileLayer(defaultMoonMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous' }),
     ptmGranite = L.tileLayer(defaultGraniteMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
     ptmMint = L.tileLayer(defaultMintMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
-    ptmHoney = L.tileLayer(defaultHoneyMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'});
+    ptmHoney = L.tileLayer(defaultHoneyMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+    ptmHay = L.tileLayer(defaultHayMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+    ptmOlive = L.tileLayer(defaultOliveMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+    ptmRedwood = L.tileLayer(defaultRedwoodMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'});
 
 let activeLayer = getStyle(currentStyle);
 activeLayer.addTo(map);
@@ -646,27 +652,32 @@ function getStyle(name){
     switch(name) {
       case 'moon':
         currentFormat === '30x40' ? formVariationId.val(12317) : formVariationId.val(12322)
-        break
+        return ptmMoon
       case 'granite':
         currentFormat === '30x40' ? formVariationId.val(12318) : formVariationId.val(12323)
-        break
+        return ptmGranite
       case 'olive':
         currentFormat === '30x40' ? formVariationId.val(12319) : formVariationId.val(12324)
-        break
+        return ptmOlive
       case 'hay':
         currentFormat === '30x40' ? formVariationId.val(12320) : formVariationId.val(12325)
-        break
+        return ptmHay
       case 'redwood':
         currentFormat === '30x40' ? formVariationId.val(12321) : formVariationId.val(12326)
-        break      
-      default:
-        return
+        return ptmRedwood
+      case 'snow':
+        return ptmSnow
+      case 'mint':
+        return ptmMint
+      case 'honey':
+        return ptmHoney
     }
     
     currentPrice = (currentFormat === '30x40') ? 45 : 49
     formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
 
   } else {
+
     if(name == 'mapboxStyle'){
         varId = 1207
         return mapboxStyle;
@@ -675,75 +686,32 @@ function getStyle(name){
         varId = 1207
         return maputnikStyle;
     }
-    else if(name == 'snow' && currentFormat == '30x40'){
-        formVariationId.val(2413);
-        // $('.ptm-cta').addClass('bounce');
-        currentPrice = 45;
-        formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
+
+    currentPrice = (currentFormat === '30x40') ? 45 : 49
+    formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
+
+    switch(name) {
+      case 'snow':
+        currentFormat === '30x40' ? formVariationId.val(2413) : formVariationId.val(1207)
         return ptmSnow
-    }
-    else if(name == 'moon' && currentFormat == '30x40'){
-        formVariationId.val(2414);
-        // $('.ptm-cta').addClass('bounce');
-        currentPrice = 45;
-        formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
+      case 'moon':
+        currentFormat === '30x40' ? formVariationId.val(2414) : formVariationId.val(1208)
         return ptmMoon
-    }
-    else if(name == 'granite' && currentFormat == '30x40'){
-        formVariationId.val(2415);
-        // $('.ptm-cta').addClass('bounce');
-        currentPrice = 45;
-        formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
+      case 'granite':
+        currentFormat === '30x40' ? formVariationId.val(2415) : formVariationId.val(1209)
         return ptmGranite
-    }
-    else if(name == 'mint' && currentFormat == '30x40'){
-        formVariationId.val(2416);
-        // $('.ptm-cta').addClass('bounce');
-        currentPrice = 45;
-        formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
+      case 'mint':
+        currentFormat === '30x40' ? formVariationId.val(2416) : formVariationId.val(1210)
         return ptmMint
-    }
-    else if(name == 'honey' && currentFormat == '30x40'){
-        formVariationId.val(2749);
-        // $('.ptm-cta').addClass('bounce');
-        currentPrice = 45;
-        formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
+      case 'honey':
+        currentFormat === '30x40' ? formVariationId.val(2749) : formVariationId.val(2748)
         return ptmHoney
-    }
-    else if(name == 'snow' && currentFormat == '50x70'){
-        formVariationId.val(1207);
-        // $('.ptm-cta').removeClass('bounce');
-        currentPrice = 49;
-        formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
-        return ptmSnow
-    }
-    else if(name == 'granite' && currentFormat == '50x70'){
-        formVariationId.val(1209);
-        // $('.ptm-cta').removeClass('bounce');
-        currentPrice = 49;
-        formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
-        return ptmGranite
-    }
-    else if(name == 'mint' && currentFormat == '50x70'){
-        formVariationId.val(1210);
-        // $('.ptm-cta').removeClass('bounce');
-        currentPrice = 49;
-        formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
-        return ptmMint
-    }
-    else if(name == 'honey' && currentFormat == '50x70'){
-        formVariationId.val(2748);
-        // $('.ptm-cta').removeClass('bounce');
-        currentPrice = 49;
-        formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
-        return ptmHoney
-    }
-    else {      
-      formVariationId.val(1208);
-      // $('.ptm-cta').removeClass('bounce');
-      currentPrice = 49;
-      formPrice.each(function(){ $(this).html('&euro;'+currentPrice) })
-      return ptmMoon
+      case 'hay':
+        return ptmHay
+      case 'olive':
+        return ptmOlive
+      case 'redwood':
+        return ptmRedwood
     }
   }
     
@@ -864,15 +832,15 @@ function getCelestialPoster(){
       break;
     case 'hay':   // #d8ae46'
       lines = "#000"
-      background = "#d5ba77"
+      background = "#DCB771"
       break;
     case 'olive':   // #d8ae46'
       lines = "#fff"
-      background = "#b9b594"
+      background = "#92886f"
       break;
     case 'redwood':   // #d8ae46'
       lines = "#fff"
-      background = "#a5543f"
+      background = "#a3523e"
       break;
     default:
       lines = "#000"
@@ -881,6 +849,18 @@ function getCelestialPoster(){
   }
 
   return {
+    form: true,
+    formFields: {
+      "location": false,
+      "general": false,  
+      "stars": false,  
+      "dsos": false,  
+      "constellations": false,  
+      "lines": false,  
+      "other": false,  
+      "download": true
+    },
+    advanced: false,
     stars: { colors: false, style: { fill: lines } }, 
     dsos: { colors: false, style: { fill: lines, stroke: lines } }, 
     constellations: { lineStyle: { stroke: lines } },
@@ -912,18 +892,34 @@ document.addEventListener('keyup', (e) => {
 });
 
 $("#posterviewer .btn").click(function ( event ) {
+  
   isStarMap = (event.target.value === 'sterrenposter') ? true : false
 
   if(isStarMap){
     $('#celestial-map').removeClass('d-none');
     $('#mapbox').addClass('d-none');
-    $('#placedatetime').removeClass('d-none');
-    $('#markerSelector').addClass('d-none').prev('h6').addClass('d-none')
+    $('#placedatetime').removeClass('d-none').prev().removeClass('d-none');
+    $('#markerSelector').addClass('d-none').prev().addClass('d-none')
+
+    map.removeLayer(activeLayer);
+    
+    config = { ...config, getCelestialPoster}
+    Celestial.display(config)
   } else {
     $('#mapbox').removeClass('d-none');
     $('#celestial-map').addClass('d-none');
-    $('#placedatetime').addClass('d-none');
-    $('#markerSelector').removeClass('d-none').prev('h6').removeClass('d-none')
+    $('#placedatetime').addClass('d-none').prev().addClass('d-none');
+    $('#markerSelector').removeClass('d-none').prev().removeClass('d-none')
+
+    activeLayer = getStyle(currentStyle);
+    map.addLayer(activeLayer);    
+    
+    markerOnMap.setIcon(L.icon({ 
+      iconUrl: defaultMarkerStyleUrl,
+      iconSize: [24, 32], 
+      iconAnchor: [12, 32], 
+      className: 'marker' 
+    }));
   }
   // $([".light [class*='-light']", ".dark [class*='-dark']"]).each((i,ele)=>{
   //   $(ele).toggleClass('bg-light bg-dark')
@@ -944,7 +940,7 @@ $("#placedatetime").on("change", function( event ){
     "location": currentLatLng
   })
 
-  console.log('change', { "date": currentDateTime, "location": currentLatLng });
+  // console.log('change', { "date": currentDateTime, "location": currentLatLng });
 })
 
 let activeTab;
@@ -983,7 +979,7 @@ $("#taglineInput").on("input", function(){
 });
 
 $("#styleSelector .ptm-btn").click(function ( event ) {
-    
+
     $(this).parent().find("button").each(function(){
         $(this).removeClass('active');
     });
@@ -996,14 +992,15 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
     // isStarMap
     if(isStarMap){
       activeLayer = getStyle(currentStyle);
-      Celestial.display(getCelestialPoster())
-    } else {      
+
+      config = { ...config, getCelestialPoster}
+      Celestial.display(config)
+    } else {
       // Citymap
       map.removeLayer(activeLayer);
       activeLayer = getStyle(currentStyle);
       map.addLayer(activeLayer);    
       
-      // let marker = $('#markerSelector').find("label.active").attr('id');
       markerOnMap.setIcon(L.icon({ 
         iconUrl: defaultMarkerStyleUrl,
         iconSize: [24, 32], 
@@ -1011,6 +1008,7 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
         className: 'marker' 
       }));
     }
+    // console.log(currentStyle)
       
     // Needs refactoring: update (default) text to marker
     /*

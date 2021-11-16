@@ -6,6 +6,7 @@
 @import "settings/fonts";
 @import 'settings/ptm';
 @import '~leaflet/dist/leaflet.css';
+@import '~d3-celestial/celestial.css';
 // Includes all of Bootstrap
 // @import "~bootstrap/scss/bootstrap";
 
@@ -199,7 +200,7 @@ body {
     }
   }
   &.hay {
-    background-color: $ptmHay !important;
+    background-color: $ptmKabana !important;
     .mapwindow #mapbox {
       border-color:black;
     }
@@ -208,21 +209,21 @@ body {
     }
   }
   &.olive {
-    background-color: $ptmOlive !important;
+    background-color: $ptmKabana !important;
     .mapwindow #mapbox {
       border-color:white;
     }
     h3, p {
-      color:white !important;
+      color:$ptmOlive !important;
     }
   }
   &.redwood {
-    background-color: $ptmRedwood !important;
+    background-color: $ptmKabana !important;
     .mapwindow #mapbox {
       border-color:white;
     }
     h3, p {
-      color:white !important;
+      color:$ptmRedwood !important;
     }
   }
 }

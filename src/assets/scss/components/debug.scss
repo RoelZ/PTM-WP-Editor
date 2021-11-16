@@ -16,3 +16,7 @@
     -ms-user-select: all;      /* IE 10+ */
     user-select: all; 
 }
+#celestial-form {
+    position: absolute;
+    z-index: 100;
+}
