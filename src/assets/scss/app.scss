@@ -19,6 +19,7 @@
 @import 'components/accordion.scss';
 @import 'components/debug.scss';
 @import 'components/progress.scss';
+@import 'components/toggle.scss';
 
 @import 'trumps/ie.scss';
 @import 'trumps/fb.scss';
@@ -217,6 +218,15 @@ body {
       color:$ptmOlive !important;
     }
   }
+  &.dustypink {
+    background-color: $ptmKabana !important;
+    .mapwindow #mapbox {
+      border-color:white;
+    }
+    h3, p {
+      color:$ptmDustyPink !important;
+    }
+  }
   &.redwood {
     background-color: $ptmKabana !important;
     .mapwindow #mapbox {
@@ -290,21 +300,31 @@ body {
     }
   }
   &.hay {
-    background-color: $ptmHay !important;
+    background-color: $ptmKabana !important;
     .ptm-map-color-icon {
       border-color:black;
+        background-color: $ptmHay !important;
     }
   }
   &.olive {
-    background-color: $ptmOlive !important;
+    background-color: $ptmKabana !important;
     .ptm-map-color-icon {
       border-color:white;
+        background-color: $ptmOlive !important;
+    }
+  }
+  &.dustypink {
+    background-color: $ptmKabana !important;
+    .ptm-map-color-icon {
+      border-color:white;
+        background-color: $ptmDustyPink !important;
     }
   }
   &.redwood {
-    background-color: $ptmRedwood !important;
+    background-color: $ptmKabana !important;
     .ptm-map-color-icon {
       border-color:white;
+        background-color: $ptmRedwood !important;
     }
   }
 }

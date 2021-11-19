@@ -1,22 +1,40 @@
-// import fs from 'file-system';
-// import dotenv from 'dotenv';
 import 'bootstrap';
-// import 'moment';
-// import $ from 'jquery';
 require('webpack-jquery-ui/resizable');
 import L from 'leaflet';
-import mapboxgl from 'mapbox-gl';
-import mapboxGL from 'mapbox-gl-leaflet';
-// import { GeoSearchControl, GoogleProvider } from 'leaflet-geosearch';
-// import html2canvas from 'html2canvas';
 import leafletImage from 'leaflet-image';   // handmatige fix: https://github.com/mapbox/leaflet-image/issues/41
 import './assets/js/Control.Loading';
-
-// import './assets/js/celestial';
 import 'd3-celestial'
-// import { Celestial } from 'd3-celestial';
 
-// import 'tempusdominus-bootstrap-4'
+import './assets/scss/app.scss';
+import './assets/css/Control.Loading.css';
+
+const defaultSnowMapStyle = 'https://tiles.placethemoment.com/styles/snow/{z}/{x}/{y}.png',
+      defaultMoonMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png',
+      defaultGraniteMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png',
+      defaultMintMapStyle = 'https://tiles.placethemoment.com/styles/mint/{z}/{x}/{y}.png',
+      defaultHoneyMapStyle = 'https://tiles.placethemoment.com/styles/honey/{z}/{x}/{y}.png',
+      defaultHayMapStyle = 'https://tiles.placethemoment.com/styles/hay/{z}/{x}/{y}.png',
+      defaultOliveMapStyle = 'https://tiles.placethemoment.com/styles/olive/{z}/{x}/{y}.png',
+      defaultRedwoodMapStyle = 'https://tiles.placethemoment.com/styles/redwood/{z}/{x}/{y}.png';
+
+const ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+      ptmMoon = L.tileLayer(defaultMoonMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous' }),
+      ptmGranite = L.tileLayer(defaultGraniteMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+      ptmMint = L.tileLayer(defaultMintMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+      ptmHoney = L.tileLayer(defaultHoneyMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+      ptmHay = L.tileLayer(defaultHayMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+      ptmOlive = L.tileLayer(defaultOliveMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
+      ptmRedwood = L.tileLayer(defaultRedwoodMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'});
+
+const map = L.map('mapbox', { 
+        renderer: L.canvas(),
+        preferCanvas: true,
+        zoomControl: false,
+        attributionControl: false,
+        loadingControl: true
+      });
+
+const $data = ($.trim($('#debugger').html()).length) ? Object.create([JSON.parse($.trim($('#debugger').html()))]) : [];
 
 let config = {
   width: 446,   // 446, 2910, 4749
@@ -25,16 +43,16 @@ let config = {
   datapath: 'https://ofrohn.github.io/data/',
   interactive: false,
   controls: false,     // Display zoom controls
-  form: true,        // Display settings form
+  form: false,        // Display settings form
   formFields: {
-    "location": false,  // Set visiblity for each group of fields with the respective id
-    "general": false,  
-    "stars": false,  
+    "location": true,  // Set visiblity for each group of fields with the respective id
+    "general": true,  
+    "stars": true,  
     "dsos": false,  
-    "constellations": false,  
-    "lines": false,  
+    "constellations": true,  
+    "lines": true,  
     "other": false,  
-    "download": true
+    "download": false
   },
   advanced: false,     // Display fewer form fields if false
   background: {        // Background style
@@ -46,9 +64,8 @@ let config = {
   stars: {
     show: true,    // Show stars
     limit: 6,      // Show only stars brighter than limit magnitude
-    size: 6,
+    size: 7,
     colors: false,  // Show stars in spectral colors, if not use "color"
-    // style: { fill: "#ffffff", opacity: 1 }, // Default style for stars
     names: false, 
     designation: false,
   },
@@ -59,7 +76,6 @@ let config = {
   mw: {
     show: false,
   },
-  planets:  { show: false, names: false },
   dsos: { show: false, names: false },
   lines: {
     graticule: { show: false },
@@ -69,67 +85,15 @@ let config = {
     supergalactic: { show: false }
   }
 }
-// console.log(Celestial)
 
-import './assets/scss/app.scss';
-import './assets/css/Control.Loading.css';
 
-let defaultSnowMapStyle = 'https://tiles.placethemoment.com/styles/snow/{z}/{x}/{y}.png',
-    defaultMoonMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png',
-    defaultGraniteMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png',
-    defaultMintMapStyle = 'https://tiles.placethemoment.com/styles/mint/{z}/{x}/{y}.png',
-    defaultHoneyMapStyle = 'https://tiles.placethemoment.com/styles/honey/{z}/{x}/{y}.png',
-    defaultHayMapStyle = 'https://tiles.placethemoment.com/styles/hay/{z}/{x}/{y}.png',
-    defaultOliveMapStyle = 'https://tiles.placethemoment.com/styles/olive/{z}/{x}/{y}.png',
-    defaultRedwoodMapStyle = 'https://tiles.placethemoment.com/styles/redwood/{z}/{x}/{y}.png';
-
-// const provider = new GoogleProvider({
-//     params: {
-//         fields: 'place_id',
-//         key: 'AIzaSyDmN3d6aCXHXYo_oLjCEAdvUmO3ca38CVQ'
-//     }
-// });
-
-// const searchControl = new GeoSearchControl({
-//   provider: provider,
-//   autoCompleteDelay: 1000,
-//   retainZoomLevel: false,
-//   animateZoom: false,
-// });
-
-const map = L.map('mapbox', { 
-    renderer: L.canvas(),
-    preferCanvas: true,
-    zoomControl: false,
-    attributionControl: false,
-    loadingControl: true
-});
-
-const $data = ($.trim($('#debugger').html()).length) ? Object.create([JSON.parse($.trim($('#debugger').html()))]) : [];
-// console.log($.trim($('#debugger').html()).length, Object.keys($data).length, {});
-// map.addControl(searchControl);
-
-let addToCart = $('#addToCart');
-let cartUrl = addToCart.attr('action');
-let productId = $('#addToCart input[name="product_id"]').first().value;
-let isStarMap = (productId === "12316") ? true : false
-
-let defaultStartView = defaultView($data);
-
-let currentPrice = 49;
-let currentMarkerStyle = defaultMarker($data);
-let currentFormat = defaultFormat($data);
-let currentStyle = defaultStyle($data);
-let currentDateTime = Date.now();
-let currentLatLng = [defaultStartView.ne.lat, defaultStartView.ne.lng]
-
-addCartParameters(currentStyle, currentFormat);
-
-let defaultMarkerStyleUrl = getMarker(currentMarkerStyle);
-var imgData = "";
+let productId = $('#addToCart input[name="product_id"]').val();
+let isStarMap = (productId != "1144")
 let isMobile = false;
 
 // Hidden Form values
+let addToCart = $('#addToCart');
+let cartUrl = addToCart.attr('action');
 let formCoordinates = $('#addToCart input[name="coordinates"]');
 let formPlaceId = $('#addToCart input[name="placeid"]');
 let formZoom = $('#addToCart input[name="zoom"]');
@@ -145,8 +109,61 @@ let ptm_subline = $('#addToCart input[name="ptm_subline"]');
 let ptm_tagline = $('#addToCart input[name="ptm_tagline"]');
 let ptm_thumb = $('#addToCart input[name="ptm_thumb"]');
 
-console.log($('#addToCart input[name="product_id"]').first().value, productId, productId === "12316")
+let defaultStartView = defaultView($data);
+
+let currentPrice = 49;
+let currentMarkerStyle = defaultMarker($data);
+let currentFormat = defaultFormat($data);
+let currentStyle = defaultStyle($data);
+let currentDateTime = Date.now();
+let currentLatLng = [defaultStartView.ne.lat, defaultStartView.ne.lng]
+
+let defaultMarkerStyleUrl = getMarker(currentMarkerStyle);
+
+let activeLayer = getStyle(currentStyle);
+let markerOnMap = new L.marker([defaultStartView.marker.lat,defaultStartView.marker.lng], {
+  icon: L.icon({
+  iconUrl: defaultMarkerStyleUrl,
+  iconSize: [24, 32],
+  iconAnchor: [12, 32], 
+  className: 'marker'
+}), draggable: true });
+
+
+/* Setting defaults to UI */
+setUserControls($data);
+addCartParameters(currentStyle, currentFormat);
+ptm_moment.val(defaultStartView.moment);
+$('#momentInput').val(defaultStartView.moment);
+$("#posterText .card-title").html(defaultStartView.moment);
+ptm_subline.val(defaultStartView.subline);
+$('#sublineInput').val(defaultStartView.subline);
+$("#posterText .card-text:first").html(defaultStartView.subline);
+ptm_tagline.val(defaultStartView.tagline);
+$('#taglineInput').val(defaultStartView.tagline);
+$("#posterText .card-text:last").html(defaultStartView.tagline);
+
+activeLayer.addTo(map);
+markerOnMap.addTo(map);
+
+// console.log($('#addToCart input[name="product_id"]').val())
 console.log(isStarMap)
+
+// if(isStarMap){
+  
+Celestial.display(config)
+Celestial.skyview({
+  "date": currentDateTime,
+  "location": currentLatLng
+})
+
+  // UI
+  // $('#mapbox').addClass('d-none');
+  // $('#celestial-map').removeClass('d-none');
+  // $('#placedatetime').removeClass('d-none').prev().removeClass('d-none');
+  // $('#markerSelector').addClass('d-none').prev().addClass('d-none')
+
+// }
 
 map.on('load', function(){
     formCoordinates.val(JSON.stringify(map.getBounds()));
@@ -155,38 +172,26 @@ map.on('load', function(){
     formMarkerCoordinates.val(L.latLng(defaultStartView.marker));
 })
 .fitBounds(L.latLngBounds([defaultStartView.ne.lat,defaultStartView.ne.lng],[defaultStartView.sw.lat,defaultStartView.sw.lng]));
-// map.setZoom(3);
-
-let ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
-    ptmMoon = L.tileLayer(defaultMoonMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous' }),
-    ptmGranite = L.tileLayer(defaultGraniteMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
-    ptmMint = L.tileLayer(defaultMintMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
-    ptmHoney = L.tileLayer(defaultHoneyMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
-    ptmHay = L.tileLayer(defaultHayMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
-    ptmOlive = L.tileLayer(defaultOliveMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
-    ptmRedwood = L.tileLayer(defaultRedwoodMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'});
-
-let activeLayer = getStyle(currentStyle);
-activeLayer.addTo(map);
-
-setUserControls($data);
-
-let markerOnMap = new L.marker([defaultStartView.marker.lat,defaultStartView.marker.lng], {
-    icon: L.icon({
-    iconUrl: defaultMarkerStyleUrl,
-    iconSize: [24, 32],
-    iconAnchor: [12, 32], 
-    className: 'marker'
-}),
-draggable: true,
-}).addTo(map);
 
 L.control.zoom({position:'topright'}).addTo(map);
 
-// let gmapi = new XMLHttpRequest();
+$('.mapwindow').append($('.leaflet-control-container'));
 
-// gmapi.open('GET', 'https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=Oculus%20Rift%20Eindhoven&inputtype=textquery&fields=photos,formatted_address,geometry/location&key=AIzaSyCE1svBjPmf71zWMhdr5r0Xu9EDN2sxwHk', true);
-// gmapi.onload = function () {
+map.on('zoomend', function(){
+  formZoom.val(map.getZoom());
+  formCoordinates.val(JSON.stringify(map.getBounds()));
+  updateDebugger();
+});
+
+map.on('moveend', function(){
+  formCoordinates.val(JSON.stringify(map.getBounds()));
+  updateDebugger();
+});
+
+markerOnMap.on('dragend', function(){
+formMarkerCoordinates.val(markerOnMap.getLatLng());
+});
+
 
 let input = document.createElement("input");
     input.id = "searchBox";
@@ -201,7 +206,6 @@ const GooglePlacesSearchBox = L.Control.extend({
 });
 (new GooglePlacesSearchBox).addTo(map);
 
-$('.mapwindow').append($('.leaflet-control-container'));
 
 geocoderInput.append(input);
 geocoderInput.append(buttonUI);
@@ -217,38 +221,6 @@ buttonUI.on("click", "button", function(e){
   getMapData(e);
 });
 
-map.on('zoomend', function(){
-    formZoom.val(map.getZoom());
-    formCoordinates.val(JSON.stringify(map.getBounds()));
-    updateDebugger();
-});
-
-map.on('moveend', function(){
-    formCoordinates.val(JSON.stringify(map.getBounds()));
-    updateDebugger();
-});
-
-markerOnMap.on('dragend', function(){
-  formMarkerCoordinates.val(markerOnMap.getLatLng());
-});
-
-/* Setting defaults to UI */
-ptm_moment.val(defaultStartView.moment);
-$('#momentInput').val(defaultStartView.moment);
-$("#posterText .card-title").html(defaultStartView.moment);
-ptm_subline.val(defaultStartView.subline);
-$('#sublineInput').val(defaultStartView.subline);
-$("#posterText .card-text:first").html(defaultStartView.subline);
-ptm_tagline.val(defaultStartView.tagline);
-$('#taglineInput').val(defaultStartView.tagline);
-$("#posterText .card-text:last").html(defaultStartView.tagline);
-
-
-Celestial.display(config)
-Celestial.skyview({
-  "date": currentDateTime,
-  "location": currentLatLng
-})
 
 
 /* INITIAL BREAKPOINTS CHECK */
@@ -305,16 +277,14 @@ $(document).ready(function() {
     // });
 });
 
-
 function checkSize(){
-    // if ($(".sidebar-sticky").css('position') != 'sticky'){
-    if ($("#accordion > div").css('display') == 'none'){
-        isMobile = true;
-        addToCart.appendTo('#btnGroup');
-    } else {
-        // $('#accordion .navbar span').next().prepend(addToCart);
-    }
-
+  // if ($(".sidebar-sticky").css('position') != 'sticky'){
+  if ($("#accordion > div").css('display') == 'none'){
+      isMobile = true;
+      addToCart.appendTo('#btnGroup');
+  } else {
+      // $('#accordion .navbar span').next().prepend(addToCart);
+  }
 }
 
 // *** Resize Poster Canvas ***
@@ -848,22 +818,21 @@ function getCelestialPoster(){
       break;
   }
 
-  return {
-    form: true,
-    formFields: {
-      "location": false,
-      "general": false,  
-      "stars": false,  
-      "dsos": false,  
-      "constellations": false,  
-      "lines": false,  
-      "other": false,  
-      "download": true
+  return { 
+    ...config,
+    planets: { 
+      show: true,
+      which: ["lun"],
+      symbols: {
+        // "sol": {symbol: "\u2609", letter:"Su", fill: lines, size:"6"},
+        "lun": {symbol: "\u25cf", letter:"L", fill: lines, size:"20"},
+      },
+      symbolType: "symbol",
+      names: false,
     },
-    advanced: false,
     stars: { colors: false, style: { fill: lines } }, 
     dsos: { colors: false, style: { fill: lines, stroke: lines } }, 
-    constellations: { lineStyle: { stroke: lines } },
+    constellations: { lineStyle: { stroke: lines, width: 1, opacity:1 } },
     background: { fill: background, stroke: lines },
   }
 }
@@ -891,25 +860,42 @@ document.addEventListener('keyup', (e) => {
   };
 });
 
-$("#posterviewer .btn").click(function ( event ) {
-  
-  isStarMap = (event.target.value === 'sterrenposter') ? true : false
+$("#posterviewer").on("change", function ( event ) {
+  // const canvas = document.querySelector('#celestial-map canvas');
+  // const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+  // window.location.href = image;
+
+  $("#styleSelector").find("button.ptm-btn").each(function(){
+    $(this).toggleClass('d-none');
+  })
+
+  console.log(!event.target.checked)
+  isStarMap = !event.target.checked
 
   if(isStarMap){
+    $('#mapbox').addClass('invisible');
     $('#celestial-map').removeClass('d-none');
-    $('#mapbox').addClass('d-none');
     $('#placedatetime').removeClass('d-none').prev().removeClass('d-none');
     $('#markerSelector').addClass('d-none').prev().addClass('d-none')
 
+    $('#addToCart').attr('data-product_id', 12316);
+    $('#addToCart input[name="add-to-cart"]').val(12316);
+    $('#addToCart input[name="product_id"]').first().val(12316);
+    formVariationId.val(12322) // current selected overlapped variations (moon, granite)
+
     map.removeLayer(activeLayer);
     
-    config = { ...config, getCelestialPoster}
-    Celestial.display(config)
+    Celestial.display(getCelestialPoster())
   } else {
-    $('#mapbox').removeClass('d-none');
     $('#celestial-map').addClass('d-none');
+    $('#mapbox').removeClass('invisible');
     $('#placedatetime').addClass('d-none').prev().addClass('d-none');
     $('#markerSelector').removeClass('d-none').prev().removeClass('d-none')
+    
+    $('#addToCart').attr('data-product_id', 1144);
+    $('#addToCart input[name="add-to-cart"]').val(1144);
+    $('#addToCart input[name="product_id"]').first().val(1144);
+    formVariationId.val(1208) // current selected overlapped variations (moon, granite)
 
     activeLayer = getStyle(currentStyle);
     map.addLayer(activeLayer);    
@@ -945,7 +931,7 @@ $("#placedatetime").on("change", function( event ){
 
 let activeTab;
 
-$(".nav-item").click(function(e){
+$(".nav-item").on("click", function(e){
     
     if(e.target.id == "moment-tab"){
         $('main').addClass('moment');
@@ -978,7 +964,7 @@ $("#taglineInput").on("input", function(){
     ptm_tagline.val($(this).val());
 });
 
-$("#styleSelector .ptm-btn").click(function ( event ) {
+$("#styleSelector .ptm-btn").on("click", function ( event ) {
 
     $(this).parent().find("button").each(function(){
         $(this).removeClass('active');
@@ -993,8 +979,8 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
     if(isStarMap){
       activeLayer = getStyle(currentStyle);
 
-      config = { ...config, getCelestialPoster}
-      Celestial.display(config)
+      // config = { ...config, getCelestialPoster}
+      Celestial.display(getCelestialPoster())
     } else {
       // Citymap
       map.removeLayer(activeLayer);
@@ -1024,15 +1010,14 @@ $("#styleSelector .ptm-btn").click(function ( event ) {
 
 
 
-$('#markerSelector .ptm-btn').click(function ( event ) {
+$('#markerSelector .ptm-btn').on("click", function ( event ) {
 
     $(this).parent().find("label").each(function(){        
         $(this).removeClass('active');        
     });
 
-    defaultSnowMapStyle = $(this).attr('id');
-    defaultMarkerStyleUrl = getMarker(defaultSnowMapStyle);
-    formMarkerStyle.val(defaultSnowMapStyle);
+    defaultMarkerStyleUrl = getMarker($(this).attr('id'));
+    formMarkerStyle.val($(this).attr('id'));
     markerOnMap.setIcon(L.icon({ 
         iconUrl: defaultMarkerStyleUrl,
         iconSize: [24, 32],
@@ -1043,7 +1028,7 @@ $('#markerSelector .ptm-btn').click(function ( event ) {
 });
 
 
-$("#formatSelector .ptm-format-btn").click(function ( event ) {
+$("#formatSelector .ptm-format-btn").on("click", function ( event ) {
 
   $(this).parent().find("button").each(function(){
     $(this).removeClass('active');
@@ -1066,7 +1051,7 @@ document.getElementById("addToCart").addEventListener("click", function(event){
     let check = false;
 
 
-    if(!isIE()){
+    if(!isIE() && !isStarMap){
       leafletImage(map, function(err, canvas) {
 
           let dataURL = canvas.toDataURL('image/png');
@@ -1081,8 +1066,17 @@ document.getElementById("addToCart").addEventListener("click", function(event){
             $('#addToCart').submit();
           });
         });
+    } else if(isStarMap) {
+        let canvas = document.querySelector('#celestial-map canvas'),
+          dataURL = canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, "");
+          $.post("https://www.placethemoment.com/build/save.php", { savedMap: dataURL }, 
+          function(data) {
+            ptm_thumb.val(data);
+          })
+          .done(function(){
+            $('#addToCart').submit();
+          });
     } else {
-          $('#addToCart').submit();
-        }
-
+      $('#addToCart').submit();
+    }
 });
