@@ -254,7 +254,7 @@ $(document).ready(function() {
         $('#collapseThree').on('show.bs.collapse', function(){
             // $('#collapseTwo').collapse('hide');
             // $('#posterWrapper').css('transform', 'translateY(-30%)');
-            $('#posterWrapper').css('transform', 'scale(.6)');
+            $('#posterWrapper').css('transform', 'scale(.9)');
             
         });
         $('#collapseThree').on('hide.bs.collapse', function(){
@@ -885,14 +885,30 @@ $("#posterviewer").on("change", function ( event ) {
     $(this).toggleClass('d-none');
   })
 
-  console.log(!event.target.checked)
+  // fallback to moon if unknown color
+  if(currentStyle != "moon" || currentStyle != "granite"){
+    currentStyle = "moon";
+
+    // Celestial.display(getCelestialPoster())
+    activeLayer = getStyle(currentStyle);
+    // map.addLayer(activeLayer);
+
+    let posterSize = (currentFormat == '30x40') ? "small" : '';
+    $('.poster').attr('class','card poster '+posterSize+' '+currentStyle);
+    $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
+
+    $(this).parent().find("button").each(function(){
+      $(this).removeClass('active');
+  });
+  } 
+
   isStarMap = !event.target.checked
 
   if(isStarMap){
     $('#mapbox').addClass('invisible');
     $('#celestial-map').removeClass('d-none');
     $('#placedatetime').removeClass('d-none').prev().removeClass('d-none');
-    $('#markerSelector').addClass('d-none').prev().addClass('d-none')
+    $('#markerSelector').addClass('d-none').prev().addClass('d-none');
 
     $('#addToCart').attr('data-product_id', 12316);
     $('#addToCart input[name="add-to-cart"]').val(12316);
@@ -901,12 +917,12 @@ $("#posterviewer").on("change", function ( event ) {
 
     map.removeLayer(activeLayer);
     
-    Celestial.display(getCelestialPoster())
+    // Celestial.display(getCelestialPoster())
   } else {
     $('#celestial-map').addClass('d-none');
     $('#mapbox').removeClass('invisible');
     $('#placedatetime').addClass('d-none').prev().addClass('d-none');
-    $('#markerSelector').removeClass('d-none').prev().removeClass('d-none')
+    $('#markerSelector').removeClass('d-none').prev().removeClass('d-none');
     
     $('#addToCart').attr('data-product_id', 1144);
     $('#addToCart input[name="add-to-cart"]').val(1144);
@@ -1001,7 +1017,7 @@ $("#styleSelector .ptm-btn").on("click", function ( event ) {
       // Citymap
       map.removeLayer(activeLayer);
       activeLayer = getStyle(currentStyle);
-      map.addLayer(activeLayer);    
+      map.addLayer(activeLayer);
       
       markerOnMap.setIcon(L.icon({ 
         iconUrl: defaultMarkerStyleUrl,

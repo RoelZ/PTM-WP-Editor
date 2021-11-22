@@ -372,6 +372,9 @@ body {
     }
   }
 }
+.leaflet-control-zoom.back {
+  animation-name: flipLeft;
+}
 
 @include media-breakpoint-down(md){
   .posterArea {    
@@ -403,6 +406,9 @@ body {
       box-shadow: none;
     }
   }
+  .leaflet-control-zoom.back {
+    animation-direction: reverse
+}
 }
 @media screen and ( max-height: 699px ) {
   .leaflet-control-zoom {
@@ -434,6 +440,22 @@ body {
   }
   to {
     transform: rotateY(0deg);
+  }
+}
+@keyframes flipDown {
+  from { 
+    transform: rotateX(0deg);
+  }
+  to {
+    transform: rotateX(90deg);
+  }
+}
+@keyframes flipLeft {
+  from { 
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(90deg);
   }
 }
 
