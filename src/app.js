@@ -91,7 +91,6 @@ let config = {
   }
 }
 
-
 let productId = $('#addToCart input[name="product_id"]').val();
 let isStarMap = (productId != "1144")
 let isMobile = false;
@@ -648,7 +647,7 @@ function getStyle(name){
         return ptmHoney
     }
     
-    currentPrice = (currentFormat === '30x40') ? 45 : 49
+    currentPrice = (currentFormat === '30x40') ? 39 : 42
     formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
 
   } else {
@@ -662,7 +661,7 @@ function getStyle(name){
         return maputnikStyle;
     }
 
-    currentPrice = (currentFormat === '30x40') ? 45 : 49
+    currentPrice = (currentFormat === '30x40') ? 39 : 42
     formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
 
     switch(name) {
@@ -908,7 +907,7 @@ $("#posterviewer").on("change", function ( event ) {
     $('#mapbox').addClass('invisible');
     $('#celestial-map').removeClass('d-none');
     $('#placedatetime').removeClass('d-none').prev().removeClass('d-none');
-    $('#markerSelector').addClass('d-none').prev().addClass('d-none');
+    document.querySelector('#markerSelector').previousElementSibling.classList.toggle("d-none");
 
     $('#addToCart').attr('data-product_id', 12316);
     $('#addToCart input[name="add-to-cart"]').val(12316);
@@ -922,7 +921,7 @@ $("#posterviewer").on("change", function ( event ) {
     $('#celestial-map').addClass('d-none');
     $('#mapbox').removeClass('invisible');
     $('#placedatetime').addClass('d-none').prev().addClass('d-none');
-    $('#markerSelector').removeClass('d-none').prev().removeClass('d-none');
+    document.querySelector('#markerSelector').previousElementSibling.classList.toggle("d-none");
     
     $('#addToCart').attr('data-product_id', 1144);
     $('#addToCart input[name="add-to-cart"]').val(1144);

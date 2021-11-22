@@ -1,8 +1,46 @@
-TODO
-====
+# TODO - Star poster
+NEW
+---
+- ~~iconen~~
+- ~~marker kleur weg~~
+- ~~achtergrond kleuren~~
+- ~~prijs doorstrepen (50x70: €42.61, 30x40: €39.13)~~
+- toggle eruit
+- maan is blauw
+- hay zwarte lijnen dunner (backlog)
+
+Print
+---
+- kleuren en mw opacity kleuren
+
+Editor
+- ~~Mobile fixes (toggle, canvas sterren)~~
+- ~~Canvas updaten met final config (milkyway, kleuren)~~
+- ~~Save to cart (NL) - Variation_id not set~~
+- ~~Styles (kleuren) updaten~~
+- Canvas niet in het midden
+- GTM
+
+Cart
+---
+- ~~screenshot~~
+- draft link (tijdelijk) verwijderen
+
+Order
+---
+- 
+- Print poster link (geen tiles, maar eigen oplossing obv placeid?/location en datetime)
+
+
+
+Dashboard
+---
+- tonen van star posters
+
+# TODO - Map poster
 
 UX
-----
+---
 - CheckSize() verneukt mobiel keypad (gelinkt met bovenstaande)
 - Schaduw achter poster toevoegen
 - Next button (per panel)
