@@ -95,3 +95,9 @@ $font-family-base: 'Open Sans';
         box-shadow: none;
     }
 }
+
+#celestial-map canvas {
+    min-width: 447px !important;
+    max-width: 447px !important;
+    width: 447px !important;
+}

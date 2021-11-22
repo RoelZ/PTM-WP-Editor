@@ -36,8 +36,12 @@ const map = L.map('mapbox', {
 
 const $data = ($.trim($('#debugger').html()).length) ? Object.create([JSON.parse($.trim($('#debugger').html()))]) : [];
 
+const starposter = {
+  width: 446 // 446, 2910, 4749
+}
+
 let config = {
-  width: 446,   // 446, 2910, 4749
+  width: starposter.width,  
   container: "celestial-map",
   projection: "airy",   // airy, azimuthal, berghaus star, orthographic, wiechel, 
   datapath: 'https://ofrohn.github.io/data/',
@@ -324,7 +328,7 @@ size: {
 }
 doResize(null, starterData);
 
-$(window).resize(function() {
+$(window).on('resize', function() {
     starterData = { 
         size: {
             width: $wrapper.width(),
@@ -830,6 +834,7 @@ function getCelestialPoster(){
 
   return { 
     ...config,
+    width: 446,
     planets: { 
       show: true,
       which: ["lun"],
