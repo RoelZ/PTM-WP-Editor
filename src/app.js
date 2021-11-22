@@ -74,7 +74,8 @@ let config = {
     lines: true,
   },
   mw: {
-    show: false,
+    show: true,  
+    style: { fill:"#6B6F76", opacity:"0.4" }
   },
   dsos: { show: false, names: false },
   lines: {
@@ -779,42 +780,51 @@ function getMarker(style, poster = false){
 }
 
 function getCelestialPoster(){
-  let lines = "";
-  let background = ""
+  let lines = "",
+      background = "",
+      mw = "";
 
   switch(currentStyle){
     case 'snow':
       lines = "#000"
-      background = "#fff"
+      background = "#fff",
+      mw = "#ffffff"
       break;
     case 'moon':
     case 'granite':   // '#54575c'
       lines = "#fff"
-      background = "#54575c"
+      background = "#54575c",
+      mw = "#6B6F76"
       break;
     case 'mint':    // #6fa189'
       lines = "#fff"
-      background = "#6fa189"
+      background = "#6fa189",
+      mw = "#90B6A4"
       break;
     case 'honey':   // #d8ae46'
       lines = "#000"
-      background = "#d8ae46"
+      background = "#d8ae46",
+      mw = "#DFBD68"
       break;
     case 'hay':   // #d8ae46'
       lines = "#000"
-      background = "#DCB771"
+      background = "#DCB771",
+      mw = "#E7CD9D"
       break;
     case 'olive':   // #d8ae46'
       lines = "#fff"
-      background = "#92886f"
+      background = "#92886f",
+      mw = "#A79F8B"
       break;
     case 'redwood':   // #d8ae46'
       lines = "#fff"
-      background = "#a3523e"
+      background = "#a3523e",
+      mw = "#BC644E"
       break;
     default:
       lines = "#000"
       background = "#fff"
+      mw = "#ffffff"
       break;
   }
 
@@ -830,6 +840,7 @@ function getCelestialPoster(){
       symbolType: "symbol",
       names: false,
     },
+    mw: { style: { fill: mw } },
     stars: { colors: false, style: { fill: lines } }, 
     dsos: { colors: false, style: { fill: lines, stroke: lines } }, 
     constellations: { lineStyle: { stroke: lines, width: 1, opacity:1 } },
