@@ -25,7 +25,7 @@ const ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 
       ptmHay = L.tileLayer(defaultHayMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
       ptmOlive = L.tileLayer(defaultOliveMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
       ptmRedwood = L.tileLayer(defaultRedwoodMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'}),
-      ptmDustyPink = L.tileLayer(defaultRedwoodMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'});
+      ptmDustyRose = L.tileLayer(defaultRedwoodMapStyle, { attribution: false, maxZoom: 18, minZoom: 2, crossOrigin: 'anonymous'});
 
 // const map = L.map('mapbox', { 
 //         renderer: L.canvas(),
@@ -661,13 +661,13 @@ function getStyle(name){
         (productId === '12328' && currentFormat === '50x70') ? formVariationId.val(12338) :
         null
         return ptmRedwood
-      case 'dustypink':
+      case 'dustyrose':
         (productId === '12316' && currentFormat === '30x40') ? formVariationId.val(12370) : 
         (productId === '12316' && currentFormat === '50x70') ? formVariationId.val(12371) :
         (productId === '12328' && currentFormat === '30x40') ? formVariationId.val(12372) :
         (productId === '12328' && currentFormat === '50x70') ? formVariationId.val(12373) :
         null
-        return ptmDustyPink
+        return ptmDustyRose
       case 'snow':
         return ptmSnow
       case 'mint':
@@ -715,8 +715,8 @@ function getStyle(name){
         return ptmOlive
       case 'redwood':
         return ptmRedwood
-      case 'dustypink':
-        return ptmDustyPink
+      case 'dustyrose':
+        return ptmDustyRose
     }
   }
     
@@ -855,7 +855,7 @@ function getCelestialPoster(){
       background = "#a3523e",
       mw = "#BC644E"
       break;
-    case 'dustypink':   // #b08782'
+    case 'dustyrose':   // #b08782'
       lines = "#fff"
       background = "#b08782",
       mw = "#C09F9B"

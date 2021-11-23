@@ -224,13 +224,13 @@ body {
       color:$ptmOlive !important;
     }
   }
-  &.dustypink {
+  &.dustyrose {
     background-color: $ptmKabana !important;
     .mapwindow #mapbox {
       border-color:white;
     }
     h3, p {
-      color:$ptmDustyPink !important;
+      color:$ptmDustyRose !important;
     }
   }
   &.redwood {
@@ -319,11 +319,11 @@ body {
         background-color: $ptmOlive !important;
     }
   }
-  &.dustypink {
+  &.dustyrose {
     background-color: $ptmKabana !important;
     .ptm-map-color-icon {
       border-color:white;
-        background-color: $ptmDustyPink !important;
+        background-color: $ptmDustyRose !important;
     }
   }
   &.redwood {
