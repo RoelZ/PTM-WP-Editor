@@ -46,7 +46,7 @@
                                 <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
                                     <div class="position-absolute d-lg-none ptm-close"><button class="btn btn-link" data-target="#collapseOne" data-toggle="collapse"><i class="fa fa-times"></i></button></div>
                                     <div class="card-body">
-                                        <span class="d-none d-lg-block mb-3">
+                                        <span class="d-lg-block mb-3">
                                             Choose your place from anywhere in the world. The city you grew up, the exact address you had your first kiss or the country where you had your best holiday ever.
                                         </span>
                                         <label class="sidebar-heading text-muted" for="geocoder">
@@ -54,10 +54,10 @@
                                         </label>
                                         <div id='geocoder' class='geocoder input-group'></div>
 
-                                        <label class="sidebar-heading text-muted d-none" for="placedatetime">
+                                        <label class="sidebar-heading text-muted" for="placedatetime">
                                             Date and time
                                         </label>
-                                        <input type="datetime-local" class="form-control d-none" id="placedatetime" />
+                                        <input type="datetime-local" class="form-control" id="placedatetime" />
                                         <a href="https://wa.me/31850470420" class="btn font-weight-normal pl-1 d-lg-none" style="text-decoration: underline">
                                             Need help? Chat with us!<i class="fa-lg fa-whatsapp fab ml-2 py-1"></i>
                                         </a>
@@ -108,7 +108,7 @@
                                         <div id="styleSelector">
                                         <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 px-lg-3 sidebar-heading text-muted"><span>Map Color</span></h6>
                                         <div class="btn-group ptm-poster-styles" data-toggle="buttons">
-                                            <button id="snow" class="ptm-btn btn">
+                                            <button id="snow" class="ptm-btn d-none btn">
                                                 <div class="ptm-map-color-btn snow">
                                                     <div class="ptm-map-color-icon">
                                                         <img src="https://www.placethemoment.com/images/map-icon-black-lines.svg" />
@@ -116,42 +116,10 @@
                                                 </div>
                                                 <span>Snow</span>
                                             </button>
-                                            <button id="moon" class="ptm-btn btn pl-lg-0 active">
+                                            <button id="moon" class="ptm-btn d-none btn pl-lg-0 active">
                                                 <div class="ptm-map-color-btn moon">
                                                     <div class="ptm-map-color-icon">
                                                         <img src="https://www.placethemoment.com/images/map-icon-white-lines.svg" />
-                                                    </div>
-                                                </div>
-                                                <span>Moon</span>
-                                            </button>
-                                            <button id="granite" class="ptm-btn pl-lg-0 btn">
-                                                <div class="ptm-map-color-btn granite">
-                                                    <div class="ptm-map-color-icon">
-                                                        <img src="https://www.placethemoment.com/images/map-icon-white-lines.svg"/>
-                                                    </div>
-                                                </div>
-                                                <span>Granite</span>
-                                            </button>
-                                            <button id="mint" class="ptm-btn pl-lg-0 btn">
-                                                <div class="ptm-map-color-btn mint">
-                                                    <div class="ptm-map-color-icon">
-                                                        <img src="https://www.placethemoment.com/images/map-icon-white-lines.svg" />
-                                                    </div>
-                                                </div>
-                                                <span>Mint</span>
-                                            </button>
-                                            <button id="honey" class="ptm-btn px-lg-0 btn">
-                                                <div class="ptm-map-color-btn honey">
-                                                    <div class="ptm-map-color-icon">
-                                                        <img src="https://www.placethemoment.com/images/map-icon-black-lines.svg" />
-                                                    </div>
-                                                </div>
-                                                <span>Honey</span>
-                                            </button>                                            
-                                            <button id="moon" class="ptm-btn d-none btn pl-lg-0">
-                                                <div class="ptm-map-color-btn moon">
-                                                    <div class="ptm-map-color-icon">
-                                                        <img src="https://www.placethemoment.com/images/star-icon-white-lines.svg" />
                                                     </div>
                                                 </div>
                                                 <span>Moon</span>
@@ -159,12 +127,44 @@
                                             <button id="granite" class="ptm-btn d-none pl-lg-0 btn">
                                                 <div class="ptm-map-color-btn granite">
                                                     <div class="ptm-map-color-icon">
+                                                        <img src="https://www.placethemoment.com/images/map-icon-white-lines.svg"/>
+                                                    </div>
+                                                </div>
+                                                <span>Granite</span>
+                                            </button>
+                                            <button id="mint" class="ptm-btn d-none pl-lg-0 btn">
+                                                <div class="ptm-map-color-btn mint">
+                                                    <div class="ptm-map-color-icon">
+                                                        <img src="https://www.placethemoment.com/images/map-icon-white-lines.svg" />
+                                                    </div>
+                                                </div>
+                                                <span>Mint</span>
+                                            </button>
+                                            <button id="honey" class="ptm-btn d-none px-lg-0 btn">
+                                                <div class="ptm-map-color-btn honey">
+                                                    <div class="ptm-map-color-icon">
+                                                        <img src="https://www.placethemoment.com/images/map-icon-black-lines.svg" />
+                                                    </div>
+                                                </div>
+                                                <span>Honey</span>
+                                            </button>                                            
+                                            <button id="moon" class="ptm-btn btn pl-lg-0">
+                                                <div class="ptm-map-color-btn moon">
+                                                    <div class="ptm-map-color-icon">
+                                                        <img src="https://www.placethemoment.com/images/star-icon-white-lines.svg" />
+                                                    </div>
+                                                </div>
+                                                <span>Moon</span>
+                                            </button>
+                                            <button id="granite" class="ptm-btn pl-lg-0 btn">
+                                                <div class="ptm-map-color-btn granite">
+                                                    <div class="ptm-map-color-icon">
                                                         <img src="https://www.placethemoment.com/images/star-icon-white-lines.svg"/>
                                                     </div>
                                                 </div>
                                                 <span>Granite</span>
                                             </button>
-                                            <button id="olive" class="ptm-btn d-none px-lg-0 btn">
+                                            <button id="olive" class="ptm-btn px-lg-0 btn">
                                                 <div class="ptm-map-color-btn olive">
                                                     <div class="ptm-map-color-icon">
                                                         <img src="https://www.placethemoment.com/images/star-icon-white-lines.svg" />
@@ -172,7 +172,7 @@
                                                 </div>
                                                 <span>Olive</span>
                                             </button> 
-                                            <button id="hay" class="ptm-btn d-none px-lg-0 btn">
+                                            <button id="hay" class="ptm-btn px-lg-0 btn">
                                                 <div class="ptm-map-color-btn hay">
                                                     <div class="ptm-map-color-icon">
                                                         <img src="https://www.placethemoment.com/images/star-icon-black-lines.svg" />
@@ -180,7 +180,7 @@
                                                 </div>
                                                 <span>Hay</span>
                                             </button> 
-                                            <button id="redwood" class="ptm-btn d-none px-lg-0 btn">
+                                            <button id="redwood" class="ptm-btn px-lg-0 btn">
                                                 <div class="ptm-map-color-btn redwood">
                                                     <div class="ptm-map-color-icon">
                                                         <img src="https://www.placethemoment.com/images/star-icon-white-lines.svg" />
@@ -188,10 +188,18 @@
                                                 </div>
                                                 <span>Redwood</span>
                                             </button>
+                                            <button id="dustypink" class="ptm-btn px-lg-0 btn">
+                                                <div class="ptm-map-color-btn dustypink">
+                                                    <div class="ptm-map-color-icon">
+                                                        <img src="https://www.placethemoment.com/images/star-icon-white-lines.svg" />
+                                                    </div>
+                                                </div>
+                                                <span>Dusty Pink</span>
+                                            </button>
                                         </div>
                                     </div>
-                                    <h6 class="mt-2 px-3 sidebar-heading text-muted">Marker Color</h6>
-                                    <div id="markerSelector" class="card-body">
+                                    <h6 class="d-none mt-2 px-3 sidebar-heading text-muted">Marker Color</h6>
+                                    <div id="markerSelector" class="d-none card-body">
                                         <div class="btn-group ptm-poster-styles" data-toggle="buttons">
                                         <label id="granite" class="ptm-btn btn pl-lg-0">
                                             <svg class="marker" x="0px" y="0px" viewBox="0 0 326.4 402.9" style="enable-background:new 0 0 326.4 402.9;" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve">
@@ -284,11 +292,11 @@
                                 Finish your order to create a lasting memory
                             </span>
                     
-                            <form id="addToCart" class="form-inline my-lg-0 p-lg-2 w-100" method="post" enctype="multipart/form-data" data-product_id="1144" action="https://www.placethemoment.com/nl/shop/sterrenposter/">
-                                <input type="hidden" name="add-to-cart" value="1144">
-                                <input type="hidden" name="product_id" value="1144">
+                            <form id="addToCart" class="form-inline my-lg-0 p-lg-2 w-100" method="post" enctype="multipart/form-data" data-product_id="12328" action="https://www.placethemoment.com/nl/shop/sterrenposter/">
+                                <input type="hidden" name="add-to-cart" value="12328">
+                                <input type="hidden" name="product_id" value="12328">
                                 <input type="hidden" name="quantity" value="1">
-                                <input type="hidden" name="variation_id" class="variation_id" value="12323">
+                                <input type="hidden" name="variation_id" class="variation_id" value="12322">
                                 <input type="hidden" name="placeid" value="">
                                 <input type="hidden" name="coordinates" value="">
                                 <input type="hidden" name="zoom" value="">
@@ -331,13 +339,13 @@
                 <div id="progress" class="linear-activity">
                     <div class="indeterminate d-none"></div>
                 </div>
-                <div class="container--toggle">
+                <!-- <div class="container--toggle">
                     <input aria-label="dark mode toggle" role="switch" aria-checked="true" type="checkbox" checked id="posterviewer" class="toggle--checkbox" readonly="">
                     <label for="posterviewer" class="toggle--label">
                         <span class="toggle--label-background"></span>
                         dark mode toggle
                     </label>
-                </div>
+                </div> -->
                 <div id="debugger" class="debugPanel d-none">
                     {"ID":"0","order_id":"8763","hashurl":"5f0817d5a84e8","cor_ne_lat":"51.50516313735562","cor_ne_lng":"-0.09582996368408205","cor_sw_lat":"51.49282033577651","cor_sw_lng":"-0.11565685272216798","map_style":"1209","map_format":"2415","mark_ne_lat":"51.498511263481035","mark_ne_lng":"-0.10595798492431642","mark_style":"heart","text_moment":"WHERE WE SAID YES TO A LIFETIME TOGETHER","text_subline":"Shakespeare's Globe","text_tagline":"London SE1 9DT - Verenigd Koninkrijk"}
                 </div>
@@ -351,8 +359,8 @@
                     <div id="posterWrapper" class="posterArea">
                         <div id="posterCanvas" class="card poster">
                             <div class="mapwindow">
-                                <div id="celestial-map" class="d-none"></div>
-                                <div id="mapbox" class="card-img-top"></div>
+                                <div id="celestial-map"></div>
+                                <!-- <div id="mapbox" class="card-img-top"></div> -->
                             </div>
                             <div id="posterText" class="card-body">
                                 <h3 class="card-title text-center">My Moment</h3>

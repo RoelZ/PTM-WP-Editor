@@ -97,10 +97,10 @@ if(pll_current_language() == 'nl'){
                         <a class="d-block" href="https://www.placethemoment.com/">
                             <img class="w-75 mx-5 my-3" src="https://www.placethemoment.com/wp-content/uploads/2018/06/logo-original-vector.svg" alt="Place The Moment" id="logo" data-height-percentage="100" data-actual-width="300" data-actual-height="110">
                         </a>
-                        <div id="posterviewer" class="btn-group w-100" role="group" aria-label="Basic example">
+                        <!-- <div id="posterviewer" class="btn-group w-100" role="group" aria-label="Basic example">
                             <button type="button" value="stadsposter" class="btn btn-light">Stad poster</button>
                             <button type="button" value="sterrenposter" class="btn btn-dark">Sterren poster</button>
-                        </div>
+                        </div> -->
                     </div>
 
                             <div class="card bg-lighter">
@@ -185,10 +185,10 @@ if(pll_current_language() == 'nl'){
                                             {
                                                 if($i == 0){
                                                     $variations = array_reverse($other_available_variations);
-                                                    $display = 'd-none';
+                                                    $display = '';
                                                 } else {
                                                     $variations = $available_variations;
-                                                    $display = '';
+                                                    $display = 'd-none';
                                                 }
 
                                                 foreach ($variations as $key => $value) 
@@ -210,10 +210,18 @@ if(pll_current_language() == 'nl'){
                                                     if($value['attributes']['attribute_pa_dimensions'] == '50x70'){
                                                     echo  '<button id="'.$value['attributes']['attribute_design'].'" class="ptm-btn btn '.$padding.' '.$active.' '.$display.'">
                                                         <div class="ptm-map-color-btn '.$value['attributes']['attribute_design'].'">';
-                                                        if($value['attributes']['attribute_design'] == 'snow' || $value['attributes']['attribute_design'] == 'honey' || $value['attributes']['attribute_design'] == 'redwood' || $value['attributes']['attribute_design'] == 'olive'){
-                                                            echo '<div class=ptm-map-color-icon> <img src=https://www.placethemoment.com/wp-content/uploads/2018/07/map-icon-black-lines.svg /> </div>';
+                                                        if($i == 0){
+                                                            if($value['attributes']['attribute_design'] == 'snow' || $value['attributes']['attribute_design'] == 'honey'){
+                                                                echo '<div class=ptm-map-color-icon> <img src=https://www.placethemoment.com/images/map-icon-black-lines.svg /> </div>';
+                                                            } else {
+                                                                echo '<div class=ptm-map-color-icon> <img src=https://www.placethemoment.com/images/map-icon-white-lines.svg /> </div>';
+                                                            }
                                                         } else {
-                                                            echo '<div class=ptm-map-color-icon> <img src=https://www.placethemoment.com/wp-content/uploads/2018/07/map-icon-white-lines.svg /> </div>';
+                                                            if($value['attributes']['attribute_design'] == 'hay'){
+                                                                echo '<div class=ptm-map-color-icon> <img src=https://www.placethemoment.com/images/star-icon-black-lines.svg /> </div>';
+                                                            } else {
+                                                                echo '<div class=ptm-map-color-icon> <img src=https://www.placethemoment.com/images/star-icon-white-lines.svg /> </div>';
+                                                            }
                                                         }
                                                         echo '</div> <span>'.ucfirst($value['attributes']['attribute_design']).'</span>
                                                     </button>';
@@ -312,7 +320,7 @@ if(pll_current_language() == 'nl'){
                                 <input type="hidden" name="add-to-cart" value="<?= $currentProduct ?>">
                                 <input type="hidden" name="product_id" value="<?= $currentProduct ?>">
                                 <input type="hidden" name="quantity" value="1">
-                                <input type="hidden" name="variation_id" class="variation_id" value="1208">
+                                <input type="hidden" name="variation_id" class="variation_id" value="12323">
                                 <input type="hidden" name="placeid" value="">
                                 <input type="hidden" name="coordinates" value="">
                                 <input type="hidden" name="zoom" value="">
@@ -402,6 +410,9 @@ if(pll_current_language() == 'nl'){
 ?>
 
 <script type="text/javascript">
+    // $(function(){
+    //     document.getElementById("posterviewer").click();
+    // })
   setTimeout(function() {
   document.getElementById('customer-chat').classList.add('show');
   }, 5000);

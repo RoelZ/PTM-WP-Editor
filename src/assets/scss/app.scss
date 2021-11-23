@@ -107,8 +107,11 @@ body {
     height:466px;
     margin:85px auto;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transform-origin: center center;
-    transition: all 300ms ease-in-out;
+    transition: all 300ms ease-in-out;    
     
     .preloader {
       display: none;

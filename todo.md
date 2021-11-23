@@ -5,9 +5,13 @@ NEW
 - ~~marker kleur weg~~
 - ~~achtergrond kleuren~~
 - ~~prijs doorstrepen (50x70: €42.61, 30x40: €39.13)~~
+- defaultStyle wordt niet geset door parameters
+- 30x40 valt te klein in poster
 - toggle eruit
 - maan is blauw
 - hay zwarte lijnen dunner (backlog)
+- GTM Event triggers (datetime, en dubbele trigger op place)
+- Tijdelijke BF price!
 
 Print
 ---
