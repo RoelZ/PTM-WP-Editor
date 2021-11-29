@@ -78,6 +78,7 @@ let config = {
   constellations: {
     names: false,  // Show constellation names
     lines: true,
+    lineStyle: { stroke: '#ffffff', width: 1.3, opacity:1 },
   },
   mw: {
     show: true,  
@@ -625,6 +626,9 @@ function addCartParameters(style = 'moon', format = '50x70'){
 function getStyle(name){
 
   if(isStarMap){
+
+    currentPrice = (currentFormat === '30x40') ? 45 : 49
+
     switch(name) {
       case 'moon':
         (productId === '12316' && currentFormat === '30x40') ? formVariationId.val(12317) : 
@@ -676,13 +680,6 @@ function getStyle(name){
         return ptmHoney
     }
     
-    currentPrice = (currentFormat === '30x40') ? 42 : 49
-    let priceTags = document.querySelectorAll('.pricetag');
-    for (var i = 0, tag = priceTags.length; i < tag; i++) {
-      tag.innerHTML = `&euro;${currentPrice}`;
-    }
-    // formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
-
   } else {
 
     if(name == 'mapboxStyle'){
@@ -694,12 +691,7 @@ function getStyle(name){
         return maputnikStyle;
     }
 
-    currentPrice = (currentFormat === '30x40') ? 42 : 49
-    let priceTags = document.querySelectorAll('.pricetag');
-    for (var i = 0, tag = priceTags.length; i < tag; i++) {
-      tag.innerHTML = `&euro;${currentPrice}`;
-    }
-    // formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
+    currentPrice = (currentFormat === '30x40') ? 45 : 49
 
     switch(name) {
       case 'snow':
@@ -891,7 +883,7 @@ function getCelestialPoster(){
     mw: { style: { fill: mw } },
     stars: { colors: false, style: { fill: lines } }, 
     dsos: { colors: false, style: { fill: lines, stroke: lines } }, 
-    constellations: { lineStyle: { stroke: lines, width: 1, opacity:1 } },
+    constellations: { lineStyle: { stroke: lines, width: 2, opacity:1 } },
     background: { fill: background, stroke: lines },
   }
 }
@@ -1116,6 +1108,14 @@ $("#formatSelector .ptm-format-btn").on("click", function ( event ) {
   let posterSize = (currentFormat == '30x40') ? "small" : '';
   $('.poster').attr('class','card poster '+posterSize+' '+currentStyle);
   $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
+
+  const priceTags = document.querySelectorAll('.pricetag');
+  priceTags.forEach(price => {
+    console.log(price.innerHTML);
+    price.innerHTML = `&euro;${currentPrice}`;
+    console.log(price.innerHTML);
+  });
+
 });
 
 
