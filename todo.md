@@ -1,17 +1,17 @@
 # TODO - Star poster
 NEW
 ---
+- Tijdelijke BF price!
 - ~~iconen~~
 - ~~marker kleur weg~~
 - ~~achtergrond kleuren~~
 - ~~prijs doorstrepen (50x70: €42.61, 30x40: €39.13)~~
+- ~~toggle eruit~~
 - defaultStyle wordt niet geset door parameters
 - 30x40 valt te klein in poster
-- toggle eruit
-- maan is blauw
+- maan is blauw (canvas.js in source code #669 #557)
 - hay zwarte lijnen dunner (backlog)
 - GTM Event triggers (datetime, en dubbele trigger op place)
-- Tijdelijke BF price!
 
 Print
 ---
@@ -22,8 +22,8 @@ Editor
 - ~~Canvas updaten met final config (milkyway, kleuren)~~
 - ~~Save to cart (NL) - Variation_id not set~~
 - ~~Styles (kleuren) updaten~~
-- Canvas niet in het midden
-- GTM
+- ~~GTM~~
+- ~~Canvas niet in het midden~~
 
 Cart
 ---

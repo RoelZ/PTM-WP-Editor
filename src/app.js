@@ -108,7 +108,7 @@ let formPlaceId = $('#addToCart input[name="placeid"]');
 let formLocation = $('#addToCart input[name="location"]');
 let formDateTime = $('#addToCart input[name="datetime"]');
 let formVariationId = $('#addToCart input[name="variation_id"]');
-let formPrice = $('#addToCart button[type="submit"]').find('span').not(":last-child");
+let formPrice = $('.pricetag');
 
 let ptm_moment = $('#addToCart input[name="ptm_moment"]');
 let ptm_subline = $('#addToCart input[name="ptm_subline"]');
@@ -117,7 +117,7 @@ let ptm_thumb = $('#addToCart input[name="ptm_thumb"]');
 
 let defaultStartView = defaultView($data);
 
-let currentPrice = 42;
+let currentPrice = 49;
 // let currentMarkerStyle = defaultMarker($data);
 let currentFormat = defaultFormat($data);
 let currentStyle = defaultStyle($data);
@@ -676,8 +676,12 @@ function getStyle(name){
         return ptmHoney
     }
     
-    currentPrice = (currentFormat === '30x40') ? 39 : 42
-    formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
+    currentPrice = (currentFormat === '30x40') ? 42 : 49
+    let priceTags = document.querySelectorAll('.pricetag');
+    for (var i = 0, tag = priceTags.length; i < tag; i++) {
+      tag.innerHTML = `&euro;${currentPrice}`;
+    }
+    // formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
 
   } else {
 
@@ -690,8 +694,12 @@ function getStyle(name){
         return maputnikStyle;
     }
 
-    currentPrice = (currentFormat === '30x40') ? 39 : 42
-    formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
+    currentPrice = (currentFormat === '30x40') ? 42 : 49
+    let priceTags = document.querySelectorAll('.pricetag');
+    for (var i = 0, tag = priceTags.length; i < tag; i++) {
+      tag.innerHTML = `&euro;${currentPrice}`;
+    }
+    // formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
 
     switch(name) {
       case 'snow':
