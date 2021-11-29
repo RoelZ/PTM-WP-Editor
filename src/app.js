@@ -3,7 +3,6 @@ require('webpack-jquery-ui/resizable');
 import L from 'leaflet';
 import leafletImage from 'leaflet-image';   // handmatige fix: https://github.com/mapbox/leaflet-image/issues/41
 import './assets/js/Control.Loading';
-import 'd3-celestial'
 
 import './assets/scss/app.scss';
 import './assets/css/Control.Loading.css';
@@ -36,63 +35,7 @@ const map = L.map('mapbox', {
 
 const $data = ($.trim($('#debugger').html()).length) ? Object.create([JSON.parse($.trim($('#debugger').html()))]) : [];
 
-const starposter = {
-  width: 446 // 446, 2910, 4749
-}
-
-let config = {
-  width: starposter.width,  
-  container: "celestial-map",
-  projection: "airy",   // airy, azimuthal, berghaus star, orthographic, wiechel, 
-  datapath: 'https://ofrohn.github.io/data/',
-  interactive: false,
-  controls: false,     // Display zoom controls
-  form: false,        // Display settings form
-  formFields: {
-    "location": true,  // Set visiblity for each group of fields with the respective id
-    "general": true,  
-    "stars": true,  
-    "dsos": false,  
-    "constellations": true,  
-    "lines": true,  
-    "other": false,  
-    "download": false
-  },
-  advanced: false,     // Display fewer form fields if false
-  background: {        // Background style
-    fill: "#54575c",   // Area fill
-    opacity: 1, 
-    stroke: "#54575c", // Outline
-    width: 1
-  }, 
-  stars: {
-    show: true,    // Show stars
-    limit: 6,      // Show only stars brighter than limit magnitude
-    size: 7,
-    colors: false,  // Show stars in spectral colors, if not use "color"
-    names: false, 
-    designation: false,
-  },
-  constellations: {
-    names: false,  // Show constellation names
-    lines: true,
-  },
-  mw: {
-    show: true,  
-    style: { fill:"#6B6F76", opacity:"0.4" }
-  },
-  dsos: { show: false, names: false },
-  lines: {
-    graticule: { show: false },
-    equatorial: { show: false },
-    ecliptic: { show: false },
-    galactic: { show: false },
-    supergalactic: { show: false }
-  }
-}
-
 let productId = $('#addToCart input[name="product_id"]').val();
-let isStarMap = (productId != "1144")
 let isMobile = false;
 
 // Hidden Form values
@@ -103,8 +46,6 @@ let formPlaceId = $('#addToCart input[name="placeid"]');
 let formZoom = $('#addToCart input[name="zoom"]');
 let formMarkerCoordinates = $('#addToCart input[name="marker_coordinates"]');
 let formMarkerStyle = $('#addToCart input[name="marker_style"]');
-let formLocation = $('#addToCart input[name="location"]');
-let formDateTime = $('#addToCart input[name="datetime"]');
 let formVariationId = $('#addToCart input[name="variation_id"]');
 let formPrice = $('#addToCart button[type="submit"]').find('span').not(":last-child");
 
@@ -119,7 +60,6 @@ let currentPrice = 49;
 let currentMarkerStyle = defaultMarker($data);
 let currentFormat = defaultFormat($data);
 let currentStyle = defaultStyle($data);
-let currentDateTime = Date.now();
 let currentLatLng = [defaultStartView.ne.lat, defaultStartView.ne.lng]
 
 let defaultMarkerStyleUrl = getMarker(currentMarkerStyle);
@@ -149,17 +89,6 @@ $("#posterText .card-text:last").html(defaultStartView.tagline);
 
 activeLayer.addTo(map);
 markerOnMap.addTo(map);
-
-// console.log($('#addToCart input[name="product_id"]').val())
-console.log(isStarMap)
-
-// if(isStarMap){
-  
-Celestial.display(config)
-Celestial.skyview({
-  "date": currentDateTime,
-  "location": currentLatLng
-})
 
   // UI
   // $('#mapbox').addClass('d-none');
@@ -381,19 +310,6 @@ function getMapData(e){
         else
             tagline = locationCity ? locationCity+" - "+locationCountry : locationCountry;
 
-        // Star map
-        if(isStarMap){
-          formLocation.val(currentLatLng)
-          formDateTime.val(currentDateTime)
-
-          Celestial.skyview({
-            "date": currentDateTime,
-            "location": currentLatLng
-          })
-          console.log({ "date": currentDateTime, "location": currentLatLng })
-
-        } else {
-
           // Map poster
           $('#sublineInput').val(locationName);
           ptm_subline.val(locationName);
@@ -447,7 +363,6 @@ function getMapData(e){
           map.flyToBounds(latlngbounds, {duration: 3, maxZoom: 15});
           formCoordinates.val(JSON.stringify(latlngbounds));
           updateDebugger();
-        }
 
       };
     });
@@ -622,36 +537,6 @@ function addCartParameters(style = 'moon', format = '50x70'){
 
 function getStyle(name){
 
-  if(isStarMap){
-    switch(name) {
-      case 'moon':
-        currentFormat === '30x40' ? formVariationId.val(12317) : formVariationId.val(12322)
-        return ptmMoon
-      case 'granite':
-        currentFormat === '30x40' ? formVariationId.val(12318) : formVariationId.val(12323)
-        return ptmGranite
-      case 'olive':
-        currentFormat === '30x40' ? formVariationId.val(12319) : formVariationId.val(12324)
-        return ptmOlive
-      case 'hay':
-        currentFormat === '30x40' ? formVariationId.val(12320) : formVariationId.val(12325)
-        return ptmHay
-      case 'redwood':
-        currentFormat === '30x40' ? formVariationId.val(12321) : formVariationId.val(12326)
-        return ptmRedwood
-      case 'snow':
-        return ptmSnow
-      case 'mint':
-        return ptmMint
-      case 'honey':
-        return ptmHoney
-    }
-    
-    currentPrice = (currentFormat === '30x40') ? 39 : 42
-    formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
-
-  } else {
-
     if(name == 'mapboxStyle'){
         varId = 1207
         return mapboxStyle;
@@ -661,7 +546,7 @@ function getStyle(name){
         return maputnikStyle;
     }
 
-    currentPrice = (currentFormat === '30x40') ? 39 : 42
+    currentPrice = (currentFormat === '30x40') ? 45 : 49
     formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
 
     switch(name) {
@@ -687,7 +572,6 @@ function getStyle(name){
       case 'redwood':
         return ptmRedwood
     }
-  }
     
 }
 function getVariationByStyle(style){
@@ -782,76 +666,6 @@ function getMarker(style, poster = false){
     }
 }
 
-function getCelestialPoster(){
-  let lines = "",
-      background = "",
-      mw = "";
-
-  switch(currentStyle){
-    case 'snow':
-      lines = "#000"
-      background = "#fff",
-      mw = "#ffffff"
-      break;
-    case 'moon':
-    case 'granite':   // '#54575c'
-      lines = "#fff"
-      background = "#54575c",
-      mw = "#6B6F76"
-      break;
-    case 'mint':    // #6fa189'
-      lines = "#fff"
-      background = "#6fa189",
-      mw = "#90B6A4"
-      break;
-    case 'honey':   // #d8ae46'
-      lines = "#000"
-      background = "#d8ae46",
-      mw = "#DFBD68"
-      break;
-    case 'hay':   // #d8ae46'
-      lines = "#000"
-      background = "#DCB771",
-      mw = "#E7CD9D"
-      break;
-    case 'olive':   // #d8ae46'
-      lines = "#fff"
-      background = "#92886f",
-      mw = "#A79F8B"
-      break;
-    case 'redwood':   // #d8ae46'
-      lines = "#fff"
-      background = "#a3523e",
-      mw = "#BC644E"
-      break;
-    default:
-      lines = "#000"
-      background = "#fff"
-      mw = "#ffffff"
-      break;
-  }
-
-  return { 
-    ...config,
-    width: 446,
-    planets: { 
-      show: true,
-      which: ["lun"],
-      symbols: {
-        // "sol": {symbol: "\u2609", letter:"Su", fill: lines, size:"6"},
-        "lun": {symbol: "\u25cf", letter:"L", fill: lines, size:"20"},
-      },
-      symbolType: "symbol",
-      names: false,
-    },
-    mw: { style: { fill: mw } },
-    stars: { colors: false, style: { fill: lines } }, 
-    dsos: { colors: false, style: { fill: lines, stroke: lines } }, 
-    constellations: { lineStyle: { stroke: lines, width: 1, opacity:1 } },
-    background: { fill: background, stroke: lines },
-  }
-}
-
 function isIE() {
   var sAgent = window.navigator.userAgent;
   var Idx = sAgent.indexOf("MSIE");
@@ -874,91 +688,6 @@ document.addEventListener('keyup', (e) => {
       $debugPanel.toggleClass('d-block');
   };
 });
-
-$("#posterviewer").on("change", function ( event ) {
-  // const canvas = document.querySelector('#celestial-map canvas');
-  // const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-  // window.location.href = image;
-
-  $("#styleSelector").find("button.ptm-btn").each(function(){
-    $(this).toggleClass('d-none');
-  })
-
-  // fallback to moon if unknown color
-  if(currentStyle != "moon" || currentStyle != "granite"){
-    currentStyle = "moon";
-
-    // Celestial.display(getCelestialPoster())
-    activeLayer = getStyle(currentStyle);
-    // map.addLayer(activeLayer);
-
-    let posterSize = (currentFormat == '30x40') ? "small" : '';
-    $('.poster').attr('class','card poster '+posterSize+' '+currentStyle);
-    $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
-
-    $(this).parent().find("button").each(function(){
-      $(this).removeClass('active');
-  });
-  } 
-
-  isStarMap = !event.target.checked
-
-  if(isStarMap){
-    $('#mapbox').addClass('invisible');
-    $('#celestial-map').removeClass('d-none');
-    $('#placedatetime').removeClass('d-none').prev().removeClass('d-none');
-    document.querySelector('#markerSelector').previousElementSibling.classList.toggle("d-none");
-
-    $('#addToCart').attr('data-product_id', 12316);
-    $('#addToCart input[name="add-to-cart"]').val(12316);
-    $('#addToCart input[name="product_id"]').first().val(12316);
-    formVariationId.val(12322) // current selected overlapped variations (moon, granite)
-
-    map.removeLayer(activeLayer);
-    
-    // Celestial.display(getCelestialPoster())
-  } else {
-    $('#celestial-map').addClass('d-none');
-    $('#mapbox').removeClass('invisible');
-    $('#placedatetime').addClass('d-none').prev().addClass('d-none');
-    document.querySelector('#markerSelector').previousElementSibling.classList.toggle("d-none");
-    
-    $('#addToCart').attr('data-product_id', 1144);
-    $('#addToCart input[name="add-to-cart"]').val(1144);
-    $('#addToCart input[name="product_id"]').first().val(1144);
-    formVariationId.val(1208) // current selected overlapped variations (moon, granite)
-
-    activeLayer = getStyle(currentStyle);
-    map.addLayer(activeLayer);    
-    
-    markerOnMap.setIcon(L.icon({ 
-      iconUrl: defaultMarkerStyleUrl,
-      iconSize: [24, 32], 
-      iconAnchor: [12, 32], 
-      className: 'marker' 
-    }));
-  }
-  // $([".light [class*='-light']", ".dark [class*='-dark']"]).each((i,ele)=>{
-  //   $(ele).toggleClass('bg-light bg-dark')
-  //   $(ele).toggleClass('text-light text-dark')
-  //   $(ele).toggleClass('navbar-light navbar-dark')
-  // })
-  // // toggle body class selector
-  // $('body').toggleClass('light dark')
-});
-
-$("#placedatetime").on("change", function( event ){
-  // console.log('change', currentLatLng)
-  currentDateTime = new Date(event.target.value)
-  formDateTime.val(currentDateTime)
-
-  Celestial.skyview({
-    "date": currentDateTime,
-    "location": currentLatLng
-  })
-
-  // console.log('change', { "date": currentDateTime, "location": currentLatLng });
-})
 
 let activeTab;
 
@@ -1006,25 +735,19 @@ $("#styleSelector .ptm-btn").on("click", function ( event ) {
     $('.poster').attr('class','card poster '+posterSize+' '+event.target.id);
     $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
 
-    // isStarMap
-    if(isStarMap){
-      activeLayer = getStyle(currentStyle);
-
-      // config = { ...config, getCelestialPoster}
-      Celestial.display(getCelestialPoster())
-    } else {
-      // Citymap
-      map.removeLayer(activeLayer);
-      activeLayer = getStyle(currentStyle);
-      map.addLayer(activeLayer);
-      
-      markerOnMap.setIcon(L.icon({ 
-        iconUrl: defaultMarkerStyleUrl,
-        iconSize: [24, 32], 
-        iconAnchor: [12, 32], 
-        className: 'marker' 
-      }));
-    }
+ 
+    // Citymap
+    map.removeLayer(activeLayer);
+    activeLayer = getStyle(currentStyle);
+    map.addLayer(activeLayer);
+    
+    markerOnMap.setIcon(L.icon({ 
+      iconUrl: defaultMarkerStyleUrl,
+      iconSize: [24, 32], 
+      iconAnchor: [12, 32], 
+      className: 'marker' 
+    }));
+    
     // console.log(currentStyle)
       
     // Needs refactoring: update (default) text to marker
@@ -1082,7 +805,7 @@ document.getElementById("addToCart").addEventListener("click", function(event){
     let check = false;
 
 
-    if(!isIE() && !isStarMap){
+    if(!isIE()){
       leafletImage(map, function(err, canvas) {
 
           let dataURL = canvas.toDataURL('image/png');
@@ -1097,16 +820,6 @@ document.getElementById("addToCart").addEventListener("click", function(event){
             $('#addToCart').submit();
           });
         });
-    } else if(isStarMap) {
-        let canvas = document.querySelector('#celestial-map canvas'),
-          dataURL = canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, "");
-          $.post("https://www.placethemoment.com/build/save.php", { savedMap: dataURL }, 
-          function(data) {
-            ptm_thumb.val(data);
-          })
-          .done(function(){
-            $('#addToCart').submit();
-          });
     } else {
       $('#addToCart').submit();
     }

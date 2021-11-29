@@ -28,10 +28,6 @@
                         <a class="d-block" href="https://www.placethemoment.com/">
                             <img class="w-75 mx-5 my-3" src="https://www.placethemoment.com/wp-content/uploads/2018/06/logo-original-vector.svg" alt="Place The Moment" id="logo" data-height-percentage="100" data-actual-width="300" data-actual-height="110">
                         </a>
-                        <!-- <div id="posterviewer" class="btn-group w-100" role="group" aria-label="Basic example">
-                            <button type="button" value="stadsposter" class="btn btn-light">Stad poster</button>
-                            <button type="button" value="sterrenposter" class="btn btn-dark">Sterren poster</button>
-                        </div> -->
                     </div>
 
                             <div class="card bg-lighter">
@@ -53,11 +49,6 @@
                                             Find a location
                                         </label>
                                         <div id='geocoder' class='geocoder input-group'></div>
-
-                                        <label class="sidebar-heading text-muted d-none" for="placedatetime">
-                                            Date and time
-                                        </label>
-                                        <input type="datetime-local" class="form-control d-none" id="placedatetime" />
                                         <a href="https://wa.me/31850470420" class="btn font-weight-normal pl-1 d-lg-none" style="text-decoration: underline">
                                             Need help? Chat with us!<i class="fa-lg fa-whatsapp fab ml-2 py-1"></i>
                                         </a>
@@ -147,46 +138,6 @@
                                                     </div>
                                                 </div>
                                                 <span>Honey</span>
-                                            </button>                                            
-                                            <button id="moon" class="ptm-btn d-none btn pl-lg-0">
-                                                <div class="ptm-map-color-btn moon">
-                                                    <div class="ptm-map-color-icon">
-                                                        <img src="https://www.placethemoment.com/images/star-icon-white-lines.svg" />
-                                                    </div>
-                                                </div>
-                                                <span>Moon</span>
-                                            </button>
-                                            <button id="granite" class="ptm-btn d-none pl-lg-0 btn">
-                                                <div class="ptm-map-color-btn granite">
-                                                    <div class="ptm-map-color-icon">
-                                                        <img src="https://www.placethemoment.com/images/star-icon-white-lines.svg"/>
-                                                    </div>
-                                                </div>
-                                                <span>Granite</span>
-                                            </button>
-                                            <button id="olive" class="ptm-btn d-none px-lg-0 btn">
-                                                <div class="ptm-map-color-btn olive">
-                                                    <div class="ptm-map-color-icon">
-                                                        <img src="https://www.placethemoment.com/images/star-icon-white-lines.svg" />
-                                                    </div>
-                                                </div>
-                                                <span>Olive</span>
-                                            </button> 
-                                            <button id="hay" class="ptm-btn d-none px-lg-0 btn">
-                                                <div class="ptm-map-color-btn hay">
-                                                    <div class="ptm-map-color-icon">
-                                                        <img src="https://www.placethemoment.com/images/star-icon-black-lines.svg" />
-                                                    </div>
-                                                </div>
-                                                <span>Hay</span>
-                                            </button> 
-                                            <button id="redwood" class="ptm-btn d-none px-lg-0 btn">
-                                                <div class="ptm-map-color-btn redwood">
-                                                    <div class="ptm-map-color-icon">
-                                                        <img src="https://www.placethemoment.com/images/star-icon-white-lines.svg" />
-                                                    </div>
-                                                </div>
-                                                <span>Redwood</span>
                                             </button>
                                         </div>
                                     </div>
@@ -295,8 +246,6 @@
                                 <input type="hidden" name="marker_coordinates" value="">
                                 <input type="hidden" name="marker_style" value="">
                                 <input type="hidden" name="design_id" value="">
-                                <input type="hidden" name="location" value="">
-                                <input type="hidden" name="datetime" value="">
                                 <input type="hidden" name="ptm_moment" value="My Moment">
                                 <input type="hidden" name="ptm_subline" value="Subline">
                                 <input type="hidden" name="ptm_tagline" value="Tagline">
@@ -304,10 +253,10 @@
                                 <button class="ptm-cta btn btn-primary rounded-top w-100 mx-auto px-lg-0 py-lg-0 btn-block animated" type="submit">
                                     <div class="d-flex align-items-stretch text-center">
                                         <!-- <i class="ptm-shopping-bag py-2 d-lg-none align-self-end"></i>                                         -->
-                                        <span class="d-lg-none py-2 py-md-3">&euro;42</span>
+                                        <span class="d-lg-none py-2 py-md-3">&euro;49</span>
                                         <span class="d-lg-flex d-none flex-column justify-content-around w-25">
-                                            <small class="text-white" style="font-size: 1rem;">€45</small>
-                                          €42.61
+                                            <small class="text-white" style="font-size: 1rem;">€49</small>
+                                          €49
                                         </span>
                                         <span class="d-none d-lg-block py-lg-3 w-75">Add to cart</span>
                                     </div>
@@ -331,13 +280,6 @@
                 <div id="progress" class="linear-activity">
                     <div class="indeterminate d-none"></div>
                 </div>
-                <div class="container--toggle">
-                    <input aria-label="dark mode toggle" role="switch" aria-checked="true" type="checkbox" checked id="posterviewer" class="toggle--checkbox" readonly="">
-                    <label for="posterviewer" class="toggle--label">
-                        <span class="toggle--label-background"></span>
-                        dark mode toggle
-                    </label>
-                </div>
                 <div id="debugger" class="debugPanel d-none">
                     {"ID":"0","order_id":"8763","hashurl":"5f0817d5a84e8","cor_ne_lat":"51.50516313735562","cor_ne_lng":"-0.09582996368408205","cor_sw_lat":"51.49282033577651","cor_sw_lng":"-0.11565685272216798","map_style":"1209","map_format":"2415","mark_ne_lat":"51.498511263481035","mark_ne_lng":"-0.10595798492431642","mark_style":"heart","text_moment":"WHERE WE SAID YES TO A LIFETIME TOGETHER","text_subline":"Shakespeare's Globe","text_tagline":"London SE1 9DT - Verenigd Koninkrijk"}
                 </div>
@@ -351,7 +293,6 @@
                     <div id="posterWrapper" class="posterArea">
                         <div id="posterCanvas" class="card poster">
                             <div class="mapwindow">
-                                <div id="celestial-map" class="d-none"></div>
                                 <div id="mapbox" class="card-img-top"></div>
                             </div>
                             <div id="posterText" class="card-body">
