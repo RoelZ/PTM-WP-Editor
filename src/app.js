@@ -78,7 +78,7 @@ let config = {
   constellations: {
     names: false,  // Show constellation names
     lines: true,
-    lineStyle: { stroke: '#ffffff', width: 1.3, opacity:1 },
+    lineStyle: { stroke: '#ffffff', width: 0.8, opacity:1 },
   },
   mw: {
     show: true,  
@@ -233,6 +233,9 @@ buttonUI.on("click", "button", function(e){
 /* INITIAL BREAKPOINTS CHECK */
 $(document).ready(function() {
     checkSize();
+
+    // hard fix for initialising Celestial for iPhone iOS < 15.0
+    document.querySelector('#celestial-map > canvas').style = "width: 466px; height: 466px;";
 
     $(window).resize(checkSize);   
 
@@ -870,20 +873,20 @@ function getCelestialPoster(){
   return { 
     ...config,
     width: 466,
-    planets: { 
-      show: true,
-      which: ["lun"],
-      symbols: {
-        // "sol": {symbol: "\u2609", letter:"Su", fill: lines, size:"6"},
-        "lun": {symbol: "\u25cf", letter:"L", fill: lines, size:"20"},
-      },
-      symbolType: "symbol",
-      names: false,
-    },
+    // planets: { 
+    //   show: true,
+    //   which: ["lun"],
+    //   symbols: {
+    //     // "sol": {symbol: "\u2609", letter:"Su", fill: lines, size:"6"},
+    //     "lun": {symbol: "\u25cf", letter:"L", fill: lines, size:"20"},
+    //   },
+    //   symbolType: "symbol",
+    //   names: false,
+    // },
     mw: { style: { fill: mw } },
     stars: { colors: false, style: { fill: lines } }, 
     dsos: { colors: false, style: { fill: lines, stroke: lines } }, 
-    constellations: { lineStyle: { stroke: lines, width: 2, opacity:1 } },
+    constellations: { lineStyle: { stroke: lines, width: 0.8, opacity:1 } },
     background: { fill: background, stroke: lines },
   }
 }
