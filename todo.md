@@ -18,6 +18,8 @@ Print
 - kleuren en mw opacity kleuren
 
 Editor
+- 30x40 prijs wordt niet geupdate in CTA
+- query params updaten alles behalve starmap viewer
 - ~~Mobile fixes (toggle, canvas sterren)~~
 - ~~Canvas updaten met final config (milkyway, kleuren)~~
 - ~~Save to cart (NL) - Variation_id not set~~

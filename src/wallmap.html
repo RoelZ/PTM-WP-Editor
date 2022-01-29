@@ -28,7 +28,7 @@
 
 var config = {
   width: 2910, //2910, 4749
-  geopos: [50.8459459, 3.6023525],
+  geopos: [50.88817419999999,5.9794988],
   container: "celestial-map",
   projection: "airy",
   datapath: "https://ofrohn.github.io/data/",
@@ -47,9 +47,9 @@ var config = {
   },
   advanced: true,
   background: { 
-    fill: "#b08782",   // Area fill
+    fill: "#DCB771",   // Area fill
     opacity: 1, 
-    stroke: "#ffffff", // Outline
+    stroke: "#000000", // Outline
     width: 1 
   },
   // transform: "equatorial",
@@ -64,7 +64,7 @@ var config = {
     show: true,    //Show stars
     limit: 6,      //up to maximum stellar magnitude
     colors: false,  //Show stars spectral colors, if not use "color"
-    style: { fill:"#ffffff", opacity:1 }, // Default style for stars
+    style: { fill:"#000000", opacity:1 }, // Default style for stars
     names: false,   //Show star names
     // namestyle: { fill: "#ddddbb", font: "32px 'Palatino Linotype', Georgia, Times, 'Times Roman', serif", align: "left", baseline: "top" },
     proper: false, //Show proper names (if none shows designation)
@@ -81,7 +81,7 @@ var config = {
     which: ["lun"],
     symbols: {
       // "sol": {symbol: "\u2609", letter:"Su", fill: lines, size:"6"},
-      "lun": {symbol: "\u25cf", letter:"L", fill: "#ffffff", size:"40"},
+      "lun": {symbol: "\u25cf", letter:"L", fill: "#000000", size:"40"},
     },
     symbolType: "symbol",
     names: false,
@@ -92,14 +92,14 @@ var config = {
     // namestyle: { fill: "#cccccc", font: ["bold 74px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif", "bold 62px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif", "bold 56px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif"], align: "center", baseline: "middle" },
     // desig: false,   //Show short constellation names (3 letter designations)
     lines: true,   //Show constellation lines
-    linestyle: { stroke: "#ffffff", opacity: 1, width: 3 },
+    linestyle: { stroke: "#000000", opacity: 1, width: 3 },
     // bounds: false,  //Show constellation boundaries
     // boundstyle: { stroke: "#ccff00", width: 1.5, opacity: 0.8, dash: [4, 8] }
   },
   dsos: {
     show: false,    //Show Deep Space Objects
     // limit: 16,      //up to maximum magnitude
-    style: { fill: "#ffffff", stroke: "#ffffff" },
+    style: { fill: "#000000", stroke: "#000000" },
     names: false,   //Show DSO names
     // namestyle: { fill: "#cccccc", font: "32px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif", align: "left", baseline: "bottom" },
     desig: false,   //Show short DSO names
@@ -110,7 +110,7 @@ var config = {
   },
   mw: {
     show: true,    //Show Milky Way outlines
-    style: { fill:"#C09F9B", opacity:"0.4" }
+    style: { fill:"#e7cd9d", opacity:"0.4" }
   },
   lines: {
     graticule: { show: false },
