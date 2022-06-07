@@ -62,9 +62,9 @@ let config = {
   },
   advanced: false,     // Display fewer form fields if false
   background: {        // Background style
-    fill: "#54575c",   // Area fill
+    fill: "#92886f",   // Area fill
     opacity: 1, 
-    stroke: "#54575c", // Outline
+    stroke: "#ffffff", // Outline
     width: 1
   }, 
   stars: {
@@ -82,7 +82,7 @@ let config = {
   },
   mw: {
     show: true,  
-    style: { fill:"#6B6F76", opacity:"0.4" }
+    style: { fill:"#A79F8B", opacity:"0.4" }
   },
   dsos: { show: false, names: false },
   lines: {
