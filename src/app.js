@@ -630,7 +630,7 @@ function getStyle(name){
 
   if(isStarMap){
 
-    currentPrice = (currentFormat === '30x40') ? 45 : 49
+    currentPrice = (currentFormat === '30x40') ? 49 : 59
 
     switch(name) {
       case 'moon':
@@ -694,7 +694,7 @@ function getStyle(name){
         return maputnikStyle;
     }
 
-    currentPrice = (currentFormat === '30x40') ? 45 : 49
+    currentPrice = (currentFormat === '30x40') ? 49 : 59
 
     switch(name) {
       case 'snow':
