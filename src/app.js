@@ -546,7 +546,7 @@ function getStyle(name){
         return maputnikStyle;
     }
 
-    currentPrice = (currentFormat === '30x40') ? 45 : 49
+    currentPrice = (currentFormat === '30x40') ? 49 : 59
     formPrice.each(function(){ $(this).html('&euro;'+currentPrice)})
 
     switch(name) {
