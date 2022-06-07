@@ -381,6 +381,9 @@ body {
 .leaflet-control-zoom.back {
   animation-name: flipLeft;
 }
+.leaflet-control-container .leaflet-top.leaflet-left {
+  display: none;
+}
 
 @include media-breakpoint-down(md){
   .posterArea {    
