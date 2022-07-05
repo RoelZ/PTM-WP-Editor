@@ -20,15 +20,18 @@
   </style>
 </head>
 <body>
+  <h3 id="date"></h3>
   <div class="container">
     <div id="celestial-map"></div>
   </div>
 
   <script type="text/javascript">
+    const customerDate = 1656760417044
+    document.querySelector('#date').innerHTML = new Date(customerDate).toISOString()
 
 var config = {
   width: 2910, //2910, 4749
-  geopos: [52.0556288,4.2633732], // 52.13664902426816,5.193443298339845
+  geopos: [52.13664902426816,5.193443298339845], // 52.13664902426816,5.193443298339845
   container: "celestial-map",
   projection: "airy",
   datapath: "https://ofrohn.github.io/data/",
@@ -47,7 +50,7 @@ var config = {
   },
   advanced: true,
   background: { 
-    fill: "#92886f",   // Area fill
+    fill: "#b08782",   // Area fill
     opacity: 1, 
     stroke: "#ffffff", // Outline
     width: 1 
@@ -110,7 +113,7 @@ var config = {
   },
   mw: {
     show: true,    //Show Milky Way outlines
-    style: { fill:"#A79F8B", opacity:"0.4" }
+    style: { fill:"#C09F9B", opacity:"0.4" }
   },
   lines: {
     graticule: { show: false },
