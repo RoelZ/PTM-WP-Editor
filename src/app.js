@@ -827,8 +827,8 @@ function getCelestialPoster(){
       background = "#fff",
       mw = "#ffffff"
       break;
-    case 'moon':
-    case 'granite':   // '#54575c'
+    case 'moon':      // 0
+    case 'granite':   // '#54575c'  1
       lines = "#fff"
       background = "#54575c",
       mw = "#6B6F76"
@@ -843,22 +843,22 @@ function getCelestialPoster(){
       background = "#d8ae46",
       mw = "#DFBD68"
       break;
-    case 'hay':   // #d8ae46'
+    case 'hay':   // #d8ae46'     3
       lines = "#000"
       background = "#DCB771",
       mw = "#E7CD9D"
       break;
-    case 'olive':   // #d8ae46'
+    case 'olive':   // #d8ae46'   2
       lines = "#fff"
       background = "#92886f",
       mw = "#A79F8B"
       break;
-    case 'redwood':   // #d8ae46'
+    case 'redwood':   // #d8ae46'   4
       lines = "#fff"
       background = "#a3523e",
       mw = "#BC644E"
       break;
-    case 'dustyrose':   // #b08782'
+    case 'dustyrose':   // #b08782'   5
       lines = "#fff"
       background = "#b08782",
       mw = "#C09F9B"
