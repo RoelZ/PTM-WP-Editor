@@ -610,7 +610,7 @@ function defaultFormat(data){
   if(data.length){
     return getVariationByID(data[0].map_format, true);
   } else {
-    return findGetParameter('attribute_pa_dimensions') ? findGetParameter('attribute_pa_dimensions') : "50x70";
+    return findGetParameter('attribute_pa_dimensions') ? findGetParameter('attribute_pa_dimensions') : "50x70cm";
   }  
 }
 // function defaultMarker(data){
@@ -621,8 +621,8 @@ function defaultFormat(data){
 //   }
 // }
 
-function addCartParameters(style = 'moon', format = '50x70'){
-  $('.poster').addClass([style, (format != '50x70') ? 'small' : '']);
+function addCartParameters(style = 'moon', format = '50x70cm'){
+  $('.poster').addClass([style, (format != '50x70cm') ? 'small' : '']);
   $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+format+'&attribute_design='+style);   
 }
 
@@ -630,49 +630,49 @@ function getStyle(name){
 
   if(isStarMap){
 
-    currentPrice = (currentFormat === '30x40') ? 49 : 59
+    currentPrice = (currentFormat === '30x40cm') ? 49 : 59
 
     switch(name) {
       case 'moon':
-        (productId === '12316' && currentFormat === '30x40') ? formVariationId.val(12317) : 
-        (productId === '12316' && currentFormat === '50x70') ? formVariationId.val(12322) :
-        (productId === '12328' && currentFormat === '30x40') ? formVariationId.val(12329) :
-        (productId === '12328' && currentFormat === '50x70') ? formVariationId.val(12334) :
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12713) : 
+        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12718) :
+        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12329) :
+        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12334) :
         null
         return ptmMoon
       case 'granite':
-        (productId === '12316' && currentFormat === '30x40') ? formVariationId.val(12318) : 
-        (productId === '12316' && currentFormat === '50x70') ? formVariationId.val(12323) :
-        (productId === '12328' && currentFormat === '30x40') ? formVariationId.val(12330) :
-        (productId === '12328' && currentFormat === '50x70') ? formVariationId.val(12335) :
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12714) : 
+        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12719) :
+        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12330) :
+        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12335) :
         null
         return ptmGranite
       case 'olive':
-        (productId === '12316' && currentFormat === '30x40') ? formVariationId.val(12319) : 
-        (productId === '12316' && currentFormat === '50x70') ? formVariationId.val(12324) :
-        (productId === '12328' && currentFormat === '30x40') ? formVariationId.val(12331) :
-        (productId === '12328' && currentFormat === '50x70') ? formVariationId.val(12336) :
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12715) : 
+        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12710) :
+        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12331) :
+        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12336) :
         null
         return ptmOlive
       case 'hay':
-        (productId === '12316' && currentFormat === '30x40') ? formVariationId.val(12320) : 
-        (productId === '12316' && currentFormat === '50x70') ? formVariationId.val(12325) :
-        (productId === '12328' && currentFormat === '30x40') ? formVariationId.val(12332) :
-        (productId === '12328' && currentFormat === '50x70') ? formVariationId.val(12337) :
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12716) : 
+        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12711) :
+        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12332) :
+        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12337) :
         null
         return ptmHay
       case 'redwood':
-        (productId === '12316' && currentFormat === '30x40') ? formVariationId.val(12321) : 
-        (productId === '12316' && currentFormat === '50x70') ? formVariationId.val(12326) :
-        (productId === '12328' && currentFormat === '30x40') ? formVariationId.val(12333) :
-        (productId === '12328' && currentFormat === '50x70') ? formVariationId.val(12338) :
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12717) : 
+        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12712) :
+        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12333) :
+        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12338) :
         null
         return ptmRedwood
       case 'dustyrose':
-        (productId === '12316' && currentFormat === '30x40') ? formVariationId.val(12370) : 
-        (productId === '12316' && currentFormat === '50x70') ? formVariationId.val(12371) :
-        (productId === '12328' && currentFormat === '30x40') ? formVariationId.val(12372) :
-        (productId === '12328' && currentFormat === '50x70') ? formVariationId.val(12373) :
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12723) : 
+        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12724) :
+        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12372) :
+        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12373) :
         null
         return ptmDustyRose
       case 'snow':
@@ -694,23 +694,23 @@ function getStyle(name){
         return maputnikStyle;
     }
 
-    currentPrice = (currentFormat === '30x40') ? 49 : 59
+    currentPrice = (currentFormat === '30x40cm') ? 49 : 59
 
     switch(name) {
       case 'snow':
-        currentFormat === '30x40' ? formVariationId.val(2413) : formVariationId.val(1207)
+        currentFormat === '30x40cm' ? formVariationId.val(2413) : formVariationId.val(1207)
         return ptmSnow
       case 'moon':
-        currentFormat === '30x40' ? formVariationId.val(2414) : formVariationId.val(1208)
+        currentFormat === '30x40cm' ? formVariationId.val(2414) : formVariationId.val(1208)
         return ptmMoon
       case 'granite':
-        currentFormat === '30x40' ? formVariationId.val(2415) : formVariationId.val(1209)
+        currentFormat === '30x40cm' ? formVariationId.val(2415) : formVariationId.val(1209)
         return ptmGranite
       case 'mint':
-        currentFormat === '30x40' ? formVariationId.val(2416) : formVariationId.val(1210)
+        currentFormat === '30x40cm' ? formVariationId.val(2416) : formVariationId.val(1210)
         return ptmMint
       case 'honey':
-        currentFormat === '30x40' ? formVariationId.val(2749) : formVariationId.val(2748)
+        currentFormat === '30x40cm' ? formVariationId.val(2749) : formVariationId.val(2748)
         return ptmHoney
       case 'hay':
         return ptmHay
@@ -739,34 +739,34 @@ function getStyle(name){
 function getVariationByID(variant_id, format){
   switch(parseInt(variant_id, 10)){
     case 1207:
-      return (!format) ? 'snow' : '50x70';
+      return (!format) ? 'snow' : '50x70cm';
       break;
     case 1208:
-      return (!format) ? 'moon' : '50x70';
+      return (!format) ? 'moon' : '50x70cm';
       break;
     case 1209:
-      return (!format) ? 'granite' : '50x70';
+      return (!format) ? 'granite' : '50x70cm';
       break;
     case 1210:
-      return (!format) ? 'mint' : '50x70';
+      return (!format) ? 'mint' : '50x70cm';
       break;
     case 2748:
-      return (!format) ? 'honey' : '50x70';
+      return (!format) ? 'honey' : '50x70cm';
       break;
     case 2413:
-      return (!format) ? 'snow' : '30x40';
+      return (!format) ? 'snow' : '30x40cm';
       break;
     case 2414:
-      return (!format) ? 'moon' : '30x40';
+      return (!format) ? 'moon' : '30x40cm';
       break;
     case 2415:
-      return (!format) ? 'granite' : '30x40';
+      return (!format) ? 'granite' : '30x40cm';
       break;
     case 2416:
-      return (!format) ? 'mint' : '30x40';
+      return (!format) ? 'mint' : '30x40cm';
       break;
     case 2749:
-      return (!format) ? 'honey' : '30x40';
+      return (!format) ? 'honey' : '30x40cm';
       break;
     default:
       console.log(`no variation found with ID ${variant_id}`);
@@ -932,7 +932,7 @@ document.addEventListener('keyup', (e) => {
 //     activeLayer = getStyle(currentStyle);
 //     // map.addLayer(activeLayer);
 
-//     let posterSize = (currentFormat == '30x40') ? "small" : '';
+//     let posterSize = (currentFormat == '30x40cm') ? "small" : '';
 //     $('.poster').attr('class','card poster '+posterSize+' '+currentStyle);
 //     $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
 
@@ -1043,7 +1043,7 @@ $("#styleSelector .ptm-btn").on("click", function ( event ) {
     });
 
     currentStyle = event.target.id;
-    let posterSize = (currentFormat == '30x40') ? "small" : '';
+    let posterSize = (currentFormat == '30x40cm') ? "small" : '';
     $('.poster').attr('class','card poster '+posterSize+' '+event.target.id);
     $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
 
@@ -1108,7 +1108,7 @@ $("#formatSelector .ptm-format-btn").on("click", function ( event ) {
 
   currentFormat = event.target.id;
   activeLayer = getStyle(currentStyle);
-  let posterSize = (currentFormat == '30x40') ? "small" : '';
+  let posterSize = (currentFormat == '30x40cm') ? "small" : '';
   $('.poster').attr('class','card poster '+posterSize+' '+currentStyle);
   $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
 
