@@ -62,7 +62,7 @@ let config = {
   },
   advanced: false,     // Display fewer form fields if false
   background: {        // Background style
-    fill: "#92886f",   // Area fill
+    fill: "#54575c",   // Area fill
     opacity: 1, 
     stroke: "#ffffff", // Outline
     width: 1
@@ -82,7 +82,7 @@ let config = {
   },
   mw: {
     show: true,  
-    style: { fill:"#A79F8B", opacity:"0.4" }
+    style: { fill:"#6B6F76", opacity:"0.4" }
   },
   dsos: { show: false, names: false },
   lines: {
@@ -634,35 +634,35 @@ function getStyle(name){
 
     switch(name) {
       case 'moon':
-        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12713) : 
-        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12718) :
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12703) : 
+        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12708) :
         (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12329) :
         (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12334) :
         null
         return ptmMoon
       case 'granite':
-        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12714) : 
-        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12719) :
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12704) : 
+        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12709) :
         (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12330) :
         (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12335) :
         null
         return ptmGranite
       case 'olive':
-        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12715) : 
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12705) : 
         (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12710) :
         (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12331) :
         (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12336) :
         null
         return ptmOlive
       case 'hay':
-        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12716) : 
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12706) : 
         (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12711) :
         (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12332) :
         (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12337) :
         null
         return ptmHay
       case 'redwood':
-        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12717) : 
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12707) : 
         (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12712) :
         (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12333) :
         (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12338) :
