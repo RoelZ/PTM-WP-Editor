@@ -123,6 +123,8 @@ let currentPrice = 49;
 let currentFormat = defaultFormat($data);
 let currentStyle = defaultStyle($data);
 let currentDateTime = Date.now();
+// let currentDateTime = new Date();
+//     currentDateTime = currentDateTime.toISOString().slice(0,16);
 let currentLatLng = [defaultStartView.ne.lat, defaultStartView.ne.lng]
 
 // let defaultMarkerStyleUrl = getMarker(currentMarkerStyle);
@@ -990,8 +992,8 @@ document.addEventListener('keyup', (e) => {
 
 $("#placedatetime").on("change", function( event ){
   // console.log('change', currentLatLng)
-  currentDateTime = new Date(event.target.value)
-  formDateTime.val(Date.parse(event.target.value))
+  currentDateTime = event.target.value
+  formDateTime.val(currentDateTime)
 
   Celestial.skyview({
     "date": currentDateTime,
