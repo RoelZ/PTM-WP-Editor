@@ -36,13 +36,94 @@ const ptmSnow = L.tileLayer(defaultSnowMapStyle, { attribution: false, maxZoom: 
 //       });
 
 // const $data = ($.trim($('#debugger').html()).length) ? Object.create([JSON.parse($.trim($('#debugger').html()))]) : [];
-const $data = [];
+// const $data = [];
 
-const starposter = {
-  width: 466 // 446, 2910, 4749
+let productId = $('#addToCart input[name="product_id"]').val();
+let isStarMap = (productId != "1144")
+let isMobile = false;
+
+// Hidden Form values
+let addToCart = $('#addToCart');
+let cartUrl = addToCart.attr('action');
+let formCoordinates = $('#addToCart input[name="coordinates"]');
+let formPlaceId = $('#addToCart input[name="placeid"]');
+// let formZoom = $('#addToCart input[name="zoom"]');
+// let formMarkerCoordinates = $('#addToCart input[name="marker_coordinates"]');
+// let formMarkerStyle = $('#addToCart input[name="marker_style"]');
+let formLocation = $('#addToCart input[name="location"]');
+let formDateTime = $('#addToCart input[name="datetime"]');
+let formVariationId = $('#addToCart input[name="variation_id"]');
+let formPrice = $('.pricetag');
+
+let ptm_moment = $('#addToCart input[name="ptm_moment"]');
+let ptm_subline = $('#addToCart input[name="ptm_subline"]');
+let ptm_tagline = $('#addToCart input[name="ptm_tagline"]');
+let ptm_thumb = $('#addToCart input[name="ptm_thumb"]');
+
+const activeFormatSelector = document.querySelector('#formatSelector').dataset.format;
+const activeStyleSelector = document.querySelector('#styleSelector').dataset.style;
+const geocoder = document.querySelector('#geocoder').dataset.coordinates;
+
+const params = new URLSearchParams(window.location.search)
+const draft = params.has('draft');
+
+let defaultStartView = defaultView(draft);
+
+let currentPrice = 49;
+// let currentMarkerStyle = defaultMarker($data);
+let currentFormat = params.has('attribute_pa_dimensions') ? params.get('attribute_pa_dimensions') : activeFormatSelector;   // returns 30x40cm,etc
+let currentStyle = params.has('attribute_design') ? params.get('attribute_design') : activeStyleSelector;     // returns moon,etc
+let currentDateTime = Date.now();
+// let currentDateTime = new Date();
+//     currentDateTime = currentDateTime.toISOString().slice(0,16);
+
+
+let currentLatLng = draft ? [geocoder] : [defaultStartView.ne.lat, defaultStartView.ne.lng]
+
+// let defaultMarkerStyleUrl = getMarker(currentMarkerStyle);
+
+let activeLayer = getStyle(currentStyle);
+// let markerOnMap = new L.marker([defaultStartView.marker.lat,defaultStartView.marker.lng], {
+//   icon: L.icon({
+//   iconUrl: defaultMarkerStyleUrl,
+//   iconSize: [24, 32],
+//   iconAnchor: [12, 32], 
+//   className: 'marker'
+// }), draggable: true });
+
+
+/* Setting defaults to UI */
+// setUserControls($data);
+addCartParameters(currentStyle, currentFormat);
+
+if(!draft){
+  ptm_moment.val(defaultStartView.moment);
+  $('#momentInput').val(defaultStartView.moment);
+  $("#posterText .card-title").html(defaultStartView.moment);
+  ptm_subline.val(defaultStartView.subline);
+  $('#sublineInput').val(defaultStartView.subline);
+  $("#posterText .card-text:first").html(defaultStartView.subline);
+  ptm_tagline.val(defaultStartView.tagline);
+  $('#taglineInput').val(defaultStartView.tagline);
+  $("#posterText .card-text:last").html(defaultStartView.tagline);
+} else {
+  $("#posterText .card-title").html($('#momentInput').val());
+  $("#posterText .card-text:first").html($('#sublineInput').val());
+  $("#posterText .card-text:last").html($('#taglineInput').val());
 }
 
-let config = {
+// activeLayer.addTo(map);
+// markerOnMap.addTo(map);
+
+// console.log($('#addToCart input[name="product_id"]').val())
+// console.log(isStarMap)
+
+// if(isStarMap){
+
+
+const starposter = { width: 466 }  // 446, 2910, 4749
+
+const config = {
   width: starposter.width,  
   container: "celestial-map",
   projection: "airy",   // airy, azimuthal, berghaus star, orthographic, wiechel, 
@@ -75,6 +156,16 @@ let config = {
     names: false, 
     designation: false,
   },
+  planets: { 
+    show: true,
+    which: ["lun"],
+    symbols: {
+      // "sol": {symbol: "\u2609", letter:"Su", fill: lines, size:"6"},
+      "lun": {symbol: "\u25cf", letter:"L", fill: "#000000", size:"40"},
+    },
+    symbolType: "symbol",
+    names: false,
+  },
   constellations: {
     names: false,  // Show constellation names
     lines: true,
@@ -84,7 +175,7 @@ let config = {
     show: true,  
     style: { fill:"#6B6F76", opacity:"0.4" }
   },
-  dsos: { show: false, names: false },
+  dsos: { show: false, names: false, desig: false },
   lines: {
     graticule: { show: false },
     equatorial: { show: false },
@@ -93,74 +184,8 @@ let config = {
     supergalactic: { show: false }
   }
 }
-
-let productId = $('#addToCart input[name="product_id"]').val();
-let isStarMap = (productId != "1144")
-let isMobile = false;
-
-// Hidden Form values
-let addToCart = $('#addToCart');
-let cartUrl = addToCart.attr('action');
-let formCoordinates = $('#addToCart input[name="coordinates"]');
-let formPlaceId = $('#addToCart input[name="placeid"]');
-// let formZoom = $('#addToCart input[name="zoom"]');
-// let formMarkerCoordinates = $('#addToCart input[name="marker_coordinates"]');
-// let formMarkerStyle = $('#addToCart input[name="marker_style"]');
-let formLocation = $('#addToCart input[name="location"]');
-let formDateTime = $('#addToCart input[name="datetime"]');
-let formVariationId = $('#addToCart input[name="variation_id"]');
-let formPrice = $('.pricetag');
-
-let ptm_moment = $('#addToCart input[name="ptm_moment"]');
-let ptm_subline = $('#addToCart input[name="ptm_subline"]');
-let ptm_tagline = $('#addToCart input[name="ptm_tagline"]');
-let ptm_thumb = $('#addToCart input[name="ptm_thumb"]');
-
-let defaultStartView = defaultView($data);
-
-let currentPrice = 49;
-// let currentMarkerStyle = defaultMarker($data);
-let currentFormat = defaultFormat($data);
-let currentStyle = defaultStyle($data);
-let currentDateTime = Date.now();
-// let currentDateTime = new Date();
-//     currentDateTime = currentDateTime.toISOString().slice(0,16);
-let currentLatLng = [defaultStartView.ne.lat, defaultStartView.ne.lng]
-
-// let defaultMarkerStyleUrl = getMarker(currentMarkerStyle);
-
-let activeLayer = getStyle(currentStyle);
-// let markerOnMap = new L.marker([defaultStartView.marker.lat,defaultStartView.marker.lng], {
-//   icon: L.icon({
-//   iconUrl: defaultMarkerStyleUrl,
-//   iconSize: [24, 32],
-//   iconAnchor: [12, 32], 
-//   className: 'marker'
-// }), draggable: true });
-
-
-/* Setting defaults to UI */
-// setUserControls($data);
-addCartParameters(currentStyle, currentFormat);
-ptm_moment.val(defaultStartView.moment);
-$('#momentInput').val(defaultStartView.moment);
-$("#posterText .card-title").html(defaultStartView.moment);
-ptm_subline.val(defaultStartView.subline);
-$('#sublineInput').val(defaultStartView.subline);
-$("#posterText .card-text:first").html(defaultStartView.subline);
-ptm_tagline.val(defaultStartView.tagline);
-$('#taglineInput').val(defaultStartView.tagline);
-$("#posterText .card-text:last").html(defaultStartView.tagline);
-
-// activeLayer.addTo(map);
-// markerOnMap.addTo(map);
-
-// console.log($('#addToCart input[name="product_id"]').val())
-// console.log(isStarMap)
-
-// if(isStarMap){
   
-Celestial.display(config)
+Celestial.display(getCelestialPoster())
 Celestial.skyview({
   "date": currentDateTime,
   "location": currentLatLng
@@ -511,21 +536,23 @@ function findGetParameter(parameterName) {
 //   }
 // }
 
-function defaultView(data){  
+function defaultView(draft){  
 
-    let userCoordinates,
-        userMarkerCoordinates,
-        userMoment = 'User Coordinates', 
-        userSubline = '', 
-        userTagline = '';
+  if (draft) return;
+
+  let userCoordinates,
+      userMarkerCoordinates,
+      userMoment = '', 
+      userSubline = '', 
+      userTagline = '';
     
-    if(data.length){
-      userMoment = data[0].text_moment;
-      userSubline = data[0].text_subline;
-      userTagline = data[0].text_tagline;
-      userCoordinates = [data[0].cor_ne_lat,data[0].cor_ne_lng,data[0].cor_sw_lat,data[0].cor_sw_lng];
-      userMarkerCoordinates = L.latLng([data[0].mark_ne_lat,data[0].mark_ne_lng]);
-    }
+    // if(data.length){
+    //   userMoment = data[0].text_moment;
+    //   userSubline = data[0].text_subline;
+    //   userTagline = data[0].text_tagline;
+    //   userCoordinates = [data[0].cor_ne_lat,data[0].cor_ne_lng,data[0].cor_sw_lat,data[0].cor_sw_lng];
+    //   userMarkerCoordinates = L.latLng([data[0].mark_ne_lat,data[0].mark_ne_lng]);
+    // }
     
     if(userCoordinates)
     {
@@ -740,38 +767,33 @@ function getStyle(name){
 // }
 function getVariationByID(variant_id, format){
   switch(parseInt(variant_id, 10)){
-    case 1207:
-      return (!format) ? 'snow' : '50x70cm';
-      break;
-    case 1208:
+    case 12708:
       return (!format) ? 'moon' : '50x70cm';
-      break;
-    case 1209:
+    case 12709:
       return (!format) ? 'granite' : '50x70cm';
-      break;
-    case 1210:
-      return (!format) ? 'mint' : '50x70cm';
-      break;
-    case 2748:
-      return (!format) ? 'honey' : '50x70cm';
-      break;
-    case 2413:
-      return (!format) ? 'snow' : '30x40cm';
-      break;
-    case 2414:
+    case 12710:
+      return (!format) ? 'olive' : '50x70cm';
+    case 12711:
+      return (!format) ? 'hay' : '50x70cm';
+    case 12712:
+      return (!format) ? 'redwood' : '50x70cm';
+    case 12724:
+      return (!format) ? 'dustyrose' : '50x70cm';
+    case 12703:
       return (!format) ? 'moon' : '30x40cm';
-      break;
-    case 2415:
+    case 12704:
       return (!format) ? 'granite' : '30x40cm';
-      break;
-    case 2416:
-      return (!format) ? 'mint' : '30x40cm';
-      break;
-    case 2749:
-      return (!format) ? 'honey' : '30x40cm';
-      break;
+    case 12705:
+      return (!format) ? 'olive' : '30x40cm';
+    case 12706:
+      return (!format) ? 'hay' : '30x40cm';
+    case 12707:
+      return (!format) ? 'redwood' : '30x40cm';
+    case 12723:
+      return (!format) ? 'dustyrose' : '30x40cm';
     default:
       console.log(`no variation found with ID ${variant_id}`);
+      break;
   }
 }
 
@@ -875,20 +897,11 @@ function getCelestialPoster(){
   return { 
     ...config,
     width: 466,
-    // planets: { 
-    //   show: true,
-    //   which: ["lun"],
-    //   symbols: {
-    //     // "sol": {symbol: "\u2609", letter:"Su", fill: lines, size:"6"},
-    //     "lun": {symbol: "\u25cf", letter:"L", fill: lines, size:"20"},
-    //   },
-    //   symbolType: "symbol",
-    //   names: false,
-    // },
+    planets: { names: false, symbols: { "lun": { fill: lines } } },
     mw: { style: { fill: mw } },
-    stars: { colors: false, style: { fill: lines } }, 
-    dsos: { colors: false, style: { fill: lines, stroke: lines } }, 
-    constellations: { lineStyle: { stroke: lines, width: 0.8, opacity:1 } },
+    stars: { names: false, colors: false, style: { fill: lines } }, 
+    dsos: { names: false, colors: false, style: { fill: lines, stroke: lines } }, 
+    constellations: { names:false, lineStyle: { stroke: lines, width: 0.8, opacity:1 } },
     background: { fill: background, stroke: lines },
   }
 }
@@ -991,9 +1004,9 @@ document.addEventListener('keyup', (e) => {
 
 
 $("#placedatetime").on("change", function( event ){
-  // console.log('change', currentLatLng)
-  currentDateTime = event.target.value
-  formDateTime.val(currentDateTime)
+  console.log('change', event.target.value)
+  currentDateTime = new Date(event.target.value);
+  formDateTime.val(event.target.value)
 
   Celestial.skyview({
     "date": currentDateTime,
@@ -1021,7 +1034,7 @@ $(".nav-item").on("click", function(e){
 });
 
 // Dynamic text on poster
-$('#momentInput').val($("#posterText .card-title").text());
+// $('#momentInput').val($("#posterText .card-title").text());
 //$('#momentInput').change(function(){
 $("#momentInput").on("input", function(){
     $("#posterText .card-title").text($(this).val());
