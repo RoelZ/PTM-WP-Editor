@@ -21,6 +21,7 @@ let formPrice = $('.pricetag');
 let ptm_moment = $('#addToCart input[name="ptm_moment"]');
 let ptm_subline = $('#addToCart input[name="ptm_subline"]');
 let ptm_tagline = $('#addToCart input[name="ptm_tagline"]');
+let design_id = $('#addToCart input[name="design_id"]');
 let ptm_thumb = $('#addToCart input[name="ptm_thumb"]');
 
 const activeFormatSelector = document.querySelector('#formatSelector').dataset.format;
@@ -621,7 +622,8 @@ document.getElementById("addToCart").addEventListener("click", function(event){
           dataURL = canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, "");
           $.post("https://www.placethemoment.com/build/save.php", { savedMap: dataURL }, 
           function(data) {
-            ptm_thumb.val(data);
+            design_id.val(data);
+            ptm_thumb.val(`https://www.placethemoment.com/thumbs/${data}.png`);  // https://www.placethemoment.com/thumbs/'.$cart_item_data['ptm_thumb'].'.png
           })
           .done(function(){
             $('#addToCart').submit();
