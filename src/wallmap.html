@@ -37,13 +37,13 @@
     // redwood:     4
     // dustyrose:   5
 
-    const customerStyle = 'redwood'
-    const customerDate = new Date(1660235040000)
-    const customerLocation = [51.5719149,4.768323]
+    const customerStyle = 'dustyrose'
+    const customerDate = new Date('2022-08-14T13:37:13')
+    const customerLocation = [23.69781,120.960515]
 
     const currentStyle = customerStyle
     const currentDate = customerDate ? customerDate : new Date(1658608500000);
-    const currentLatLng = customerLocation ? [customerLocation] : [52.13664902426816,5.193443298339845]
+    const currentLatLng = customerLocation ? customerLocation : [52.13664902426816,5.193443298339845]
 
     document.querySelector('#date').innerHTML = customerDate
 
@@ -197,7 +197,6 @@
 
       return { 
         ...config,
-        geopos: currentLatLng,
         planets: { show: true, which: ["lun"], names: false, symbolType: "symbol", symbols: { "lun": { symbol: "\u25cf", letter:"L", fill: lines, size:"40" }}},
         mw: { style: { fill: mw, opacity:"0.4" } },
         stars: { names: false, colors: false, limit: 6, style: { fill: lines, opacity: 1 }, proper: false, desig: false, size: 30, exponent: -0.3 }, 
@@ -209,6 +208,7 @@
 
     Celestial.display(getCelestialPoster());
     Celestial.date(currentDate);
+    Celestial.location(currentLatLng);
 
   </script>
 
