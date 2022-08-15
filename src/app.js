@@ -1,12 +1,9 @@
 import 'bootstrap';
 require('webpack-jquery-ui/resizable');
-// import L from 'leaflet';
-// import leafletImage from 'leaflet-image';   // handmatige fix: https://github.com/mapbox/leaflet-image/issues/41
 import './assets/js/Control.Loading';
-import 'd3-celestial'
 
 import './assets/scss/app.scss';
-// import './assets/css/Control.Loading.css';
+import 'd3-celestial';
 
 const defaultSnowMapStyle = 'https://tiles.placethemoment.com/styles/snow/{z}/{x}/{y}.png',
       defaultMoonMapStyle = 'https://tiles.placethemoment.com/styles/granite/{z}/{x}/{y}.png',
@@ -62,7 +59,7 @@ let ptm_thumb = $('#addToCart input[name="ptm_thumb"]');
 
 const activeFormatSelector = document.querySelector('#formatSelector').dataset.format;
 const activeStyleSelector = document.querySelector('#styleSelector').dataset.style;
-const geocoder = document.querySelector('#geocoder').dataset.coordinates;
+// const geocoder = document.querySelector('#geocoder').dataset.coordinates;
 
 const params = new URLSearchParams(window.location.search)
 const draft = params.has('draft');
@@ -73,12 +70,8 @@ let currentPrice = 49;
 // let currentMarkerStyle = defaultMarker($data);
 let currentFormat = params.has('attribute_pa_dimensions') ? params.get('attribute_pa_dimensions') : activeFormatSelector;   // returns 30x40cm,etc
 let currentStyle = params.has('attribute_design') ? params.get('attribute_design') : activeStyleSelector;     // returns moon,etc
-let currentDateTime = Date.now();
-// let currentDateTime = new Date();
-//     currentDateTime = currentDateTime.toISOString().slice(0,16);
-
-
-let currentLatLng = draft ? [geocoder] : [defaultStartView.ne.lat, defaultStartView.ne.lng]
+let currentLatLng = draft ? formLocation.val().split(',') : [defaultStartView.ne.lat, defaultStartView.ne.lng]
+let currentDateTime = draft ? formDateTime.val() : Date.now();
 
 // let defaultMarkerStyleUrl = getMarker(currentMarkerStyle);
 
@@ -184,48 +177,10 @@ const config = {
     supergalactic: { show: false }
   }
 }
-  
+
 Celestial.display(getCelestialPoster())
-Celestial.skyview({
-  "date": currentDateTime,
-  "location": currentLatLng
-})
-
-  // UI
-  // $('#mapbox').addClass('d-none');
-  // $('#celestial-map').removeClass('d-none');
-  // $('#placedatetime').removeClass('d-none').prev().removeClass('d-none');
-  // $('#markerSelector').addClass('d-none').prev().addClass('d-none')
-
-// }
-
-// map.on('load', function(){
-//     formCoordinates.val(JSON.stringify(map.getBounds()));
-//     formZoom.val(13);
-//     formMarkerStyle.val(currentMarkerStyle);
-//     formMarkerCoordinates.val(L.latLng(defaultStartView.marker));
-// })
-// .fitBounds(L.latLngBounds([defaultStartView.ne.lat,defaultStartView.ne.lng],[defaultStartView.sw.lat,defaultStartView.sw.lng]));
-
-// L.control.zoom({position:'topright'}).addTo(map);
-
-// $('.mapwindow').append($('.leaflet-control-container'));
-
-// map.on('zoomend', function(){
-//   formZoom.val(map.getZoom());
-//   formCoordinates.val(JSON.stringify(map.getBounds()));
-//   updateDebugger();
-// });
-
-// map.on('moveend', function(){
-//   formCoordinates.val(JSON.stringify(map.getBounds()));
-//   updateDebugger();
-// });
-
-// markerOnMap.on('dragend', function(){
-// formMarkerCoordinates.val(markerOnMap.getLatLng());
-// });
-
+Celestial.date(new Date(currentDateTime));
+Celestial.location(currentLatLng);
 
 let input = document.createElement("input");
     input.id = "searchBox";
@@ -417,13 +372,8 @@ function getMapData(e){
         // Star map
         if(isStarMap){
           formLocation.val(currentLatLng)
-          formDateTime.val(currentDateTime)
 
-          Celestial.skyview({
-            "date": currentDateTime,
-            "location": currentLatLng
-          })
-          console.log({ "date": currentDateTime, "location": currentLatLng })
+          Celestial.location(currentLatLng)
 
         } else {
 
@@ -897,6 +847,7 @@ function getCelestialPoster(){
   return { 
     ...config,
     width: 466,
+    geopos: currentLatLng,
     planets: { names: false, symbols: { "lun": { fill: lines } } },
     mw: { style: { fill: mw } },
     stars: { names: false, colors: false, style: { fill: lines } }, 
@@ -1004,16 +955,10 @@ document.addEventListener('keyup', (e) => {
 
 
 $("#placedatetime").on("change", function( event ){
-  console.log('change', event.target.value)
-  currentDateTime = new Date(event.target.value);
+  currentDateTime = event.target.value;
   formDateTime.val(event.target.value)
 
-  Celestial.skyview({
-    "date": currentDateTime,
-    "location": currentLatLng
-  })
-
-  // console.log('change', { "date": currentDateTime, "location": currentLatLng });
+  Celestial.date(new Date(currentDateTime));
 })
 
 let activeTab;
@@ -1129,9 +1074,7 @@ $("#formatSelector .ptm-format-btn").on("click", function ( event ) {
 
   const priceTags = document.querySelectorAll('.pricetag');
   priceTags.forEach(price => {
-    console.log(price.innerHTML);
     price.innerHTML = `&euro;${currentPrice}`;
-    console.log(price.innerHTML);
   });
 
 });
