@@ -29,105 +29,179 @@
   </div>
 
   <script type="text/javascript">
-    const customerDate = 1655210700000
-    document.querySelector('#date').innerHTML = new Date(customerDate).toISOString()
 
-var config = {
-  width: 2910, //2910, 4749
-  geopos: [51.2091807,3.2247552], // 52.13664902426816,5.193443298339845
-  container: "celestial-map",
-  projection: "airy",
-  datapath: "https://ofrohn.github.io/data/",
-  interactive: false,
-  controls: true,
-  form: true,
-  formFields: {
-    "location": true,  // Set visiblity for each group of fields with the respective id
-    "general": true,  
-    "stars": true,  
-    "dsos": true,  
-    "constellations": true,  
-    "lines": true,
-    "other": true,  
-    "download": true
-  },
-  advanced: true,
-  background: { 
-    fill: "#DCB771",   // Area fill
-    opacity: 1, 
-    stroke: "#000000", // Outline
-    width: 1 
-  },
-  mw: {
-    show: true,    //Show Milky Way outlines
-    style: { fill:"#E7CD9D", opacity:"0.4" }
-  },
-  // transform: "equatorial",
-  // center: [180,0,0],
-  // follow: false, 
-  // adaptable: false,
-  // form: false,
-  // location: false,
-  // fullwidth: false,
-  // lang: "en",
-  stars: {
-    show: true,    //Show stars
-    limit: 6,      //up to maximum stellar magnitude
-    colors: false,  //Show stars spectral colors, if not use "color"
-    style: { fill:"#000000", opacity:1 }, // Default style for stars
-    names: false,   //Show star names
-    // namestyle: { fill: "#ddddbb", font: "32px 'Palatino Linotype', Georgia, Times, 'Times Roman', serif", align: "left", baseline: "top" },
-    proper: false, //Show proper names (if none shows designation)
-    // propernamestyle: { fill: "#ddddbb", font: "32px 'Palatino Linotype', Georgia, Times, 'Times Roman', serif", align: "right", baseline: "bottom" },
-    desig: false,   //Show designation (Bayer, Flamsteed, Variable star, Gliese, Draper, Hipparcos, whichever applies first)
-    // namelimit: 5,   //Maximum magnitude with name
-    // propernamelimit: 2.5,   //Maximum magnitude with name
-    size: 30,
-    exponent: -0.3,
-    // data: "stars.8.json" // Data source for stellar data
-  },
-  planets: { 
-    show: true,
-    which: ["lun"],
-    symbols: {
-      // "sol": {symbol: "\u2609", letter:"Su", fill: lines, size:"6"},
-      "lun": {symbol: "\u25cf", letter:"L", fill: "#000000", size:"40"},
-    },
-    symbolType: "symbol",
-    names: false,
-  },
-  constellations: {
-    // show: true,    //Show constellations
-    names: false,   //Show constellation names
-    // namestyle: { fill: "#cccccc", font: ["bold 74px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif", "bold 62px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif", "bold 56px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif"], align: "center", baseline: "middle" },
-    // desig: false,   //Show short constellation names (3 letter designations)
-    lines: true,   //Show constellation lines
-    linestyle: { stroke: "#000000", opacity: 1, width: 3 },
-    // bounds: false,  //Show constellation boundaries
-    // boundstyle: { stroke: "#ccff00", width: 1.5, opacity: 0.8, dash: [4, 8] }
-  },
-  dsos: {
-    show: false,    //Show Deep Space Objects
-    // limit: 16,      //up to maximum magnitude
-    style: { fill: "#000000", stroke: "#000000" },
-    names: false,   //Show DSO names
-    // namestyle: { fill: "#cccccc", font: "32px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif", align: "left", baseline: "bottom" },
-    desig: false,   //Show short DSO names
-    // namelimit: 16,   //Maximum magnitude with name
-    // size: 30,
-    // exponent: 1.4,
-    // data: "dsos.bright.json"
-  },
-  lines: {
-    graticule: { show: false },
-    equatorial: { show: false },
-    ecliptic: { show: false },
-    galactic: { show: false },
-    supergalactic: { show: false }
-  }
-};
+    const customerStyle = 'redwood'
+    const customerDate = 1660235040000
+    const customerLocation = [51.5719149,4.768323]
 
-Celestial.display(config);
+    const currentStyle = customerStyle
+    const currentDate = customerDate ? customerDate : 1658608500000;
+    const currentLatLng = customerLocation ? [customerLocation] : [52.13664902426816,5.193443298339845]
+
+    document.querySelector('#date').innerHTML = new Date(currentDate).toISOString()
+
+    const config = {
+      width: 2910, //2910, 4749
+      container: "celestial-map",
+      projection: "airy",
+      datapath: "https://ofrohn.github.io/data/",
+      interactive: false,
+      controls: true,
+      form: true,
+      formFields: {
+        "location": true,  // Set visiblity for each group of fields with the respective id
+        "general": true,  
+        "stars": true,  
+        "dsos": true,  
+        "constellations": true,  
+        "lines": true,
+        "other": true,  
+        "download": true
+      },
+      advanced: true,
+      background: { 
+        fill: "#DCB771",   // Area fill
+        opacity: 1, 
+        stroke: "#000000", // Outline
+        width: 1 
+      },
+      mw: {
+        show: true,    //Show Milky Way outlines
+        style: { fill:"#E7CD9D", opacity:"0.4" }
+      },
+      // transform: "equatorial",
+      // center: [180,0,0],
+      // follow: false, 
+      // adaptable: false,
+      // form: false,
+      // location: false,
+      // fullwidth: false,
+      // lang: "en",
+      stars: {
+        show: true,    //Show stars
+        limit: 6,      //up to maximum stellar magnitude
+        colors: false,  //Show stars spectral colors, if not use "color"
+        style: { fill:"#000000", opacity:1 }, // Default style for stars
+        names: false,   //Show star names
+        // namestyle: { fill: "#ddddbb", font: "32px 'Palatino Linotype', Georgia, Times, 'Times Roman', serif", align: "left", baseline: "top" },
+        proper: false, //Show proper names (if none shows designation)
+        // propernamestyle: { fill: "#ddddbb", font: "32px 'Palatino Linotype', Georgia, Times, 'Times Roman', serif", align: "right", baseline: "bottom" },
+        desig: false,   //Show designation (Bayer, Flamsteed, Variable star, Gliese, Draper, Hipparcos, whichever applies first)
+        // namelimit: 5,   //Maximum magnitude with name
+        // propernamelimit: 2.5,   //Maximum magnitude with name
+        size: 30,
+        exponent: -0.3,
+        // data: "stars.8.json" // Data source for stellar data
+      },
+      planets: { 
+        show: true,
+        which: ["lun"],
+        symbols: {
+          // "sol": {symbol: "\u2609", letter:"Su", fill: lines, size:"6"},
+          "lun": {symbol: "\u25cf", letter:"L", fill: "#000000", size:"40"},
+        },
+        symbolType: "symbol",
+        names: false,
+      },
+      constellations: {
+        // show: true,    //Show constellations
+        names: false,   //Show constellation names
+        // namestyle: { fill: "#cccccc", font: ["bold 74px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif", "bold 62px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif", "bold 56px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif"], align: "center", baseline: "middle" },
+        // desig: false,   //Show short constellation names (3 letter designations)
+        lines: true,   //Show constellation lines
+        linestyle: { stroke: "#000000", opacity: 1, width: 3 },
+        // bounds: false,  //Show constellation boundaries
+        // boundstyle: { stroke: "#ccff00", width: 1.5, opacity: 0.8, dash: [4, 8] }
+      },
+      dsos: {
+        show: false,    //Show Deep Space Objects
+        // limit: 16,      //up to maximum magnitude
+        style: { fill: "#000000", stroke: "#000000" },
+        names: false,   //Show DSO names
+        // namestyle: { fill: "#cccccc", font: "32px 'Lucida Sans Unicode', Trebuchet, Helvetica, Arial, sans-serif", align: "left", baseline: "bottom" },
+        desig: false,   //Show short DSO names
+        // namelimit: 16,   //Maximum magnitude with name
+        // size: 30,
+        // exponent: 1.4,
+        // data: "dsos.bright.json"
+      },
+      lines: {
+        graticule: { show: false },
+        equatorial: { show: false },
+        ecliptic: { show: false },
+        galactic: { show: false },
+        supergalactic: { show: false }
+      }
+    };
+
+    function getCelestialPoster(){
+      let lines = "",
+          background = "",
+          mw = "";
+
+      switch(currentStyle){
+        case 'snow':
+          lines = "#000"
+          background = "#fff",
+          mw = "#ffffff"
+          break;
+        case 'moon':      // 0
+        case 'granite':   // '#54575c'  1
+          lines = "#fff"
+          background = "#54575c",
+          mw = "#6B6F76"
+          break;
+        case 'mint':    // #6fa189'
+          lines = "#fff"
+          background = "#6fa189",
+          mw = "#90B6A4"
+          break;
+        case 'honey':   // #d8ae46'
+          lines = "#000"
+          background = "#d8ae46",
+          mw = "#DFBD68"
+          break;
+        case 'hay':   // #d8ae46'     3
+          lines = "#000"
+          background = "#DCB771",
+          mw = "#E7CD9D"
+          break;
+        case 'olive':   // #d8ae46'   2
+          lines = "#fff"
+          background = "#92886f",
+          mw = "#A79F8B"
+          break;
+        case 'redwood':   // #d8ae46'   4
+          lines = "#fff"
+          background = "#a3523e",
+          mw = "#BC644E"
+          break;
+        case 'dustyrose':   // #b08782'   5
+          lines = "#fff"
+          background = "#b08782",
+          mw = "#C09F9B"
+          break;
+        default:
+          lines = "#000"
+          background = "#fff"
+          mw = "#ffffff"
+          break;
+      }
+
+      return { 
+        ...config,
+        geopos: currentLatLng,
+        planets: { show: true, which: ["lun"], names: false, symbolType: "symbol", symbols: { "lun": { symbol: "\u25cf", letter:"L", fill: lines, size:"40" }}},
+        mw: { style: { fill: mw, opacity:"0.4" } },
+        stars: { names: false, colors: false, limit: 6, style: { fill: lines, opacity: 1 }, proper: false, desig: false, size: 30, exponent: -0.3 }, 
+        dsos: { show: false, desig: false, names: false, colors: false, style: { fill: lines, stroke: lines } }, 
+        constellations: { names: false, lineStyle: { stroke: lines, width: 3, opacity:1 } },
+        background: { fill: background, stroke: lines, opacity: 1, width: 1 },
+      }
+    }
+
+    Celestial.display(getCelestialPoster());
+    Celestial.date(new Date(currentDate));
 
   </script>
 
