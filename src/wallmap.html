@@ -30,15 +30,22 @@
 
   <script type="text/javascript">
 
+    // moon:        0
+    // granite:     2
+    // olive:       2
+    // hay:         3
+    // redwood:     4
+    // dustyrose:   5
+
     const customerStyle = 'redwood'
-    const customerDate = 1660235040000
+    const customerDate = new Date(1660235040000)
     const customerLocation = [51.5719149,4.768323]
 
     const currentStyle = customerStyle
-    const currentDate = customerDate ? customerDate : 1658608500000;
+    const currentDate = customerDate ? customerDate : new Date(1658608500000);
     const currentLatLng = customerLocation ? [customerLocation] : [52.13664902426816,5.193443298339845]
 
-    document.querySelector('#date').innerHTML = new Date(currentDate).toISOString()
+    document.querySelector('#date').innerHTML = customerDate
 
     const config = {
       width: 2910, //2910, 4749
@@ -201,7 +208,7 @@
     }
 
     Celestial.display(getCelestialPoster());
-    Celestial.date(new Date(currentDate));
+    Celestial.date(currentDate);
 
   </script>
 
