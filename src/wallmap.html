@@ -31,29 +31,30 @@
   <script type="text/javascript">
 
     // moon:        0
-    // granite:     2
+    // granite:     1
     // olive:       2
     // hay:         3
     // redwood:     4
     // dustyrose:   5
 
-    const customerStyle = 'dustyrose'
-    const customerDate = new Date('2022-08-14T13:37:13')
-    const customerLocation = [23.69781,120.960515]
+    const customerStyle = 'redwood'
+    const customerDate = new Date(1661958420000)    // '2022-08-14T13:37:13'
+    const customerLocation = [51.4176337,5.4060209]
 
     const currentStyle = customerStyle
     const currentDate = customerDate ? customerDate : new Date(1658608500000);
-    const currentLatLng = customerLocation ? customerLocation : [52.13664902426816,5.193443298339845]
+    const currentLatLng = customerLocation ? customerLocation : [52.13664902426816,5.193443298339845,0]
 
     document.querySelector('#date').innerHTML = customerDate
 
     const config = {
-      width: 2910, //2910, 4749
+      width: 4095, //2910, 4749
       container: "celestial-map",
       projection: "airy",
       datapath: "https://ofrohn.github.io/data/",
       interactive: false,
       controls: true,
+      center: currentLatLng,
       form: true,
       formFields: {
         "location": true,  // Set visiblity for each group of fields with the respective id
@@ -77,7 +78,7 @@
         style: { fill:"#E7CD9D", opacity:"0.4" }
       },
       // transform: "equatorial",
-      // center: [180,0,0],
+      center: currentLatLng,
       // follow: false, 
       // adaptable: false,
       // form: false,
