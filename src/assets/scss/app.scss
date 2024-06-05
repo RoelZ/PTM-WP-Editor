@@ -160,6 +160,21 @@ body {
     }
 
   }
+  &.xsmall {
+    width:550px;    // 7  (aspect ratio)
+    height:786px;   // 10
+
+    .mapwindow {
+      width:446px;
+      height:446px;
+      margin:65px auto;
+    }
+    #mapbox {
+      width: 446px;
+      height: 446px;
+    }
+
+  }
 
   &.snow {
     background-color:white;

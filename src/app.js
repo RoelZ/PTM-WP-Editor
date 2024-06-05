@@ -123,7 +123,7 @@ const config = {
 }
 
 Celestial.display(getCelestialPoster())
-Celestial.date(new Date(currentDateTime));
+// Celestial.date(new Date(currentDateTime));
 Celestial.location(currentLatLng);
 
 let input = document.createElement("input");
@@ -386,55 +386,79 @@ function defaultView(draft){
 }
 
 function addCartParameters(style = 'moon', format = '50x70cm'){
-  $('.poster').addClass([style, (format != '50x70cm') ? 'small' : '']);
+  $('.poster').addClass([style, format == '21x30cm' ? 'xsmall' : format == '30x40cm' ? 'small' : '']);
   $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+format+'&attribute_design='+style);   
 }
 
 function setStyle(name){
 
-    currentPrice = (currentFormat === '30x40cm') ? 49 : 59
+    currentPrice = currentFormat === 'digital' ? 19 : currentFormat === 'digitaal' ? 19 : currentFormat === '21x30cm' ? 39 : currentFormat === '30x40cm' ? 49 : 59
 
     switch(name) {
       case 'moon':
+        (productId === '12702' && currentFormat === 'digital') ? formVariationId.val(19072) : 
+        (productId === '12702' && currentFormat === '21x30cm') ? formVariationId.val(19060) : 
         (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12703) : 
         (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12708) :
-        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12329) :
-        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12334) :
+        (productId === '14687' && currentFormat === 'digitaal') ? formVariationId.val(19073) : 
+        (productId === '14687' && currentFormat === '21x30cm') ? formVariationId.val(19061) :  
+        (productId === '14687' && currentFormat === '30x40cm') ? formVariationId.val(14688) :
+        (productId === '14687' && currentFormat === '50x70cm') ? formVariationId.val(14694) :
         null
         break;
       case 'granite':
+        (productId === '12702' && currentFormat === 'digital') ? formVariationId.val(19074) : 
+        (productId === '12702' && currentFormat === '21x30cm') ? formVariationId.val(19062) :   
         (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12704) : 
         (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12709) :
-        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12330) :
-        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12335) :
+        (productId === '14687' && currentFormat === 'digitaal') ? formVariationId.val(19075) : 
+        (productId === '14687' && currentFormat === '21x30cm') ? formVariationId.val(19063) :  
+        (productId === '14687' && currentFormat === '30x40cm') ? formVariationId.val(14689) :
+        (productId === '14687' && currentFormat === '50x70cm') ? formVariationId.val(14695) :
         null
         break;
       case 'olive':
+        (productId === '12702' && currentFormat === 'digital') ? formVariationId.val(19076) : 
+        (productId === '12702' && currentFormat === '21x30cm') ? formVariationId.val(19064) :   
         (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12705) : 
         (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12710) :
-        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12331) :
-        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12336) :
+        (productId === '14687' && currentFormat === 'digitaal') ? formVariationId.val(19077) : 
+        (productId === '14687' && currentFormat === '21x30cm') ? formVariationId.val(19065) :  
+        (productId === '14687' && currentFormat === '30x40cm') ? formVariationId.val(14690) :
+        (productId === '14687' && currentFormat === '50x70cm') ? formVariationId.val(14696) :
         null
         break;
       case 'hay':
+        (productId === '12702' && currentFormat === 'digital') ? formVariationId.val(19078) : 
+        (productId === '12702' && currentFormat === '21x30cm') ? formVariationId.val(19066) : 
         (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12706) : 
         (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12711) :
-        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12332) :
-        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12337) :
+        (productId === '14687' && currentFormat === 'digitaal') ? formVariationId.val(19079) : 
+        (productId === '14687' && currentFormat === '21x30cm') ? formVariationId.val(19067) :  
+        (productId === '14687' && currentFormat === '30x40cm') ? formVariationId.val(14691) :
+        (productId === '14687' && currentFormat === '50x70cm') ? formVariationId.val(14697) :
         null
         break;
       case 'redwood':
+        (productId === '12702' && currentFormat === 'digital') ? formVariationId.val(19080) : 
+        (productId === '12702' && currentFormat === '21x30cm') ? formVariationId.val(19068) : 
         (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12707) : 
         (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12712) :
-        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12333) :
-        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12338) :
+        (productId === '14687' && currentFormat === 'digitaal') ? formVariationId.val(19081) : 
+        (productId === '14687' && currentFormat === '21x30cm') ? formVariationId.val(19069) :  
+        (productId === '14687' && currentFormat === '30x40cm') ? formVariationId.val(14692) :
+        (productId === '14687' && currentFormat === '50x70cm') ? formVariationId.val(14698) :
         null
         break;
       case 'dustyrose':
+        (productId === '12702' && currentFormat === 'digital') ? formVariationId.val(19082) : 
+        (productId === '12702' && currentFormat === '21x30cm') ? formVariationId.val(19070) :   
         (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(12723) : 
         (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(12724) :
-        (productId === '12328' && currentFormat === '30x40cm') ? formVariationId.val(12372) :
-        (productId === '12328' && currentFormat === '50x70cm') ? formVariationId.val(12373) :
+        (productId === '14687' && currentFormat === 'digitaal') ? formVariationId.val(19083) : 
+        (productId === '14687' && currentFormat === '21x30cm') ? formVariationId.val(19071) :   
+        (productId === '14687' && currentFormat === '30x40cm') ? formVariationId.val(14693) :
+        (productId === '14687' && currentFormat === '50x70cm') ? formVariationId.val(14699) :
         null
         break;
     }
@@ -582,7 +606,7 @@ $("#styleSelector .ptm-btn").on("click", function ( event ) {
     currentStyle = event.target.id;
     setStyle(currentStyle);
 
-    let posterSize = (currentFormat == '30x40cm') ? "small" : '';
+    let posterSize = currentFormat == '21x30cm' ? "xsmall" : currentFormat == '30x40cm' ? "small" : '';
     $('.poster').attr('class','card poster '+posterSize+' '+event.target.id);
     $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
 
@@ -599,7 +623,7 @@ $("#formatSelector .ptm-format-btn").on("click", function ( event ) {
   currentFormat = event.target.id;
   setStyle(currentStyle);
 
-  let posterSize = (currentFormat == '30x40cm') ? "small" : '';
+  let posterSize = currentFormat == '21x30cm' ? "xsmall" : currentFormat == '30x40cm' ? "small" : '';
   $('.poster').attr('class','card poster '+posterSize+' '+currentStyle);
   $('#addToCart').attr('action', cartUrl+'?attribute_pa_dimensions='+currentFormat+'&attribute_design='+currentStyle);
 
@@ -620,7 +644,7 @@ document.getElementById("addToCart").addEventListener("click", function(event){
     if(!isIE()) {
         let canvas = document.querySelector('#celestial-map canvas'),
           dataURL = canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, "");
-          $.post("https://www.placethemoment.com/build/save.php", { savedMap: dataURL }, 
+          $.post("https://www.placethemoment.com/save.php", { savedMap: dataURL }, 
           function(data) {
             design_id.val(data);
             ptm_thumb.val(`https://www.placethemoment.com/thumbs/${data}.png`);  // https://www.placethemoment.com/thumbs/'.$cart_item_data['ptm_thumb'].'.png
