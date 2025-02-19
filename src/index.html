@@ -108,6 +108,30 @@
                                         <div id="styleSelector">
                                         <h6 class="align-items-center d-flex justify-content-between mt-2 px-3 px-lg-3 sidebar-heading text-muted"><span>Map Color</span></h6>
                                         <div class="btn-group ptm-poster-styles" data-toggle="buttons">
+                                            <button id="water" class="ptm-btn px-lg-0 btn wetzer">
+                                                <div class="ptm-map-color-btn moon">
+                                                    <div>
+                                                        <img src="https://www.placethemoment.com/build/images/water-thumbnail.png" />
+                                                    </div>
+                                                </div>
+                                                <span>Water</span>
+                                            </button>
+                                            <button id="safari" class="ptm-btn px-lg-0 btn wetzer">
+                                                <div class="ptm-map-color-btn moon">
+                                                    <div>
+                                                        <img src="https://www.placethemoment.com/build/images/safari-thumbnail.png" />
+                                                    </div>
+                                                </div>
+                                                <span>Safari</span>
+                                            </button>
+                                            <button id="woods" class="ptm-btn px-lg-0 btn wetzer">
+                                                <div class="ptm-map-color-btn moon">
+                                                    <div>
+                                                        <img src="https://www.placethemoment.com/build/images/woods-thumbnail.png" />
+                                                    </div>
+                                                </div>
+                                                <span>Woods</span>
+                                            </button>
                                             <button id="snow" class="ptm-btn d-none btn">
                                                 <div class="ptm-map-color-btn snow">
                                                     <div class="ptm-map-color-icon">
@@ -259,8 +283,8 @@
                                     <div id="formatSelector" class="card-body">
                                       <div class="btn-group btn-group-toggle ptm-poster-styles" role="group" data-toggle="buttons" aria-label="Format options">                                        
                                           <button class="ptm-btn btn btn-lg ptm-format-btn" id="digital">Digital</button>
-                                          <button class="ptm-btn btn btn-lg ptm-format-btn" id="21x30cm">21x30cm</button>
-                                          <button class="ptm-btn btn btn-lg ptm-format-btn active" id="30x40cm">30x40cm</button>
+                                          <button class="ptm-btn btn btn-lg ptm-format-btn active" id="21x30cm">21x30cm</button>
+                                          <button class="ptm-btn btn btn-lg ptm-format-btn" id="30x40cm">30x40cm</button>
                                         <button class="ptm-btn btn btn-lg ptm-format-btn" id="50x70cm">50x70cm</button>
                                       </div>
                                     </div>
@@ -314,10 +338,13 @@
                                 <button class="ptm-cta btn btn-primary rounded-top w-100 mx-auto px-lg-0 py-lg-0 btn-block animated" type="submit">
                                     <div class="d-flex align-items-stretch text-center">
                                         <!-- <i class="ptm-shopping-bag py-2 d-lg-none align-self-end"></i>                                         -->
-                                        <span class="pricetag d-lg-none py-2 py-md-3">&euro;49</span>
+                                        <span class="pricetag d-flex flex-column d-lg-none py-2 py-md-3">
+                                            <small class="text-white" style="font-size: 1rem; text-decoration: line-through;">€39</small>
+                                            &euro;35,10
+                                        </span>
                                         <span class="pricetag d-lg-flex d-none flex-column justify-content-around w-25">
-                                            <!-- <small class="text-white" style="font-size: 1rem;">€49</small> -->
-                                          €39,20
+                                            <small class="text-white" style="font-size: 1rem; text-decoration: line-through;">€39</small>
+                                          €35,10
                                         </span>
                                         <span class="d-none d-lg-block py-lg-3 w-75">Order now</span>
                                     </div>
@@ -360,6 +387,9 @@
                     </div> 
                     <div id="posterWrapper" class="posterArea">
                         <div id="posterCanvas" class="card poster small">
+                            <div class="position-absolute d-none bg-dark text-white flex-column text-wrap rounded-circle justify-content-center text-center" style="transform: rotate(12deg); right:-2rem; top:-2rem; line-height:1.75rem; font-size:1.75rem; letter-spacing: -.025em; padding:.5rem; width:5rem; height:5rem; ">
+                                -10% <span style="font-size:1rem; line-height: 1.5rem;">korting</span>
+                            </div>
                             <div class="mapwindow">
                                 <div id="celestial-map"></div>
                                 <!-- <div id="mapbox" class="card-img-top"></div> -->

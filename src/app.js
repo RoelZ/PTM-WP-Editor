@@ -32,7 +32,9 @@ const draft = params.has('draft');
 
 let defaultStartView = defaultView(draft);
 
-let currentPrice = 49;
+let currentPrice = 39;
+let currentRegularPrice = 39;
+let currentIsOnSale = true;
 let currentFormat = params.has('attribute_pa_dimensions') ? params.get('attribute_pa_dimensions') : activeFormatSelector;   // returns 30x40cm,etc
 let currentStyle = params.has('attribute_design') ? params.get('attribute_design') : activeStyleSelector;     // returns moon,etc
 let currentLatLng = draft ? formLocation.val().split(',') : [defaultStartView.ne.lat, defaultStartView.ne.lng]
@@ -333,9 +335,9 @@ function defaultView(draft){
 
       let places = [
         {
-          moment: 'My Moment',
-          subline: 'Eindhoven',
-          tagline: 'The Netherlands',
+          moment: 'The stars above',
+          subline: 'Ons mooiste moment',
+          tagline: '',
           ne: {
             lat : '51.49762961696847',
             lng : '5.539512634277345'
@@ -348,9 +350,9 @@ function defaultView(draft){
           get marker() { return L.latLngBounds([this.ne.lat,this.ne.lng],[this.sw.lat,this.sw.lng]).getCenter() }
         },
         {
-          moment: 'My Moment',
-          subline: 'Utrecht',
-          tagline: 'The Netherlands',
+          moment: 'The stars above',
+          subline: 'Ons mooiste moment',
+          tagline: '',
           ne: {
             lat : '52.13664902426816',
             lng : '5.193443298339845'
@@ -363,9 +365,9 @@ function defaultView(draft){
           get marker() { return L.latLngBounds([this.ne.lat,this.ne.lng],[this.sw.lat,this.sw.lng]).getCenter() }
         },
         {
-          moment: 'My Moment',
-          subline: 'Amsterdam',
-          tagline: 'The Netherlands',
+          moment: 'The stars above',
+          subline: 'Ons mooiste moment',
+          tagline: '',
           ne: {
             lat : '52.39959100269025',
             lng : '4.939727783203125'
@@ -392,7 +394,13 @@ function addCartParameters(style = 'moon', format = '50x70cm'){
 
 function setStyle(name){
 
+  if (currentIsOnSale) {
+    currentPrice = currentFormat === 'digital' ? 17.10 : currentFormat === 'digitaal' ? 17.10 : currentFormat === '21x30cm' ? 35.10 : currentFormat === '30x40cm' ? 44.10 : 53.10
+    currentRegularPrice = currentFormat === 'digital' ? 19 : currentFormat === 'digitaal' ? 19 : currentFormat === '21x30cm' ? 39 : currentFormat === '30x40cm' ? 49 : 59
+  }
+  else
     currentPrice = currentFormat === 'digital' ? 19 : currentFormat === 'digitaal' ? 19 : currentFormat === '21x30cm' ? 39 : currentFormat === '30x40cm' ? 49 : 59
+
 
     switch(name) {
       case 'moon':
@@ -468,54 +476,95 @@ function setStyle(name){
 function getCelestialPoster(){
   let lines = "",
       background = "",
-      mw = "";
+      mw = "",
+      opacity = 1,
+      outline = "";
 
   switch(currentStyle){
     case 'snow':
       lines = "#000"
       background = "#fff",
-      mw = "#ffffff"
+      mw = "#ffffff",
+      opacity = 1,
+      outline = lines
       break;
     case 'moon':      // 0
     case 'granite':   // '#54575c'  1
       lines = "#fff"
       background = "#54575c",
-      mw = "#6B6F76"
+      mw = "#6B6F76",
+      opacity = 1,
+      outline = lines
       break;
     case 'mint':    // #6fa189'
       lines = "#fff"
       background = "#6fa189",
-      mw = "#90B6A4"
+      mw = "#90B6A4",
+      opacity = 1,
+      outline = lines
       break;
     case 'honey':   // #d8ae46'
       lines = "#000"
       background = "#d8ae46",
-      mw = "#DFBD68"
+      mw = "#DFBD68",
+      opacity = 1,
+      outline = lines
       break;
     case 'hay':   // #d8ae46'     3
       lines = "#000"
       background = "#DCB771",
-      mw = "#E7CD9D"
+      mw = "#E7CD9D",
+      opacity = 1,
+      outline = lines
       break;
     case 'olive':   // #d8ae46'   2
       lines = "#fff"
       background = "#92886f",
-      mw = "#A79F8B"
+      mw = "#A79F8B",
+      opacity = 1,
+      outline = lines
       break;
     case 'redwood':   // #d8ae46'   4
       lines = "#fff"
       background = "#a3523e",
-      mw = "#BC644E"
+      mw = "#BC644E",
+      opacity = 1,
+      outline = lines
       break;
     case 'dustyrose':   // #b08782'   5
       lines = "#fff"
       background = "#b08782",
-      mw = "#C09F9B"
+      mw = "#C09F9B",
+      opacity = 1,
+      outline = lines
+      break;
+    case 'water':
+      lines = "#fff"
+      background = "",
+      mw = "",
+      opacity = 0,
+      outline = "rgba(0,0,0,0)"
+      break;
+    case 'safari':
+      lines = "#543b23"
+      background = "",
+      mw = "",
+      opacity = 0,
+      outline = "rgba(0,0,0,0)"
+      break;
+    case 'woods':
+      lines = "#543b23"
+      background = "",
+      mw = "",
+      opacity = 0,
+      outline = "rgba(0,0,0,0)"
       break;
     default:
       lines = "#000"
       background = "#fff"
-      mw = "#ffffff"
+      mw = "#ffffff",
+      opacity = 1,
+      outline = lines
       break;
   }
 
@@ -524,11 +573,11 @@ function getCelestialPoster(){
     width: 466,
     geopos: currentLatLng,
     planets: { names: false, symbols: { "lun": { fill: lines } } },
-    mw: { style: { fill: mw } },
+    mw: { style: { fill: mw, opacity: opacity } },
     stars: { names: false, colors: false, style: { fill: lines } }, 
     dsos: { names: false, colors: false, style: { fill: lines, stroke: lines } }, 
     constellations: { names:false, lineStyle: { stroke: lines, width: 0.8, opacity:1 } },
-    background: { fill: background, stroke: lines },
+    background: { fill: background, opacity: opacity, stroke: outline },
   }
 }
 
@@ -629,7 +678,10 @@ $("#formatSelector .ptm-format-btn").on("click", function ( event ) {
 
   const priceTags = document.querySelectorAll('.pricetag');
   priceTags.forEach(price => {
-    price.innerHTML = `&euro;${currentPrice}`;
+    if(currentIsOnSale)
+      price.innerHTML = `<small class="text-white" style="font-size: 1rem; text-decoration: line-through;">&euro;${currentRegularPrice}</small>&euro;${currentPrice.toFixed(2)}`;
+    else
+      price.innerHTML = `&euro;${currentPrice.toFixed(2)}`;
   });
 
 });

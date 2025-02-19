@@ -63,7 +63,10 @@
 
     .ptm-poster-styles {
 
-        display: flex;
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 0.5rem;
+
 
         .ptm-btn {
             cursor: pointer;
@@ -87,6 +90,10 @@
             }
             &.ptm-format-btn span {
                 color: white;
+            }
+
+            &.wetzer {
+                order: 7
             }
 
             .marker {

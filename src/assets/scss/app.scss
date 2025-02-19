@@ -60,6 +60,86 @@ body {
   transition: transform 1s ease;
 }
 
+.poster.water,
+.poster.woods,
+.poster.safari {
+
+  .card-body {
+    display: grid;
+    grid-template-columns: 270px 1fr;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-auto-flow: column;
+    column-gap: 8px;
+    align-items: center;
+    margin: 170px 0 50px;
+
+    .card-title {
+      grid-row: span 2 / span 2;
+      margin-bottom: 0;
+    }
+    .card-text {
+      align-self: end;
+
+      &:last-child {
+        align-self: start;
+      }
+    }
+
+  }
+  .mapwindow {
+    width:426px;
+    height:417px;
+    margin:50px 83px;
+  }
+}
+
+.poster.water {
+  .card-body {
+    .card-title {
+      color: #0a2e67;;
+    }
+    .card-text {
+      color: #0a2e67;;
+    }
+  }
+}
+
+.poster.safari,
+.poster.woods {
+  .card-body {
+    .card-title {
+      color: #543b23;
+    }
+    .card-text {
+      color: #543b23;
+    }
+  }
+}
+
+.poster.safari {
+  .mapwindow {
+    width:400px;
+    height:400px;
+    margin:50px 93px;
+    clip-path: polygon(35% 0, 67% 0, 86% 12%, 98% 33%, 100% 58%, 91% 82%, 75% 98%, 57% 100%, 27% 100%, 18% 94%, 17% 85%, 20% 77%, 4% 77%, 1% 59%, 1% 37%, 11% 16%);
+  }
+}
+
+.poster.water {
+  .mapwindow {
+    clip-path: polygon(34% 1%, 67% 0, 86% 13%, 99% 35%, 98% 69%, 87% 87%, 71% 95%, 62% 91%, 57% 100%, 35% 97%, 33% 84%, 21% 76%, 9% 76%, 1% 64%, 0 36%, 11% 15%);
+  }
+}
+
+.poster.woods {
+  .mapwindow {
+    clip-path: polygon(34% 1%, 67% 0, 88% 10%, 97% 34%, 100% 59%, 91% 87%, 81% 92%, 66% 89%, 36% 89%, 28% 95%, 17% 93%, 21% 81%, 7% 80%, 2% 64%, 3% 37%, 12% 16%);
+  }
+}
+
+
+
+
 .poster {
   position: absolute;
   top:50%;
@@ -246,6 +326,39 @@ body {
     }
     h3, p {
       color:$ptmDustyRose !important;
+    }
+  }
+  &.water {
+    background-image: url('https://www.placethemoment.com/build/images/water.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    .mapwindow #mapbox {
+      border-color:white;
+    }
+    h3, p {
+      color:#0a2e67 !important;
+    }
+  }
+  &.safari {
+    background-image: url('https://www.placethemoment.com/build/images/safari.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    .mapwindow #mapbox {
+      border-color:white;
+    }
+    h3, p {
+      color:#0a2e67 !important;
+    }
+  }
+  &.woods {
+    background-image: url('https://www.placethemoment.com/build/images/woods.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    .mapwindow #mapbox {
+      border-color:white;
+    }
+    h3, p {
+      color:#0a2e67 !important;
     }
   }
   &.redwood {
