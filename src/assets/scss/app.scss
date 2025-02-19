@@ -74,13 +74,21 @@ body {
     margin: 170px 0 50px;
 
     .card-title {
+      font-family: "sirenia", sans-serif;
+      font-weight: 400;
+      font-style: normal;
       grid-row: span 2 / span 2;
       margin-bottom: 0;
     }
     .card-text {
+      font-family: "sirenia", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      font-size: 14px;
       align-self: end;
 
       &:last-child {
+        font-size:13px;
         align-self: start;
       }
     }
@@ -332,34 +340,16 @@ body {
     background-image: url('https://www.placethemoment.com/build/images/water.jpg');
     background-repeat: no-repeat;
     background-position: center;
-    .mapwindow #mapbox {
-      border-color:white;
-    }
-    h3, p {
-      color:#0a2e67 !important;
-    }
   }
   &.safari {
     background-image: url('https://www.placethemoment.com/build/images/safari.jpg');
     background-repeat: no-repeat;
     background-position: center;
-    .mapwindow #mapbox {
-      border-color:white;
-    }
-    h3, p {
-      color:#0a2e67 !important;
-    }
   }
   &.woods {
     background-image: url('https://www.placethemoment.com/build/images/woods.jpg');
     background-repeat: no-repeat;
     background-position: center;
-    .mapwindow #mapbox {
-      border-color:white;
-    }
-    h3, p {
-      color:#0a2e67 !important;
-    }
   }
   &.redwood {
     background-color: $ptmKabana !important;
