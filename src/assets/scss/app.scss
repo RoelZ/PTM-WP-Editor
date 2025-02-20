@@ -86,18 +86,40 @@ body {
       font-style: normal;
       font-size: 14px;
       align-self: end;
+      overflow: hidden;
 
       &:last-child {
         font-size:13px;
         align-self: start;
       }
     }
-
   }
   .mapwindow {
     width:426px;
     height:417px;
     margin:50px 83px;
+  }
+  &.xsmall {
+    .card-body {
+      margin: 180px 0 40px;
+      padding: 10px 30px;
+    }
+    .mapwindow {
+      width: 406px;
+      height: 406px;
+      margin: 36px auto;
+    }
+  }
+  &.small {
+    .card-body {
+      margin: 180px 0 40px;
+      padding: 10px 50px;
+    }
+    .mapwindow {
+      width: 404px;
+      height: 404px;
+      margin: 23px auto;
+    }
   }
 }
 
@@ -450,6 +472,18 @@ body {
       border-color:white;
         background-color: $ptmRedwood !important;
     }
+  }
+  &.water > div {
+    display:flex;
+    justify-content: center;
+  }
+  &.safari > div {
+    display:flex;
+    justify-content: center;
+  }
+  &.woods > div {
+    display:flex;
+    justify-content: center;
   }
 }
 

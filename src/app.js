@@ -29,6 +29,7 @@ const activeStyleSelector = document.querySelector('#styleSelector').dataset.sty
 
 const params = new URLSearchParams(window.location.search)
 const draft = params.has('draft');
+const wetzer = params.has('wetzer');
 
 let defaultStartView = defaultView(draft);
 
@@ -41,6 +42,12 @@ let currentLatLng = draft ? formLocation.val().split(',') : [defaultStartView.ne
 let currentDateTime = draft ? formDateTime.val() : Date.now();
 
 addCartParameters(currentStyle, currentFormat);
+
+if(!wetzer){  
+  $('#water').addClass('d-none');
+  $('#safari').addClass('d-none');
+  $('#woods').addClass('d-none');
+}
 
 if(!draft){
   formLocation.val(currentLatLng);
