@@ -501,6 +501,18 @@ body {
       text-shadow: 1px 1px white;
     }
 }
+.ptm-disclaimer-desktop {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 680%)
+}
+.ptm-disclaimer {
+  text-align: center;
+  position: absolute;
+  line-height: 1rem;
+}
 
 .leaflet-control-zoom {
   position: absolute;

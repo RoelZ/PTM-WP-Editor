@@ -16,7 +16,6 @@ let formPlaceId = $('#addToCart input[name="placeid"]');
 let formLocation = $('#addToCart input[name="location"]');
 let formDateTime = $('#addToCart input[name="datetime"]');
 let formVariationId = $('#addToCart input[name="variation_id"]');
-let formPrice = $('.pricetag');
 
 let ptm_moment = $('#addToCart input[name="ptm_moment"]');
 let ptm_subline = $('#addToCart input[name="ptm_subline"]');
@@ -35,7 +34,7 @@ let defaultStartView = defaultView(draft);
 
 let currentPrice = 39;
 let currentRegularPrice = 39;
-let currentIsOnSale = true;
+let currentIsOnSale = false;
 let currentFormat = params.has('attribute_pa_dimensions') ? params.get('attribute_pa_dimensions') : activeFormatSelector;   // returns 30x40cm,etc
 let currentStyle = params.has('attribute_design') ? params.get('attribute_design') : activeStyleSelector;     // returns moon,etc
 let currentLatLng = draft ? formLocation.val().split(',') : [defaultStartView.ne.lat, defaultStartView.ne.lng]
@@ -474,6 +473,39 @@ function setStyle(name){
         (productId === '14687' && currentFormat === '21x30cm') ? formVariationId.val(19071) :   
         (productId === '14687' && currentFormat === '30x40cm') ? formVariationId.val(14693) :
         (productId === '14687' && currentFormat === '50x70cm') ? formVariationId.val(14699) :
+        null
+        break;
+      case 'water':
+        (productId === '12702' && currentFormat === 'digital') ? formVariationId.val(19578) : 
+        (productId === '12702' && currentFormat === '21x30cm') ? formVariationId.val(19574) :   
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(19576) : 
+        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(19570) :
+        (productId === '14687' && currentFormat === 'digitaal') ? formVariationId.val(19579) : 
+        (productId === '14687' && currentFormat === '21x30cm') ? formVariationId.val(19575) :   
+        (productId === '14687' && currentFormat === '30x40cm') ? formVariationId.val(19577) :
+        (productId === '14687' && currentFormat === '50x70cm') ? formVariationId.val(14699) :
+        null
+        break;
+      case 'safari':
+        (productId === '12702' && currentFormat === 'digital') ? formVariationId.val(19580) : 
+        (productId === '12702' && currentFormat === '21x30cm') ? formVariationId.val(19582) :   
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(19584) : 
+        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(19586) :
+        (productId === '14687' && currentFormat === 'digitaal') ? formVariationId.val(19581) : 
+        (productId === '14687' && currentFormat === '21x30cm') ? formVariationId.val(19583) :   
+        (productId === '14687' && currentFormat === '30x40cm') ? formVariationId.val(19585) :
+        (productId === '14687' && currentFormat === '50x70cm') ? formVariationId.val(19587) :
+        null
+        break;
+      case 'woods':
+        (productId === '12702' && currentFormat === 'digital') ? formVariationId.val(19588) : 
+        (productId === '12702' && currentFormat === '21x30cm') ? formVariationId.val(19590) :   
+        (productId === '12702' && currentFormat === '30x40cm') ? formVariationId.val(19592) : 
+        (productId === '12702' && currentFormat === '50x70cm') ? formVariationId.val(19594) :
+        (productId === '14687' && currentFormat === 'digitaal') ? formVariationId.val(19589) : 
+        (productId === '14687' && currentFormat === '21x30cm') ? formVariationId.val(19591) :   
+        (productId === '14687' && currentFormat === '30x40cm') ? formVariationId.val(19593) :
+        (productId === '14687' && currentFormat === '50x70cm') ? formVariationId.val(19595) :
         null
         break;
     }
